@@ -1,8 +1,7 @@
 file_in = open("input.txt", "r").read().split("\n")
 
 def slide(map_curr, slide_right, slide_down):
-  pos_x = 0
-  pos_y = 0
+  pos_x, pos_y = 0, 0
   tree_count = 0
   map_length = len(map_curr)
   map_width = len(map_curr[0])
