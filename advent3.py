@@ -12,8 +12,7 @@ def slide(map_curr, slide_right, slide_down):
     pos_y += slide_down
     if pos_y >= map_length:
       return tree_count
-    if pos_x >= map_width:
-      pos_x %= map_width
+    pos_x %= map_width
   return tree_count
 
 print(slide(file_in, 3, 1))
