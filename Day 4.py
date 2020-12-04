@@ -52,7 +52,7 @@ def spec(input_in):
   for temp_pass in input_in:
     if all(temp_test in temp_pass for temp_test in valid_field):
       temp_clean = temp_pass.replace("\n", " ").split(" ")
-      if all(verify(temp_check) == True for temp_check in temp_clean):
+      if all(verify(temp_check) for temp_check in temp_clean):
         valid_count += 1
   return valid_count
 
