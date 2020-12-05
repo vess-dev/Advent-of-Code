@@ -26,8 +26,8 @@ def high(input_in):
 def missing(seat_ids):
     id_start = seat_ids[0]
     id_end = seat_ids[-1]
-    seat_diff = sorted(set(range(id_start, id_end + 1)).difference(seat_ids))[0]
-    return seat_diff
+    seat_diff = sorted(set(range(id_start, id_end + 1)).difference(seat_ids))
+    return seat_diff[0]
 
 def seat(input_in):
   seat_ids = []
