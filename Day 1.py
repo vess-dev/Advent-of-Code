@@ -1,4 +1,4 @@
-file_in = list(map(int, open('input.txt', 'r').read().split("\n")))
+file_in = list(map(int, open("input.txt", "r").read().split("\n")))
 
 def two(input_in):
   for temp_x in input_in:
