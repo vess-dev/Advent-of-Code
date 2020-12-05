@@ -13,7 +13,7 @@ def find(field_in):
       id_col = id_col[:len(id_col)//2]
     elif field_in[temp_char+7] == "R":
       id_col = id_col[len(id_col)//2:]
-  return (id_row[0] * 8) + id_col[0]
+  return id_row[0] * 8 + id_col[0]
 
 def high(input_in):
   id_max = 0
