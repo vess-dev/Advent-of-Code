@@ -1,4 +1,4 @@
-file_in = open('input.txt', 'r').read().replace(":", "").split("\n")
+file_in = open("input.txt", "r").read().replace(":", "").split("\n")
 
 def test(input_in): 
   test_fst, test_sec = 0, 0
