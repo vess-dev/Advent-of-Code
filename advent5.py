@@ -5,8 +5,8 @@ file_load.close()
 def run():
 
   def find(field_in):
-    id_row = [item for item in range(0, 128)]
-    id_col= [item for item in range(0, 8)]
+    id_row = list(range(128))
+    id_col= list(range(8))
     for temp_char in range(7):
       if field_in[temp_char] == "F":
         id_row = id_row[:len(id_row)//2]

@@ -28,5 +28,5 @@ def run(advent_list, time_tests):
 
 if __name__ == "__main__":
     advent_list = [advent1, advent2, advent3, advent4, advent5]
-    time_tests = 10
+    time_tests = 20
     advent.run(advent_list, time_tests)
