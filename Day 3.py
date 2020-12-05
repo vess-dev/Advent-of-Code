@@ -15,12 +15,11 @@ def slide(map_curr, slide_right, slide_down):
     pos_x %= map_width
   return tree_count
 
-print(slide(file_in, 3, 1))
-
 slope_list = [[1, 1], [3, 1], [5, 1], [7, 1], [1, 2]]
 total_count = 1
 
 for slope_right, slope_down in slope_list:
   total_count *= slide(file_in, slope_right, slope_down)
 
+print(slide(file_in, 3, 1))
 print(total_count)
