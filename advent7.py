@@ -29,28 +29,14 @@ for temp_bags in file_in:
 			break
 	file_new.append(temp_hold)
 
-file_other = []
+file_in = []
 for temp_bags in file_new:
-	file_other.append(list(OrderedDict.fromkeys(temp_bags)))
+	file_in.append(list(OrderedDict.fromkeys(temp_bags)))
+input_search = [temp_bags[0] for temp_bags in file_in]
+file_in.pop(input_search.index("shiny gold"))
+file_in = [temp_bags for temp_bags in file_in if len(temp_bags) != 1]
 
 def run():
-
-	def probe(input_in, bag_search, bag_verif, bag_ugly):
-		input_search = [temp_bags[0] for temp_bags in input_in]
-		bag_check = input_in[input_search.index(bag_search)]
-		if len(bag_check) == 1:
-			return False
-		else:
-			if "shiny gold" in bag_check:
-				return True
-			else:
-				for temp_each in bag_check[1:]:
-					if temp_each in bag_verif:
-						return True
-					else:
-						if temp_each not in bag_ugly:
-							if probe(input_in, temp_each, bag_verif, bag_ugly):
-								return True
 
 	def size(input_in, bag_search):
 		size_weight = 1
@@ -63,23 +49,18 @@ def run():
 				size_weight += size(input_in, temp_each)
 			return size_weight
 
-	def tree(input_in):
+	def shiny(input_in):
 		bag_verif = []
-		bag_ugly = []
-		input_search = [temp_bags[0] for temp_bags in input_in]
-		input_in.pop(input_search.index("shiny gold"))
 		for temp_bags in input_in:
 			if "shiny gold" in temp_bags:
 				bag_verif.append(temp_bags[0])
-			else:
-				for temp_bag in temp_bags:
-					if temp_bag not in bag_verif:
-						if temp_bag not in bag_ugly:
-							if probe(input_in, temp_bag, bag_verif, bag_ugly):
-								bag_verif.append(temp_bags[0])
-							else:
-								bag_ugly.append(temp_bags[0])
-		return len(set(bag_verif))
+		for temp_rep in range(7):
+			for temp_bags in input_in:
+				if temp_bags[0] not in bag_verif:
+					if any(temp_check in temp_bags for temp_check in bag_verif):
+						bag_verif.append(temp_bags[0])
+						input_in.pop(input_in.index(temp_bags))
+		return len(bag_verif)
 
 	def weight(input_in):
 		bag_weight = 0
@@ -88,6 +69,4 @@ def run():
 			bag_weight += size(input_in, temp_bag)
 		return bag_weight
 
-	return tree(file_other.copy()), weight(file_new)
-
-print(run())
+	return shiny(file_in.copy()), weight(file_new)
