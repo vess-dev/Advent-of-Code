@@ -8,6 +8,7 @@ import advent3
 import advent4
 import advent5
 import advent6
+import advent7
 
 def clock(advent_day, test_count):
     time_total = 0
@@ -29,6 +30,6 @@ def run(advent_list, test_count):
     print(test_count, "trials of all :", time_total / test_count, "\n")
 
 if __name__ == "__main__":
-    advent_list = [advent1, advent2, advent3, advent4, advent5, advent6]
-    test_count = 20
+    advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7]
+    test_count = 5
     advent.run(advent_list, test_count)
