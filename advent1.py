@@ -1,6 +1,7 @@
 file_load = open("input1.txt", "r")
-file_in = list(map(int, file_load.read().split("\n")))
-file_load.close() 
+file_in = file_load.read()
+file_load.close()
+file_in = list(map(int, file_in.split("\n")))
 
 def run():
 

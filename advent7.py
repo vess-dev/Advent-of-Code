@@ -2,11 +2,9 @@ from collections import OrderedDict
 
 file_load = open("input7.txt", "r")
 file_in = file_load.read()
-file_in = file_in.replace(",","")
 file_load.close() 
+file_in = file_in.replace(",","")
 file_in = file_in.replace(".","")
-
-
 file_in = file_in.replace("bags ", "")
 file_in = file_in.replace("contain ", "")
 file_in = file_in.replace("bags", "")
@@ -31,6 +29,10 @@ for temp_bags in file_in:
 			break
 	file_new.append(temp_hold)
 
+file_other = []
+for temp_bags in file_new:
+	file_other.append(list(OrderedDict.fromkeys(temp_bags)))
+
 def run():
 
 	def probe(input_in, bag_search, bag_verif, bag_ugly):
@@ -45,11 +47,10 @@ def run():
 				for temp_each in bag_check[1:]:
 					if temp_each in bag_verif:
 						return True
-					elif temp_each in bag_ugly:
-						pass
 					else:
-						if probe(input_in, temp_each, bag_verif, bag_ugly):
-							return True
+						if temp_each not in bag_ugly:
+							if probe(input_in, temp_each, bag_verif, bag_ugly):
+								return True
 
 	def size(input_in, bag_search):
 		size_weight = 1
@@ -65,19 +66,16 @@ def run():
 	def tree(input_in):
 		bag_verif = []
 		bag_ugly = []
-		input_new = []
+		input_search = [temp_bags[0] for temp_bags in input_in]
+		input_in.pop(input_search.index("shiny gold"))
 		for temp_bags in input_in:
-			input_new.append(list(OrderedDict.fromkeys(temp_bags)))
-		input_search = [temp_bags[0] for temp_bags in input_new]
-		input_new.pop(input_search.index("shiny gold"))
-		for temp_bags in input_new:
 			if "shiny gold" in temp_bags:
 				bag_verif.append(temp_bags[0])
 			else:
 				for temp_bag in temp_bags:
 					if temp_bag not in bag_verif:
 						if temp_bag not in bag_ugly:
-							if probe(input_new, temp_bag, bag_verif, bag_ugly):
+							if probe(input_in, temp_bag, bag_verif, bag_ugly):
 								bag_verif.append(temp_bags[0])
 							else:
 								bag_ugly.append(temp_bags[0])
@@ -90,4 +88,6 @@ def run():
 			bag_weight += size(input_in, temp_bag)
 		return bag_weight
 
-	return tree(file_new), weight(file_new)
+	return tree(file_other.copy()), weight(file_new)
+
+print(run())

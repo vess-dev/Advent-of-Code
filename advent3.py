@@ -1,6 +1,7 @@
 file_load = open("input3.txt", "r")
-file_in = file_load.read().split("\n")
+file_in = file_load.read()
 file_load.close()
+file_in = file_in.split("\n")
 
 def run():
 
