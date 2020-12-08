@@ -1,3 +1,5 @@
+day_num = 4
+
 file_load = open("input4.txt", "r")
 file_in = file_load.read()
 file_load.close()
