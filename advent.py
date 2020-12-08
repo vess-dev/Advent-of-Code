@@ -30,5 +30,5 @@ def run(advent_list, test_count):
 
 if __name__ == "__main__":
     advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8]
-    test_count = 100
+    test_count = 3
     advent.run(advent_list, test_count)
