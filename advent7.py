@@ -61,7 +61,7 @@ def run():
 			for temp_bags in input_in:
 				if temp_bags[0] not in bag_verif:
 					if any(temp_check in temp_bags for temp_check in bag_verif):
-						bag_verif.append(temp_bags[0])
+						bag_verif = [temp_bags[0]] + bag_verif
 						input_in.pop(input_in.index(temp_bags))
 						bag_flag = True
 			if not bag_flag:
