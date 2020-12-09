@@ -8,9 +8,10 @@ file_in = list(map(int, file_in.split("\n")))
 def run():
 
 	def wrong(input_in):
-		arr_curr = input_in[:25]
+		arr_range = 25
+		arr_curr = input_in[:arr_range]
 		arr_pos = 0
-		for temp_check in input_in[25:]:
+		for temp_check in input_in[arr_range:]:
 			arr_flag = False
 			if not arr_flag:
 				for temp_x in arr_curr:

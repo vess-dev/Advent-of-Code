@@ -22,7 +22,7 @@ def clock(advent_day, test_count):
 
 def run():
     advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8, advent9]
-    test_count = 0
+    test_count = 10
     time_total = 0
     if test_count:
         for temp_py in advent_list:
