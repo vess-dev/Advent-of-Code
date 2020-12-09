@@ -20,7 +20,9 @@ def clock(advent_day, test_count):
         time_total += time.time() - time_before
     return time_total
 
-def run(advent_list, test_count):
+def run():
+    advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8, advent9]
+    test_count = 0
     time_total = 0
     if test_count:
         for temp_py in advent_list:
@@ -34,6 +36,4 @@ def run(advent_list, test_count):
             print("Day", temp_py.day_num, ":", temp_py.run())
     
 if __name__ == "__main__":
-    advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8, advent9]
-    test_count = 0
-    advent.run(advent_list, test_count)
+    advent.run()

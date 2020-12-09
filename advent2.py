@@ -1,6 +1,6 @@
 day_num = 2
 
-file_load = open("input2.txt", "r")
+file_load = open("input/input2.txt", "r")
 file_in = file_load.read()
 file_load.close()
 file_in = file_in.replace(":", "").split("\n")
