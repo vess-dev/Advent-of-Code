@@ -7,18 +7,21 @@ file_in = list(map(int, file_in.split("\n")))
 
 def run():
 
+	def test(input_in, arr_check):
+		for temp_x in input_in:
+			for temp_y in input_in:
+				if temp_x != temp_y:
+					if temp_x + temp_y == arr_check:
+						return True
+		return False
+
 	def wrong(input_in):
 		arr_range = 25
 		arr_curr = input_in[:arr_range]
 		arr_pos = 0
 		for temp_check in input_in[arr_range:]:
 			arr_flag = False
-			if not arr_flag:
-				for temp_x in arr_curr:
-					for temp_y in arr_curr:
-						if temp_x != temp_y:
-							if temp_x + temp_y == temp_check:
-								arr_flag = True
+			arr_flag = test(arr_curr, temp_check)
 			if not arr_flag:
 				return temp_check
 			arr_curr.pop(0)
