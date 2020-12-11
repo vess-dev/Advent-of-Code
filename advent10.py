@@ -1,6 +1,7 @@
 day_num = 10
 
 from functools import lru_cache
+import sys
 
 file_load = open("input/input10.txt", "r")
 file_in = file_load.read()
@@ -22,7 +23,7 @@ def run():
 		return diff_1 * diff_3
 	
 	def arrange(input_in):
-		@lru_cache(maxsize = None)
+		@lru_cache(maxsize = sys.maxsize)
 		def jolts(input_max):
 			if input_max == input_in[-1]:
 				return 1
