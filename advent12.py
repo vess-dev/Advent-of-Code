@@ -33,12 +33,6 @@ def run():
 				elif boat_dir == 270: boat_xpos -= temp_dir[1]
 		return abs(boat_xpos) + abs(boat_ypos)
 
-	def left(xpos_in, ypos_in):
-		return ypos_in, xpos_in * -1
-
-	def right(xpos_in, ypos_in):
-		return ypos_in * -1, xpos_in
-
 	def way(input_in):
 		way_xpos = 10
 		way_ypos = 1
@@ -50,31 +44,15 @@ def run():
 			elif temp_dir[0] == "S": way_ypos -= temp_dir[1]
 			elif temp_dir[0] == "W": way_xpos -= temp_dir[1]
 			elif temp_dir[0] == "L":
-				if temp_dir[1] == 90:
-					temp_xpos, temp_ypos = way_xpos, way_ypos
-					way_xpos = temp_ypos * -1
-					way_ypos = temp_xpos
-				elif temp_dir[1] == 180:
-					temp_xpos, temp_ypos = way_xpos, way_ypos
-					way_xpos = temp_xpos * -1
-					way_ypos = temp_ypos * -1
-				elif temp_dir[1] == 270:
-					temp_xpos, temp_ypos = way_xpos, way_ypos
-					way_xpos = temp_ypos
-					way_ypos = temp_xpos * -1
+				temp_rot = temp_dir[1]
+				while temp_rot != 0:
+					way_xpos, way_ypos = way_ypos  * -1, way_xpos
+					temp_rot -= 90
 			elif temp_dir[0] == "R":
-				if temp_dir[1] == 90:
-					temp_xpos, temp_ypos = way_xpos, way_ypos
-					way_xpos = temp_ypos
-					way_ypos = temp_xpos * -1
-				elif temp_dir[1] == 180:
-					temp_xpos, temp_ypos = way_xpos, way_ypos
-					way_xpos = temp_xpos * -1
-					way_ypos = temp_ypos * -1
-				elif temp_dir[1] == 270:
-					temp_xpos, temp_ypos = way_xpos, way_ypos
-					way_xpos = temp_ypos * -1
-					way_ypos = temp_xpos
+				temp_rot = temp_dir[1]
+				while temp_rot != 0:
+					way_xpos, way_ypos = way_ypos, way_xpos * -1
+					temp_rot -= 90
 			elif temp_dir[0] == "F":
 				boat_xpos += way_xpos * temp_dir[1]
 				boat_ypos += way_ypos * temp_dir[1]
