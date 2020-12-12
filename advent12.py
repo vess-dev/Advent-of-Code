@@ -59,5 +59,3 @@ def run():
 		return abs(boat_xpos) + abs(boat_ypos)
 
 	return drive(file_in), way(file_in)
-
-print(run())
