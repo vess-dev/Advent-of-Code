@@ -23,15 +23,12 @@ def run():
 		return diff_1 * diff_3
 	
 	def arrange(input_in):
-		@lru_cache(maxsize = sys.maxsize)
-		def jolts(input_max):
-			if input_max == input_in[-1]:
-				return 1
-			diff_total = 0
-			for temp_test in range(1, 4):
-				if (temp_test + input_max) in input_in:
-					diff_total += jolts(temp_test + input_max)
-			return diff_total
-		return jolts(0)
+		plug_list = {0:1}
+		for temp_plug in sorted(input_in):
+			plug_list[temp_plug] = 0
+			for temp_step in range(-1, -4, -1):
+				if temp_plug + temp_step in plug_list:
+					plug_list[temp_plug] += plug_list[temp_plug + temp_step]
+		return list(plug_list.values())[-1]
 
-	return diff(file_in), arrange(file_in)
+	return diff(file_in), arrange(file_in[1:-2])
