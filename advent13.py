@@ -1,8 +1,5 @@
 day_num = 13
 
-import copy
-from functools import reduce
-
 file_load = open("input/input13.txt", "r")
 file_prep = file_load.read()
 file_load.close()
