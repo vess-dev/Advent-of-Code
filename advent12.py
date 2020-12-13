@@ -46,7 +46,7 @@ def run():
 			elif temp_dir[0] == "L":
 				temp_rot = temp_dir[1]
 				while temp_rot != 0:
-					way_xpos, way_ypos = way_ypos  * -1, way_xpos
+					way_xpos, way_ypos = way_ypos * -1, way_xpos
 					temp_rot -= 90
 			elif temp_dir[0] == "R":
 				temp_rot = temp_dir[1]
