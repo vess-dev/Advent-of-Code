@@ -47,5 +47,3 @@ def run():
 		return crt_total
 
 	return catch(file_in), crt(file_new)
-
-print(run())
