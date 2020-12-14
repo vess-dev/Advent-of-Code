@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 day_num = 7
 
-file_load = open("input/input7.txt", "r")
+file_load = open("input/day7.txt", "r")
 file_in = file_load.read()
 file_load.close() 
 file_in = file_in.replace(",","")

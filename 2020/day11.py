@@ -2,7 +2,7 @@ day_num = 11
 
 import copy
 
-file_load = open("input/input11.txt", "r")
+file_load = open("input/day11.txt", "r")
 file_prep = file_load.read()
 file_load.close()
 file_prep = file_prep.split("\n")

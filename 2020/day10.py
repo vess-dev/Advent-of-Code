@@ -1,9 +1,6 @@
 day_num = 10
 
-from functools import lru_cache
-import sys
-
-file_load = open("input/input10.txt", "r")
+file_load = open("input/day10.txt", "r")
 file_in = file_load.read()
 file_load.close()
 file_in = list(map(int, file_in.split("\n")))

@@ -1,6 +1,6 @@
 import time
 
-import advent
+import timing
 
 import day1
 import day2
@@ -41,4 +41,4 @@ def run():
             print("Day", temp_py.day_num, ":", temp_py.run())
     
 if __name__ == "__main__":
-    advent.run()
+    timing.run()

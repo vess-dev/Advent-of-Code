@@ -1,6 +1,6 @@
 day_num = 13
 
-file_load = open("input/input13.txt", "r")
+file_load = open("input/day13.txt", "r")
 file_prep = file_load.read()
 file_load.close()
 file_prep = file_prep.split("\n")
