@@ -2,20 +2,20 @@ import time
 
 import advent
 
-import advent1
-import advent2
-import advent3
-import advent4
-import advent5
-import advent6
-import advent7
-import advent8
-import advent9
-import advent10
-import advent11
-import advent12
-import advent13
-import advent14
+import day1
+import day2
+import day3
+import day4
+import day5
+import day6
+import day7
+import day8
+import day9
+import day10
+import day11
+import day12
+import day13
+import day14
 
 def clock(advent_day, test_count):
     time_total = 0
@@ -26,7 +26,7 @@ def clock(advent_day, test_count):
     return time_total
 
 def run():
-    advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8, advent9, advent10, advent11, advent12, advent13, advent14]
+    advent_list = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14]
     test_count = 10
     time_total = 0
     if test_count:
