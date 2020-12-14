@@ -27,7 +27,7 @@ def clock(advent_day, test_count):
 
 def run():
     advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8, advent9, advent10, advent11, advent12, advent13, advent14]
-    test_count = 3
+    test_count = 10
     time_total = 0
     if test_count:
         for temp_py in advent_list:
@@ -35,7 +35,7 @@ def run():
             time_next = clock(temp_py, test_count)
             print(test_count, "trials of day", temp_py.day_num, ":", time_next / test_count, "\n")
             time_total += time_next
-        print(test_count, "trials of all averages:", time_total / test_count, "\n")
+        print(test_count, "trials of all, averages:", time_total / test_count, "\n")
     else:
         for temp_py in advent_list:
             print("Day", temp_py.day_num, ":", temp_py.run())
