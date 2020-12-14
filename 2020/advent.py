@@ -15,6 +15,7 @@ import advent10
 import advent11
 import advent12
 import advent13
+import advent14
 
 def clock(advent_day, test_count):
     time_total = 0
@@ -25,7 +26,7 @@ def clock(advent_day, test_count):
     return time_total
 
 def run():
-    advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8, advent9, advent10, advent11, advent12, advent13]
+    advent_list = [advent1, advent2, advent3, advent4, advent5, advent6, advent7, advent8, advent9, advent10, advent11, advent12, advent13, advent14]
     test_count = 3
     time_total = 0
     if test_count:
