@@ -14,13 +14,13 @@ def run():
 		game_round = len(input_in)
 		game_next = 0
 		for game_round in range(len(input_in) + 1, round_hunt):
-			if game_next not in num_last:
-				num_last[game_next] = game_round
-				game_next = 0
-			else:
+			if game_next in num_last:
 				temp_next = game_round - num_last[game_next]
 				num_last[game_next] = game_round
 				game_next = temp_next
+			else:
+				num_last[game_next] = game_round
+				game_next = 0
 		return game_next
 
 	return game(file_in, 2020), game(file_in, 30000000)
