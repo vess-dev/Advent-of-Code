@@ -73,7 +73,7 @@ def run():
 					new_field.append(temp_test)
 			field_count[temp_field] = new_field
 		field_done = []
-		while True:
+		while len(field_done) != 20:
 			for temp_field in field_count:
 				if len(field_count[temp_field]) == 1 and temp_field not in field_done:
 					for temp_change in field_count:
@@ -81,8 +81,6 @@ def run():
 							if field_count[temp_field][0] in field_count[temp_change]:
 								field_count[temp_change].remove(field_count[temp_field][0])
 					field_done.append(temp_field)
-			if len(field_done) == 20:
-				break
 		field_math = list(field_count.values())[0:6]
 		field_math = [temp_sub for temp_itr in field_math for temp_sub in temp_itr]
 		field_total = 1
