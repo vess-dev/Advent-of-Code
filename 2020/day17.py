@@ -53,5 +53,3 @@ def run():
 		return len(input_one), len(input_two)
 
 	return six(file_in)
-
-print(run())
