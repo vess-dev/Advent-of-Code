@@ -43,7 +43,6 @@ def run():
 							line_curr.pop(line_pos)
 						line_curr.pop(line_pos)
 						line_curr.insert(line_pos, comp(temp_stack, input_ord))
-						line_pos = 0
 					else:
 						line_pos += 1
 				else:
