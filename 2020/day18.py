@@ -6,8 +6,6 @@ file_load = open("input/day18.txt", "r")
 file_in = file_load.read()
 file_load.close()
 
-#file_in = [int(temp_sub) if temp_sub.isdigit() else temp_sub for temp_itr in file_in.split("\n") for temp_sub in list(temp_itr.replace(" ", ""))]
-
 file_in = [list(temp_itr.replace(" ", "")) for temp_itr in file_in.split("\n")]
 for temp_pos, temp_line in enumerate(file_in):
 	file_in[temp_pos] = [int(temp_itr) if temp_itr.isdigit() else temp_itr for temp_itr in temp_line]
