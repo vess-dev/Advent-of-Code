@@ -36,10 +36,13 @@ def run():
 
 	def cycle(input_in, input_dim):
 		input_new = set()
+		input_checked = set()
 		for temp_check in input_in:
 			for temp_neigh in neigh(input_in, input_dim, temp_check)[0]:
-				if neigh(input_in, input_dim, temp_neigh)[1] == 3:
-					input_new.add(temp_neigh)
+				if temp_neigh not in input_checked:
+					if neigh(input_in, input_dim, temp_neigh)[1] == 3:
+						input_new.add(temp_neigh)
+					input_checked.add(temp_neigh)
 			if neigh(input_in, input_dim, temp_check)[1] in [2, 3]:
 				input_new.add(temp_check) 
 		return input_new
@@ -53,3 +56,5 @@ def run():
 		return len(input_one), len(input_two)
 
 	return six(file_in)
+
+print(run())
