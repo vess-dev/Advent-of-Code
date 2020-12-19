@@ -28,7 +28,7 @@ def run():
 			return input_str.startswith(rule_check) and itr(input_in, input_rul, input_str[1:])
 		else:
 			return any(itr(input_in, temp_rule + input_rul, input_str) for temp_rule in rule_check)
-
+			
 	def rule(input_in, input_adjust):
 		if input_adjust:
 			input_in[0][8] = [[42], [42, 8]]
