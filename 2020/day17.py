@@ -29,7 +29,7 @@ def run():
 					for temp_w in range(-1, input_w):
 						if input_four:
 							cord_test = (temp_x + cord_tup[0], temp_y + cord_tup[1], temp_z + cord_tup[2], temp_w + cord_tup[3])
-						elif not input_four:
+						else:
 							cord_test = (temp_x + cord_tup[0], temp_y + cord_tup[1], temp_z + cord_tup[2], 0)
 						if cord_test != cord_tup:
 							if cord_test not in input_in:
