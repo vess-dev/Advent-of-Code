@@ -31,5 +31,4 @@ def run():
 	return diff(file_in), arrange(file_in[1:-2])
 
 if __name__ == "__main__":
-	import day10
-	print(day10.run())
+	print(run())

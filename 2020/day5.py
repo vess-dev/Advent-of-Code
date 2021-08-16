@@ -45,5 +45,4 @@ def run():
 	return high(file_in), seat(file_in)
 
 if __name__ == "__main__":
-	import day5
-	print(day5.run())
+	print(run())

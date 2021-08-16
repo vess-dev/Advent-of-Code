@@ -69,5 +69,4 @@ def run():
 	return flip(file_in, False), flip(file_in, True)
 
 if __name__ == "__main__":
-	import day24
-	print(day24.run())
+	print(run())

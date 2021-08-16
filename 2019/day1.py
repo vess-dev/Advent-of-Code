@@ -33,5 +33,4 @@ def run():
 	return launch(file_in), stonk(file_in)
 
 if __name__ == "__main__":
-	import day1
-	print(day1.run())
+	print(run())

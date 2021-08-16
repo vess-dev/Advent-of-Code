@@ -32,5 +32,4 @@ def run():
 	return slide(file_in, 3, 1), hills()
 
 if __name__ == "__main__":
-	import day3
-	print(day3.run())
+	print(run())

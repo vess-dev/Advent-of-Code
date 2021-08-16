@@ -38,5 +38,4 @@ def run():
 	return process(file_in), find(file_in)
 
 if __name__ == "__main__":
-	import day2
-	print(day2.run())
+	print(run())

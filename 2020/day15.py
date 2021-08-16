@@ -26,5 +26,4 @@ def run():
 	return game(file_in, 2020), game(file_in, 30000000)
 
 if __name__ == "__main__":
-	import day15
-	print(day15.run())
+	print(run())

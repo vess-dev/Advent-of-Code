@@ -61,5 +61,4 @@ def run():
 	return drive(file_in), way(file_in)
 
 if __name__ == "__main__":
-	import day12
-	print(day12.run())
+	print(run())

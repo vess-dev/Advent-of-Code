@@ -54,5 +54,4 @@ def run():
 	return maff(file_in, False), maff(file_in, True)
 
 if __name__ == "__main__":
-	import day18
-	print(day18.run())
+	print(run())

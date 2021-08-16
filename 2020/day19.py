@@ -38,5 +38,4 @@ def run():
 	return rule(file_in, False), rule(file_in, True)
 
 if __name__ == "__main__":
-	import day19
-	print(day19.run())
+	print(run())

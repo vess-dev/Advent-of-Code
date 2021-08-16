@@ -52,5 +52,4 @@ def run():
 	return safe(file_in), order(file_in)
 
 if __name__ == "__main__":
-	import day21
-	print(day21.run())
+	print(run())
