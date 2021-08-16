@@ -2,12 +2,13 @@
 
 ## Completion
 
-- 2019 5/25
-- 2020: 25/25
+- 2019 4/25 days complete.
+- 2020: 25/25 days complete.
 
 ## Requirements
 
-- Python 3
+- Python 3 installed
+- "python3" as a recognized path command.
 
 ## Directory
 
