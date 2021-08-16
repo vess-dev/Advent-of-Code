@@ -20,9 +20,10 @@ Every year is in a folder with:
 
 In the top level directory:
 
-- start.bat : Starts the "run.bat" file.
 - run.bat : Runs the "timing.py" file of every year. [WINDOWS]
 - run.sh : Runs the "timing.py" file of every year. [LINUX]
+- start.bat : Starts the "run.bat" file.
+- template.py : A simple template file for the solutions.
 
 ## License
 
