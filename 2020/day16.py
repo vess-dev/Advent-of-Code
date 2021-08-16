@@ -91,5 +91,4 @@ def run():
 	return rate(file_in), depart(file_in)
 
 if __name__ == "__main__":
-	import day16
-	print(day16.run())
+	print(run())

@@ -52,5 +52,4 @@ def run():
 	return crab(file_in, file_start), crab(file_in, file_start, 10000000)
 
 if __name__ == "__main__":
-	import day23
-	print(day23.run())
+	print(run())

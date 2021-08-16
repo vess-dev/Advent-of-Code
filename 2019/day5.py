@@ -53,5 +53,4 @@ def run():
 	return test(file_in)
 
 if __name__ == "__main__":
-	import day5
-	print(day5.run())
+	print(run())

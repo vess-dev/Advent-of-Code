@@ -29,5 +29,4 @@ def run():
 	return match(file_in)
 
 if __name__ == "__main__":
-	import day4
-	print(day4.run())
+	print(run())

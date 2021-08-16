@@ -41,5 +41,4 @@ def run():
 	return wrong(file_in), contig(file_in, wrong(file_in))
 
 if __name__ == "__main__":
-	import day9
-	print(day9.run())
+	print(run())

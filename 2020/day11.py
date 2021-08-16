@@ -57,5 +57,4 @@ def run():
 	return stable(file_in, 4), stable(file_in, 5)
 
 if __name__ == "__main__":
-	import day11
-	print(day11.run())
+	print(run())

@@ -77,5 +77,4 @@ def run():
 	return shiny(file_in.copy()), weight(file_new)
 
 if __name__ == "__main__":
-	import day7
-	print(day7.run())
+	print(run())

@@ -62,5 +62,4 @@ def run():
 	return six(file_in)
 
 if __name__ == "__main__":
-	import day17
-	print(day17.run())
+	print(run())

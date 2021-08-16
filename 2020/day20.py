@@ -235,5 +235,4 @@ def run():
 	return corner(file_in), rough(file_in)
 
 if __name__ == "__main__":
-	import day20
-	print(day20.run())
+	print(run())

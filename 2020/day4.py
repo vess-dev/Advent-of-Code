@@ -66,5 +66,4 @@ def run():
 	return valid(file_in), spec(file_in)
 
 if __name__ == "__main__":
-	import day4
-	print(day4.run())
+	print(run())

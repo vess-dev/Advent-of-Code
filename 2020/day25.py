@@ -27,5 +27,4 @@ def run():
 	return shake(file_in)
 
 if __name__ == "__main__":
-	import day25
-	print(day25.run())
+	print(run())

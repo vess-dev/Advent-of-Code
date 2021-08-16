@@ -51,5 +51,4 @@ def run():
 	return loop(file_in), halt(file_in)
 
 if __name__ == "__main__":
-	import day8
-	print(day8.run())
+	print(run())
