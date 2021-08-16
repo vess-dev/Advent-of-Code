@@ -1,7 +1,6 @@
 @echo off
 title Running file...
 cls
-cd "2020"
-python -B %~dp0/timing.py
+python -B %~dp0/2020/timing.py
 pause
 exit
