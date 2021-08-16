@@ -82,3 +82,7 @@ def run():
 		return min(wire_sums)
 
 	return close(file_in), steps(file_in)
+
+if __name__ == "__main__":
+	import day3
+	print(day3.run())

@@ -44,3 +44,7 @@ def run():
 		return crt_total
 
 	return catch(file_in), crt(file_new)
+
+if __name__ == "__main__":
+	import day13
+	print(day13.run())

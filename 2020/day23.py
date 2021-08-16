@@ -1,6 +1,6 @@
-day_num = 23
-
 import copy
+
+day_num = 23
 
 file_load = open("input/day23.txt", "r")
 file_prep = file_load.read()
@@ -50,3 +50,7 @@ def run():
 			return input_in[1] * input_in[input_in[1]]
 
 	return crab(file_in, file_start), crab(file_in, file_start, 10000000)
+
+if __name__ == "__main__":
+	import day23
+	print(day23.run())

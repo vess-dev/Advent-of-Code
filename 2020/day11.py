@@ -1,6 +1,6 @@
-day_num = 11
-
 import copy
+
+day_num = 11
 
 file_load = open("input/day11.txt", "r")
 file_prep = file_load.read()
@@ -55,3 +55,7 @@ def run():
 				return seat_total
 
 	return stable(file_in, 4), stable(file_in, 5)
+
+if __name__ == "__main__":
+	import day11
+	print(day11.run())

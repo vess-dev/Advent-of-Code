@@ -1,6 +1,6 @@
-day_num = 24
-
 import copy
+
+day_num = 24
 
 file_load = open("input/day24.txt", "r")
 file_prep = file_load.read()
@@ -67,3 +67,7 @@ def run():
 		return list(floor_grid.values()).count(False)
 
 	return flip(file_in, False), flip(file_in, True)
+
+if __name__ == "__main__":
+	import day24
+	print(day24.run())

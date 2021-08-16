@@ -28,3 +28,7 @@ def run():
 		return group_total
 
 	return yes(file_in), only(file_in)
+
+if __name__ == "__main__":
+	import day6
+	print(day6.run())

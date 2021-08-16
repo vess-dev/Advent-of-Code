@@ -1,7 +1,7 @@
-day_num = 19
-
 import copy
 from collections import defaultdict
+
+day_num = 19
 
 file_load = open("input/day19.txt", "r")
 file_prep = file_load.read()
@@ -36,3 +36,7 @@ def run():
 		return sum(itr(input_in, [0], temp_line) for temp_line in input_in[1])
 
 	return rule(file_in, False), rule(file_in, True)
+
+if __name__ == "__main__":
+	import day19
+	print(day19.run())

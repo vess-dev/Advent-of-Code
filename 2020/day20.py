@@ -1,6 +1,6 @@
-day_num = 20
-
 import math
+
+day_num = 20
 
 file_load = open("input/day20.txt", "r")
 file_prep = file_load.read()
@@ -233,3 +233,7 @@ def run():
 		return "".join(map_stitch).count("#") - (15 * map_found)
 
 	return corner(file_in), rough(file_in)
+
+if __name__ == "__main__":
+	import day20
+	print(day20.run())

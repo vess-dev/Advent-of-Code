@@ -1,6 +1,6 @@
-day_num = 25
-
 import copy
+
+day_num = 25
 
 file_load = open("input/day25.txt", "r")
 file_in = file_load.read()
@@ -25,3 +25,7 @@ def run():
 		return num_test
 
 	return shake(file_in)
+
+if __name__ == "__main__":
+	import day25
+	print(day25.run())

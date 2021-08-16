@@ -50,3 +50,7 @@ def run():
 		return total_string[:-1]
 
 	return safe(file_in), order(file_in)
+
+if __name__ == "__main__":
+	import day21
+	print(day21.run())
