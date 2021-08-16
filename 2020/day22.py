@@ -1,6 +1,6 @@
-day_num = 22
-
 import copy
+
+day_num = 22
 
 file_load = open("input/day22.txt", "r")
 file_in = file_load.read()
@@ -52,3 +52,7 @@ def run():
 			return "two"
 
 	return rec(file_in, True, False), rec(file_in, True, True)
+
+if __name__ == "__main__":
+	import day22
+	print(day22.run())

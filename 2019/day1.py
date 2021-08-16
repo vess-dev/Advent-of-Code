@@ -1,6 +1,6 @@
-day_num = 1
-
 import math
+
+day_num = 1
 
 file_load = open("input/day1.txt", "r")
 file_in = file_load.read()
@@ -31,3 +31,7 @@ def run():
 		return fuel_total
 
 	return launch(file_in), stonk(file_in)
+
+if __name__ == "__main__":
+	import day1
+	print(day1.run())

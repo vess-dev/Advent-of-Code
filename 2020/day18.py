@@ -1,6 +1,6 @@
-day_num = 18
-
 import copy
+
+day_num = 18
 
 file_load = open("input/day18.txt", "r")
 file_in = file_load.read()
@@ -52,3 +52,7 @@ def run():
 		return sum(input_new)
 
 	return maff(file_in, False), maff(file_in, True)
+
+if __name__ == "__main__":
+	import day18
+	print(day18.run())

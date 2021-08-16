@@ -84,3 +84,7 @@ def run():
 		return sum(list(comp_mem.values()))
 
 	return mask(file_in), decode(file_in)
+
+if __name__ == "__main__":
+	import day14
+	print(day14.run())

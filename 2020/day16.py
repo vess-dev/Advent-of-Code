@@ -1,7 +1,7 @@
-day_num = 16
-
 from collections import OrderedDict
 import math
+
+day_num = 16
 
 file_load = open("input/day16.txt", "r")
 file_in = file_load.read()
@@ -89,3 +89,7 @@ def run():
 		return field_total
 
 	return rate(file_in), depart(file_in)
+
+if __name__ == "__main__":
+	import day16
+	print(day16.run())

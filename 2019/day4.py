@@ -27,3 +27,7 @@ def run():
 		return pass_total
 
 	return match(file_in)
+
+if __name__ == "__main__":
+	import day4
+	print(day4.run())

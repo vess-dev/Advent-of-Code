@@ -1,6 +1,6 @@
-day_num = 17
-
 import copy
+
+day_num = 17
 
 file_load = open("input/day17.txt", "r")
 file_prep = file_load.read()
@@ -60,3 +60,7 @@ def run():
 		return len(input_one), len(input_two)
 
 	return six(file_in)
+
+if __name__ == "__main__":
+	import day17
+	print(day17.run())
