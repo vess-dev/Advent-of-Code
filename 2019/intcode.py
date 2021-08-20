@@ -2,13 +2,35 @@ class Comp:
 
 	mem_tape = []
 	mem_pos = 0
+	mem_stdout = []
 
 	op_skip = {
 		"01": 4,
 		"02": 4,
 		"03": 2,
 		"04": 2,
+		"05": 3,
+		"06": 3,
+		"07": 4,
+		"08": 4,
+		"99": 0,
 	}
+
+	op_ref = {
+		"01": "add",
+		"02": "mult",
+		"03": "input",
+		"04": "output",
+		"05": "jump !zero",
+		"06": "jump zero",
+		"07": "less than",
+		"08": "equal to",
+		"99": "break",
+	}
+
+	def dbg(self, input_next):
+		print(self.op_ref[input_next[0]], input_next, self.mem_tape[self.mem_pos:self.mem_pos + self.op_skip[input_next[0]]])
+		return
 
 	def load(self, input_tape):
 		self.mem_tape = input_tape
@@ -20,14 +42,43 @@ class Comp:
 			return self.mem_tape[self.mem_tape[self.mem_pos + input_pos]]
 		elif input_mode == "1":
 			return self.mem_tape[self.mem_pos + input_pos]
+
+	def take(self, input_op):
+		self.mem_tape[self.mem_tape[self.mem_pos + 1]] = input_op
+		self.mem_pos += self.op_skip["03"]
+		return
 			
-	def next(self):
+	def next(self, input_dbg=None):
 		op_next = str(self.mem_tape[self.mem_pos]).rjust(5, "0")
 		op_next = [op_next[-2:], list(op_next[:3][::-1])]
+		if input_dbg:
+			self.dbg(op_next)
 		if op_next[0] == "01":
-			self.mem_tape[self.mem_tape[self.mem_pos + 3]] = self.get(1, op_next[1][1]) + self.get(2, op_next[1][2])
+			self.mem_tape[self.mem_tape[self.mem_pos + 3]] = self.get(1, op_next[1][0]) + self.get(2, op_next[1][1])
 		elif op_next[0] == "02":
-			self.mem_tape[self.mem_tape[self.mem_pos + 3]] = self.get(1, op_next[1][1]) * self.get(2, op_next[1][2])
+			self.mem_tape[self.mem_tape[self.mem_pos + 3]] = self.get(1, op_next[1][0]) * self.get(2, op_next[1][1])
+		elif op_next[0] == "03":
+			return "Input"
+		elif op_next[0] == "04":
+			self.mem_stdout.append(self.get(1, op_next[1][0]))
+		elif op_next[0] == "05":
+			if self.get(1, op_next[1][0]) != 0:
+				self.mem_pos = self.get(2, op_next[1][1])
+				return
+		elif op_next[0] == "06":
+			if self.get(1, op_next[1][0]) == 0:
+				self.mem_pos = self.get(2, op_next[1][1])
+				return
+		elif op_next[0] == "07":
+			if self.get(1, op_next[1][0]) < self.get(2, op_next[1][1]):
+				self.mem_tape[self.mem_tape[self.mem_pos + 3]] = 1
+			else:
+				self.mem_tape[self.mem_tape[self.mem_pos + 3]] = 0
+		elif op_next[0] == "08":
+			if self.get(1, op_next[1][0]) == self.get(2, op_next[1][1]):
+				self.mem_tape[self.mem_tape[self.mem_pos + 3]] = 1
+			else:
+				self.mem_tape[self.mem_tape[self.mem_pos + 3]] = 0
 		elif op_next[0] == "99":
 			return "Break"
 		self.mem_pos += self.op_skip[op_next[0]]
