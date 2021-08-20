@@ -2,7 +2,7 @@ class Comp:
 
 	mem_tape = []
 	mem_pos = 0
-	mem_stdout = []
+	mem_out = []
 
 	op_skip = {
 		"01": 4,
@@ -60,7 +60,7 @@ class Comp:
 		elif op_next[0] == "03":
 			return "Input"
 		elif op_next[0] == "04":
-			self.mem_stdout.append(self.get(1, op_next[1][0]))
+			self.mem_out.append(self.get(1, op_next[1][0]))
 		elif op_next[0] == "05":
 			if self.get(1, op_next[1][0]) != 0:
 				self.mem_pos = self.get(2, op_next[1][1])
@@ -83,3 +83,17 @@ class Comp:
 			return "Break"
 		self.mem_pos += self.op_skip[op_next[0]]
 		return
+
+	def run(self, input_sim=[]):
+		input_pos = 0
+		while True:
+			comp_ret = self.next()
+			if comp_ret == "Input":
+				self.take(input_sim[input_pos])
+				input_pos += 1
+			elif comp_ret == "Break":
+				break
+		if self.mem_out:
+			return self.mem_out[-1]
+		else:
+			return
