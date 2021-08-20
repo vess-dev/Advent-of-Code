@@ -1,5 +1,7 @@
 # Advent of Code
 
+![AoC](aoc.png)
+
 ## Completion
 
 - 2019 8/25 days complete.
