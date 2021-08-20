@@ -5,32 +5,20 @@ class Comp:
 	mem_out = []
 	flag_halt = False
 
-	op_skip = {
-		"01": 4,
-		"02": 4,
-		"03": 2,
-		"04": 2,
-		"05": 3,
-		"06": 3,
-		"07": 4,
-		"08": 4,
-		"99": 0,
-	}
-
 	op_ref = {
-		"01": "add",
-		"02": "mult",
-		"03": "input",
-		"04": "output",
-		"05": "jump !zero",
-		"06": "jump zero",
-		"07": "less than",
-		"08": "equal to",
-		"99": "halt",
+		"01": [4, "add"],
+		"02": [4, "mult"],
+		"03": [2, "input"],
+		"04": [2, "output"],
+		"05": [3, "jump !zero"],
+		"06": [3, "jump zero"],
+		"07": [4, "less than"],
+		"08": [4, "equal to"],
+		"99": [0, "halt"],
 	}
 
 	def dbg(self, input_next):
-		print(self.op_ref[input_next[0]], input_next, self.mem_tape[self.mem_pos:self.mem_pos + self.op_skip[input_next[0]]])
+		print(self.op_ref[input_next[0]][1], input_next, self.mem_tape[self.mem_pos:self.mem_pos + self.op_ref[input_next[0]][0]])
 		return
 
 	def load(self, input_tape):
@@ -48,7 +36,7 @@ class Comp:
 
 	def take(self, input_op):
 		self.mem_tape[self.mem_tape[self.mem_pos + 1]] = input_op
-		self.mem_pos += self.op_skip["03"]
+		self.mem_pos += self.op_ref["03"][0]
 		return
 			
 	def next(self, input_dbg=False):
@@ -85,7 +73,7 @@ class Comp:
 		elif op_next[0] == "99":
 			self.flag_halt = True
 			return "Halt"
-		self.mem_pos += self.op_skip[op_next[0]]
+		self.mem_pos += self.op_ref[op_next[0]][0]
 		return
 
 	def last(self):
