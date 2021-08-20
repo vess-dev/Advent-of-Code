@@ -99,6 +99,9 @@ class Comp:
 		while not self.flag_halt:
 			comp_ret = self.next()
 			if comp_ret == "Input":
-				self.take(input_sim[input_pos])
-				input_pos += 1
+				if (input_pos + 1) <= len(input_sim):
+					self.take(input_sim[input_pos])
+					input_pos += 1
+				else:
+					return self.last()
 		return self.last()

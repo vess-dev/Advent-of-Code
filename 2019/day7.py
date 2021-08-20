@@ -40,22 +40,23 @@ def run():
 		for temp_perm in phase_list:
 			for temp_comp in comp_all:
 				temp_comp.load(mem_tape.copy())
-			flag_pipe = False
-			ret_e = 0
+			sig_e = 0
+			sig_a = comp_a.run([temp_perm[0], sig_e])
+			sig_b = comp_b.run([temp_perm[1], sig_a])
+			sig_c = comp_c.run([temp_perm[2], sig_b])
+			sig_d = comp_d.run([temp_perm[3], sig_c])
+			sig_e = comp_e.run([temp_perm[4], sig_d])
 			while not comp_e.flag_halt:
-				ret_a = comp_a.next()
-				if ret_a == "Input" and not flag_pipe:
-					comp_a.take(temp_perm[0], 0)
-					flag_pipe = True
-				elif ret_a == "Input" and flag_pipe:
-					comp_a.take(temp_perm[0], ret_e)
+				sig_a = comp_a.run([sig_e])
+				sig_b = comp_b.run([sig_a])
+				sig_c = comp_c.run([sig_b])
+				sig_d = comp_d.run([sig_c])
+				sig_e = comp_e.run([sig_d])
+			if comp_e.last() > sig_max:
+				sig_max = comp_e.last()
+		return sig_max
 
-			quit()
-		return
-
-	#return ampl(file_in), loop(file_in)
-	#return ampl(file_in)
-	return loop(file_in)
+	return ampl(file_in), loop(file_in)
 
 if __name__ == "__main__":
 	print(run())
