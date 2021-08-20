@@ -2,7 +2,7 @@
 
 ## Completion
 
-- 2019 5/25 days complete.
+- 2019 8/25 days complete.
 - 2020: 25/25 days complete.
 
 ## Requirements
