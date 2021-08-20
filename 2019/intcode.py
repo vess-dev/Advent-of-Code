@@ -36,6 +36,8 @@ class Comp:
 	def load(self, input_tape):
 		self.mem_tape = input_tape
 		self.mem_pos = 0
+		self.mem_out = []
+		self.flag_halt = False
 		return
 
 	def get(self, input_pos, input_mode):
