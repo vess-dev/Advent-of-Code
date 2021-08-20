@@ -20,10 +20,23 @@ def run():
 	def decode(input_in, input_size):
 		layer_count = input_size[0] * input_size[1]
 		layer_data = textwrap.wrap(input_in, layer_count)
-		print(layer_data)
+		layer_image = [""] * layer_count
+		for temp_row in layer_data:
+			for temp_num, temp_col in enumerate(temp_row):
+				layer_image[temp_num % len(temp_row)] += temp_col
+		for temp_idx, temp_slice in enumerate(layer_image):
+			new_slice = temp_slice.replace("2", "")[0]
+			new_slice = new_slice.replace("0", " ")
+			new_slice = new_slice.replace("1", "*")
+			layer_image[temp_idx] = new_slice
+		for temp_idx, temp_char in enumerate(layer_image, start=1):
+			if temp_idx % input_size[0] == 0:
+				print(temp_char)
+			else:
+				print(temp_char, end="")
+		return
 
-	#return layer(file_in, [25, 6]), decode(file_in, [25, 6])
-	return decode(file_in, [2, 2])
+	return layer(file_in, [25, 6]), decode(file_in, [25, 6])
 
 if __name__ == "__main__":
 	print(run())
