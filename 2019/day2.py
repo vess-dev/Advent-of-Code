@@ -13,11 +13,10 @@ def run():
 		mem_tape = input_in.copy()
 		mem_tape[1] = 12
 		mem_tape[2] = 2
-		obj_comp = intcode.Comp()
-		obj_comp.load(mem_tape)
-		while not obj_comp.next():
-			continue
-		return obj_comp.mem_tape[0]
+		comp_main = intcode.Comp()
+		comp_main.load(mem_tape)
+		comp_main.run()
+		return comp_main.mem_tape[0]
 
 	def find(input_in):
 		for temp_noun in range(100):
@@ -25,11 +24,10 @@ def run():
 				mem_tape = input_in.copy()
 				mem_tape[1] = temp_noun
 				mem_tape[2] = temp_verb
-				obj_comp = intcode.Comp()
-				obj_comp.load(mem_tape)
-				while not obj_comp.next():
-					continue
-				if obj_comp.mem_tape[0] == 19690720:
+				comp_main = intcode.Comp()
+				comp_main.load(mem_tape)
+				comp_main.run()
+				if comp_main.mem_tape[0] == 19690720:
 					return (100 * temp_noun) + temp_verb
 
 	return process(file_in), find(file_in)
