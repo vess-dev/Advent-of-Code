@@ -3,6 +3,8 @@ class Comp:
 	mem_tape = []
 	mem_pos = 0
 	mem_out = []
+	mem_base = 0
+
 	flag_halt = False
 
 	op_ref = {
@@ -14,6 +16,7 @@ class Comp:
 		"06": [3, "jump zero"],
 		"07": [4, "less than"],
 		"08": [4, "equal to"],
+		"09": [2, "offset"],
 		"99": [0, "halt"],
 	}
 
@@ -25,6 +28,7 @@ class Comp:
 		self.mem_tape = input_tape
 		self.mem_pos = 0
 		self.mem_out = []
+		self.mem_base = 0
 		self.flag_halt = False
 		return
 
@@ -33,6 +37,8 @@ class Comp:
 			return self.mem_tape[self.mem_tape[self.mem_pos + input_pos]]
 		elif input_mode == "1":
 			return self.mem_tape[self.mem_pos + input_pos]
+		elif input_mode == "2":
+			return self.mem_tape[self.mem_base + input_pos]
 
 	def take(self, input_op):
 		self.mem_tape[self.mem_tape[self.mem_pos + 1]] = input_op
@@ -70,6 +76,8 @@ class Comp:
 				self.mem_tape[self.mem_tape[self.mem_pos + 3]] = 1
 			else:
 				self.mem_tape[self.mem_tape[self.mem_pos + 3]] = 0
+		elif op_next[0] == "09":
+			self.mem_base += self.get(1, op_next[1][0])
 		elif op_next[0] == "99":
 			self.flag_halt = True
 			return "Halt"
@@ -82,10 +90,10 @@ class Comp:
 		else:
 			return
 
-	def run(self, input_sim=[]):
+	def run(self, input_sim=[], input_dbg=False):
 		input_pos = 0
 		while not self.flag_halt:
-			comp_ret = self.next()
+			comp_ret = self.next(input_dbg)
 			if comp_ret == "Input":
 				if (input_pos + 1) <= len(input_sim):
 					self.take(input_sim[input_pos])
