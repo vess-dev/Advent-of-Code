@@ -10,15 +10,30 @@ file_in = list(map(int, file_in.split(",")))
 def run():
 
 	def diag(input_in):
-		comp_result = comp(input_in, 1)
-		comp_result = comp_result.split(" ")
-		return comp_result[-1]
+		mem_tape = input_in.copy()
+		obj_comp = intcode.Comp()
+		obj_comp.load(mem_tape)
+		while True:
+			comp_ret = obj_comp.next()
+			if comp_ret == "Input":
+				obj_comp.take(1)
+			elif comp_ret == "Break":
+				break
+		return obj_comp.mem_stdout[-1]
 
 	def test(input_in):
-		comp_result = comp(input_in, 5)
-		return comp_result
+		mem_tape = input_in.copy()
+		obj_comp = intcode.Comp()
+		obj_comp.load(mem_tape)
+		while True:
+			comp_ret = obj_comp.next()
+			if comp_ret == "Input":
+				obj_comp.take(5)
+			elif comp_ret == "Break":
+				break
+		return obj_comp.mem_stdout[-1]
 
-	return diag(file_in)#, test(file_in)
+	return diag(file_in), test(file_in)
 
 if __name__ == "__main__":
 	print(run())
