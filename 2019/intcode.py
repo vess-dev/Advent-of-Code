@@ -3,6 +3,7 @@ class Comp:
 	mem_tape = []
 	mem_pos = 0
 	mem_out = []
+	flag_halt = False
 
 	op_skip = {
 		"01": 4,
@@ -25,7 +26,7 @@ class Comp:
 		"06": "jump zero",
 		"07": "less than",
 		"08": "equal to",
-		"99": "break",
+		"99": "halt",
 	}
 
 	def dbg(self, input_next):
@@ -48,7 +49,7 @@ class Comp:
 		self.mem_pos += self.op_skip["03"]
 		return
 			
-	def next(self, input_dbg=None):
+	def next(self, input_dbg=False):
 		op_next = str(self.mem_tape[self.mem_pos]).rjust(5, "0")
 		op_next = [op_next[-2:], list(op_next[:3][::-1])]
 		if input_dbg:
@@ -80,20 +81,22 @@ class Comp:
 			else:
 				self.mem_tape[self.mem_tape[self.mem_pos + 3]] = 0
 		elif op_next[0] == "99":
-			return "Break"
+			self.flag_halt = True
+			return "Halt"
 		self.mem_pos += self.op_skip[op_next[0]]
 		return
 
-	def run(self, input_sim=[]):
-		input_pos = 0
-		while True:
-			comp_ret = self.next()
-			if comp_ret == "Input":
-				self.take(input_sim[input_pos])
-				input_pos += 1
-			elif comp_ret == "Break":
-				break
+	def last(self):
 		if self.mem_out:
 			return self.mem_out[-1]
 		else:
 			return
+
+	def run(self, input_sim=[]):
+		input_pos = 0
+		while not self.flag_halt:
+			comp_ret = self.next()
+			if comp_ret == "Input":
+				self.take(input_sim[input_pos])
+				input_pos += 1
+		return self.last()
