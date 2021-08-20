@@ -3,6 +3,7 @@ day_num = 10
 file_load = open("input/day10.txt", "r")
 file_in = file_load.read()
 file_load.close()
+
 file_in = list(map(int, file_in.split("\n")))
 file_in.sort()
 file_in = [0] + file_in

@@ -5,8 +5,8 @@ day_num = 11
 file_load = open("input/day11.txt", "r")
 file_prep = file_load.read()
 file_load.close()
-file_prep = file_prep.split("\n")
 
+file_prep = file_prep.split("\n")
 file_in = [len(file_prep), []]
 for temp_line in file_prep:
 	file_in[1].append(list(temp_line))

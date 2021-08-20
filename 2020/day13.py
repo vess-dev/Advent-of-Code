@@ -3,8 +3,8 @@ day_num = 13
 file_load = open("input/day13.txt", "r")
 file_prep = file_load.read()
 file_load.close()
-file_prep = file_prep.split("\n")
 
+file_prep = file_prep.split("\n")
 file_in = []
 file_in.append(int(file_prep[0]))
 file_in.append(list(map(int, file_prep[1].replace("x,","").split(","))))

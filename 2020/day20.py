@@ -7,9 +7,7 @@ file_prep = file_load.read()
 file_load.close()
 
 file_prep = file_prep.split("\n\n")
-
 file_in = []
-
 for temp_tile in file_prep:
 	tile_struct = [0, []]
 	tile_split = temp_tile.split("\n")

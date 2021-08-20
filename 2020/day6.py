@@ -3,6 +3,7 @@ day_num = 6
 file_load = open("input/day6.txt", "r")
 file_in = file_load.read()
 file_load.close() 
+
 file_in = file_in.split("\n\n")
 
 def run():

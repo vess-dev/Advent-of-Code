@@ -3,6 +3,7 @@ day_num = 3
 file_load = open("input/day3.txt", "r")
 file_in = file_load.read()
 file_load.close()
+
 file_in = [[[temp_sub[0], int(temp_sub[1:])] for temp_sub in temp_split.split(",")] for temp_split in file_in.split("\n")]
 
 def run():

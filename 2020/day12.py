@@ -3,8 +3,8 @@ day_num = 12
 file_load = open("input/day12.txt", "r")
 file_prep = file_load.read()
 file_load.close()
-file_prep = file_prep.split("\n")
 
+file_prep = file_prep.split("\n")
 file_in = []
 for temp_dir in file_prep:
 	file_in.append([temp_dir[0], int(temp_dir[1:])])

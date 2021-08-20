@@ -3,8 +3,8 @@ day_num = 14
 file_load = open("input/day14.txt", "r")
 file_prep = file_load.read()
 file_load.close()
-file_prep = file_prep.split("\n")
 
+file_prep = file_prep.split("\n")
 file_in = []
 
 for temp_com in file_prep:
