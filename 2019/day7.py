@@ -10,21 +10,18 @@ file_in = list(map(int, file_in.split(",")))
 
 def run():
 
+	def five():
+		return intcode.Comp(), intcode.Comp(), intcode.Comp(), intcode.Comp(), intcode.Comp()
+
 	def ampl(input_in):
 		mem_tape = input_in.copy()
 		phase_list = list(itertools.permutations([0, 1, 2, 3, 4]))
-		comp_a = intcode.Comp()
-		comp_b = intcode.Comp()
-		comp_c = intcode.Comp()
-		comp_d = intcode.Comp()
-		comp_e = intcode.Comp()
+		comp_a, comp_b, comp_c, comp_d, comp_e = five()
+		comp_all = [comp_a, comp_b, comp_c, comp_d, comp_e]
 		sig_max = 0
 		for temp_perm in phase_list:
-			comp_a.load(mem_tape.copy())
-			comp_b.load(mem_tape.copy())
-			comp_c.load(mem_tape.copy())
-			comp_d.load(mem_tape.copy())
-			comp_e.load(mem_tape.copy())
+			for temp_comp in comp_all:
+				temp_comp.load(mem_tape.copy())
 			sig_a = comp_a.run([temp_perm[0], 0])
 			sig_b = comp_b.run([temp_perm[1], sig_a])
 			sig_c = comp_c.run([temp_perm[2], sig_b])
@@ -34,7 +31,31 @@ def run():
 				sig_max = sig_e
 		return sig_max
 
-	return ampl(file_in)
+	def loop(input_in):
+		mem_tape = input_in.copy()
+		phase_list = list(itertools.permutations([5, 6, 7, 8, 9]))
+		comp_a, comp_b, comp_c, comp_d, comp_e = five()
+		comp_all = [comp_a, comp_b, comp_c, comp_d, comp_e]
+		sig_max = 0
+		for temp_perm in phase_list:
+			for temp_comp in comp_all:
+				temp_comp.load(mem_tape.copy())
+			flag_pipe = False
+			ret_e = 0
+			while not comp_e.flag_halt:
+				ret_a = comp_a.next()
+				if ret_a == "Input" and not flag_pipe:
+					comp_a.take(temp_perm[0], 0)
+					flag_pipe = True
+				elif ret_a == "Input" and flag_pipe:
+					comp_a.take(temp_perm[0], ret_e)
+
+			quit()
+		return
+
+	#return ampl(file_in), loop(file_in)
+	#return ampl(file_in)
+	return loop(file_in)
 
 if __name__ == "__main__":
 	print(run())
