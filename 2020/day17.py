@@ -7,7 +7,6 @@ file_prep = file_load.read()
 file_load.close()
 
 file_in = set()
-
 file_prep = [list(temp_itr) for temp_itr in file_prep.split("\n")]
 for temp_ypos, temp_y in enumerate(file_prep):
 	for temp_xpos, temp_x in enumerate(temp_y):
