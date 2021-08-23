@@ -4,10 +4,13 @@ import itertools
 day_num = 7
 
 file_load = open("input/day7.txt", "r")
-file_in = file_load.read()
+file_prep = file_load.read()
 file_load.close()
 
-file_in = list(map(int, file_in.split(",")))
+file_prep = list(map(int, file_prep.split(",")))
+file_in = {}
+for temp_itr, temp_int in enumerate(file_prep):
+	file_in[temp_itr] = temp_int
 
 def run():
 
