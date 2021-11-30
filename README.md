@@ -4,28 +4,38 @@
 
 ## Completion
 
-- 2019 8/25 days complete.
-- 2020: 25/25 days complete.
+- 2019 8/25 days complete in Python 3.
+- 2020: 25/25 days complete in Python 3.
+- 2021: 0/25 days complete in Rust 2021.
 
 ## Requirements
 
 - Python 3 installed.
-- "python3" as a recognized path command.
+- "python3" as a recognized terminal command.
+
+- Rust 2021 installed.
+- "cargo" as a recognized terminal command.
 
 ## Directory
 
-Every year is in a folder with:
+The years in Python contain the following structure:
 
-- /input : Holds the inputs in text files in "day\*.txt" format, where \* is the day number.
+- /input : Holds the inputs in text files in "day\*.txt" format, where "\*" is the day number.
 - day\*.py : The code that solves both parts of the day from the input held in "/input".
 - timing.py : Code that times every solution for both parts and prints the average.
 
+The years in Rust contain the following structure:
+
+- /input : Holds the inputs in text files in "day\*.txt" format, where "\*" is the day number.
+- /src/day\*.rs : The code that solves both parts of the day from the input held in "/input".
+- /src/timing.rs : Code that times every solution for both parts and prints the average.
+
 In the top level directory:
 
-- run.bat : Runs the "timing.py" file of every year. [WINDOWS]
-- run.sh : Runs the "timing.py" file of every year. [LINUX]
-- start.bat : Starts the "run.bat" file.
-- template.py : A simple template file for the solutions.
+- run.bat : Runs the timing file for every year. [WINDOWS]
+- run.sh : Runs the timing file for every year. [LINUX]
+- start.bat : Starts the "run.bat" file. [WINDOWS]
+- template : Simple templates for the Python and Rust solutions.
 
 ## License
 
