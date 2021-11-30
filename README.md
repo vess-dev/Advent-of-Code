@@ -18,13 +18,13 @@
 
 ## Directory
 
-The years in Python contain the following structure:
+The years written in Python contain the following structure:
 
 - /input : Holds the inputs in text files in "day\*.txt" format, where "\*" is the day number.
 - day\*.py : The code that solves both parts of the day from the input held in "/input".
 - timing.py : Code that times every solution for both parts and prints the average.
 
-The years in Rust contain the following structure:
+The years written in Rust contain the following structure:
 
 - /input : Holds the inputs in text files in "day\*.txt" format, where "\*" is the day number.
 - /src/day\*.rs : The code that solves both parts of the day from the input held in "/input".
