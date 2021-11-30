@@ -1,0 +1,10 @@
+[package]
+name = "aoc2021"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "aoc2021"
+path = "src/timing.rs"
+
+[dependencies]
