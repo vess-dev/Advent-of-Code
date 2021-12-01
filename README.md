@@ -5,7 +5,7 @@
 ## Completion
 
 - 2019: 8/25 days complete in Python 3.
-- 2020: 25/25 days complete in Python 3.
+- 2020: 25/25 days [COMPLETE] in Python 3.
 - 2021: 1/25 days complete in Rust 2021.
 
 ## Requirements
@@ -32,9 +32,10 @@ The years written in Rust contain the following structure:
 
 In the top level directory:
 
-- run.bat : Runs the timing file for every year. [WINDOWS]
-- run.sh : Runs the timing file for every year. [LINUX]
-- start.bat : Starts the "run.bat" file. [WINDOWS]
+- [WINDOWS] start.bat : Starts the "run.bat" file.
+- [WINDOWS] run.bat : Runs the timing file for every year.
+- [LINUX] run.sh : Runs the timing file for every year.
+
 - template : Simple templates for the Python and Rust solutions.
 
 ## License
