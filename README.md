@@ -4,7 +4,7 @@
 
 ## Completion
 
-- 2019 8/25 days complete in Python 3.
+- 2019: 8/25 days complete in Python 3.
 - 2020: 25/25 days complete in Python 3.
 - 2021: 1/25 days complete in Rust 2021.
 
