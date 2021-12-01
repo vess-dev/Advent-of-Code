@@ -24,9 +24,9 @@ fn part2(file_data: &Vec<u16>) -> u16 {
 	let mut sonar_idx = 0;
 	let mut sonar_inc = 0;
 	while (sonar_idx + 3) < file_data.len() {
-		let sonar_pri: &u16 = &file_data[sonar_idx..sonar_idx+3].iter().sum();
-		let sonar_sec: &u16 = &file_data[sonar_idx+1..sonar_idx+4].iter().sum();
-		if sonar_sec > sonar_pri {
+		let sonar_first: &u16 = &file_data[sonar_idx..sonar_idx+3].iter().sum();
+		let sonar_second: &u16 = &file_data[sonar_idx+1..sonar_idx+4].iter().sum();
+		if sonar_second > sonar_first {
 			sonar_inc += 1;
 		}
 		sonar_idx += 1;
