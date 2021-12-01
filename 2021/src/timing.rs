@@ -1,6 +1,3 @@
-#![allow(dead_code)]
-#![allow(unused_imports)]
-
 use std::time::Instant;
 
 mod read;
@@ -16,7 +13,7 @@ enum FnSig<D1, D2> {
 fn main() {
     use FnSig::*;
     let vec_days = vec![FnSig::U16U16(day1::main), FnSig::STRU32(day2::main)];
-    let test_count = 100;
+    let test_count = 1000;
     let mut test_ret = String::new();
     let time_total = Instant::now();
     for itr_day in vec_days.iter().enumerate() {
