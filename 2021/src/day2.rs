@@ -5,7 +5,6 @@ enum Com {
 	Forward(u8),
 	Up(u8),
 	Down(u8),
-	None,
 }
 
 fn clean(file_data: String) -> Vec<Com> {
@@ -20,7 +19,7 @@ fn clean(file_data: String) -> Vec<Com> {
 			} else if com_full[0] == "down" {
 				Com::Down(com_num)
 			} else {
-				Com::None
+				panic!();
 			}
 		})
 		.collect();
