@@ -7,17 +7,18 @@ mod read;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
-enum FnSig<D1, D2, DN> {
-    U16U16(fn() -> D1),
-    U32U32(fn() -> D2),
-    NULNUL(fn() -> DN),
+enum FnSig<T1, T2, NN> {
+    U16U16(fn() -> T1),
+    U32U32(fn() -> T2),
+    NULNUL(fn() -> NN),
 }
 
 fn main() {
     use FnSig::*;
-    let vec_days = vec![FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::NULNUL(day3::main)];
-    let test_count = 3;
+    let vec_days = vec![FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::NULNUL(day4::main)];
+    let test_count = 1;
     let mut test_ret = String::new();
     let time_total = Instant::now();
     for itr_day in vec_days.iter().enumerate() {
