@@ -7,7 +7,7 @@ struct Board {
 }
 
 impl Board {
-	fn new(moves_size: &usize, board_data: &Vec<u8>) -> Self {
+	fn new(moves_size: usize, board_data: &Vec<u8>) -> Self {
 		return Board {
 			moves_done: Vec::with_capacity(moves_size.clone()),
 			board_state: board_data.clone(),
@@ -67,7 +67,7 @@ fn clean(file_data: String) -> (Vec<u8>, Vec<Board>) {
 			.map(|temp_num| temp_num.parse::<u8>()
 			.unwrap())
 			.collect();
-		data_boards.push(Board::new(&data_moves.len(), &data_board));
+		data_boards.push(Board::new(data_moves.len(), &data_board));
 	}
 	return (data_moves, data_boards);
 }
@@ -90,24 +90,21 @@ fn part1(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
 fn part2(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
 	let mut vec_moves = data_clean.0.to_vec();
 	let mut vec_boards = data_clean.1.to_vec();
-	let mut board_last = Board::default();
-	loop {
-		let mut vec_todo = Vec::with_capacity(vec_boards.len());
+	while vec_boards.iter().filter(|temp_board| !temp_board.check()).count() != 1 {
 		let moves_next = vec_moves.pop().unwrap();
-		for itr_board in vec_boards.iter_mut() {
-			itr_board.update(&moves_next);
-			if itr_board.check() {
-				board_last = itr_board.clone();
-			} else {
-				vec_todo.push(itr_board.clone());
-			}
-		}
-		if vec_todo.is_empty() {
-			break;
-		}
-		vec_boards = vec_todo;
+		vec_boards.iter_mut().filter(|temp_board| !temp_board.check()).for_each(|temp_board| temp_board.update(&moves_next));
 	}
-	return board_last.score();
+	let mut board_last = vec_boards.iter().filter(|temp_board| !temp_board.check()).last().unwrap().clone();
+	loop {
+		let board_bool = board_last.check();
+		if !board_bool {
+			let moves_next = vec_moves.pop().unwrap();
+			board_last.update(&moves_next);
+		} else {
+			return board_last.score();
+		}
+	}
+	return 0;
 }
 
 pub fn main() -> (u32, u32) {
