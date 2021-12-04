@@ -4,16 +4,16 @@ fn clean(file_data: String) -> () {
 	return ();
 }
 
-fn part1(file_data: &()) -> () {
+fn part1(data_clean: &()) -> () {
 	return ();
 }
 
-fn part2(file_data: &()) -> () {
+fn part2(data_clean: &()) -> () {
 	return ();
 }
 
-pub fn main() -> ((), ()) {
-	let file_data = read::as_string("day2.txt");
-	let file_clean = clean(file_data);
-	return (part1(&file_clean), part2(&file_clean));
+pub fn main() -> (()), ()) {
+	let file_raw = read::as_string("dayX.txt");
+	let file_data = clean(file_raw);
+	return (part1(&file_data), part2(&file_data));
 }
