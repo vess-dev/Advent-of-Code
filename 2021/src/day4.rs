@@ -1,6 +1,6 @@
 use crate::read;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 struct Board {
 	moves_done: Vec<u8>,
 	board_state: Vec<u8>,
@@ -24,8 +24,15 @@ impl Board {
 				return true;
 			}
 		}
-		for itr_col in self.board_state.chunks(5){
-			println!("{:?}", itr_col);
+		for itr_idx in 0..5 {
+			if self.board_state.iter()
+				.skip(itr_idx)
+				.step_by(5)
+				.collect::<Vec<_>>()
+				.iter()
+				.all(|temp_num| self.moves_done.contains(temp_num)) {
+					return true;
+			}
 		}
 		return false;
 	}
@@ -46,10 +53,20 @@ fn clean(file_data: String) -> (Vec<u8>, Vec<Board>) {
 	let mut data_string = file_data.replace("  ", " ");
 	data_string = data_string.replace("\n ", "\n");
 	let data_raw: Vec<&str> = data_string.split("\n\n").collect();
-	let data_moves: Vec<u8> = data_raw[0].split(",").collect::<Vec<&str>>().iter().rev().map(|temp_num| temp_num.parse::<u8>().unwrap()).collect();
+	let data_moves: Vec<u8> = data_raw[0].split(",")
+		.collect::<Vec<&str>>()
+		.iter()
+		.rev()
+		.map(|temp_num| temp_num.parse::<u8>()
+		.unwrap())
+		.collect();
 	let mut data_boards = Vec::with_capacity(data_raw.len()-1);
 	for itr_board in data_raw.iter().skip(1) {
-		let data_board: Vec<u8> = itr_board.replace("\n", " ").split(" ").map(|temp_num| temp_num.parse::<u8>().unwrap()).collect();
+		let data_board: Vec<u8> = itr_board.replace("\n", " ").
+			split(" ")
+			.map(|temp_num| temp_num.parse::<u8>()
+			.unwrap())
+			.collect();
 		data_boards.push(Board::new(&data_moves.len(), &data_board));
 	}
 	return (data_moves, data_boards);
@@ -58,9 +75,6 @@ fn clean(file_data: String) -> (Vec<u8>, Vec<Board>) {
 fn part1(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
 	let mut vec_moves = data_clean.0.to_vec();
 	let mut vec_boards = data_clean.1.to_vec();
-	println!("{:?}", vec_boards);
-	vec_boards[0].check();
-	panic!();
 	while !vec_boards.iter().any(|temp_board| temp_board.check()) {
 		let moves_next = vec_moves.pop().unwrap();
 		vec_boards.iter_mut().for_each(|temp_board| temp_board.update(&moves_next));
@@ -74,26 +88,26 @@ fn part1(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
 }
 
 fn part2(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
-//	let mut vec_moves = data_clean.0.to_vec();
-//	let mut vec_boards = data_clean.1.to_vec();
-//	let mut data_fin = Vec::with_capacity(vec_boards.len());
-//	loop {
-//		let mut data_rep = Vec::with_capacity(data_clean.len());
-//		for itr_board in vec_boards.iter_mut() {
-//			itr_board.update();
-//			if itr_board.check() {
-//				data_fin.push(itr_board.clone());
-//			} else {
-//				data_rep.push(itr_board.clone());
-//			}
-//		}
-//		if data_rep.is_empty() {
-//			break;
-//		}
-//		vec_boards = data_rep;
-//	}
-//	return data_fin.last().unwrap().score();
-	return 3;
+	let mut vec_moves = data_clean.0.to_vec();
+	let mut vec_boards = data_clean.1.to_vec();
+	let mut board_last = Board::default();
+	loop {
+		let mut vec_todo = Vec::with_capacity(vec_boards.len());
+		let moves_next = vec_moves.pop().unwrap();
+		for itr_board in vec_boards.iter_mut() {
+			itr_board.update(&moves_next);
+			if itr_board.check() {
+				board_last = itr_board.clone();
+			} else {
+				vec_todo.push(itr_board.clone());
+			}
+		}
+		if vec_todo.is_empty() {
+			break;
+		}
+		vec_boards = vec_todo;
+	}
+	return board_last.score();
 }
 
 pub fn main() -> (u32, u32) {
