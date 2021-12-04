@@ -1,4 +1,5 @@
 #![allow(unused_variables)]
+#![allow(dead_code)]
 
 use std::time::Instant;
 
@@ -18,7 +19,7 @@ enum FnSig<T1, T2, NN> {
 
 fn main() {
     use FnSig::*;
-    let vec_days = vec![FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::NULNUL(day4::main), FnSig::NULNUL(day5::main)];
+    let vec_days = vec![FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::NULNUL(day4::main)]; //FnSig::NULNUL(day5::main)
     let test_count = 1;
     let mut test_ret = String::new();
     let time_total = Instant::now();

@@ -25,10 +25,10 @@ fn clean(file_data: String) -> Vec<Com> {
 		.collect();
 }
 
-fn part1(file_data: &Vec<Com>) -> u32 {
+fn part1(data_clean: &Vec<Com>) -> u32 {
 	let mut sub_horiz = 0;
 	let mut sub_depth = 0;
-	for itr_com in file_data {
+	for itr_com in data_clean {
 		if let Com::Forward(sub_add) = itr_com {
 			sub_horiz += *sub_add as u32;
 		} else if let Com::Up(sub_sub) = itr_com {
@@ -40,11 +40,11 @@ fn part1(file_data: &Vec<Com>) -> u32 {
 	return sub_horiz * sub_depth;
 }
 
-fn part2(file_data: &Vec<Com>) -> u32 {
+fn part2(data_clean: &Vec<Com>) -> u32 {
 	let mut sub_aim = 0;
 	let mut sub_horiz = 0;
 	let mut sub_depth = 0;
-	for itr_com in file_data {
+	for itr_com in data_clean {
 		if let Com::Forward(sub_add) = itr_com {
 			sub_horiz += *sub_add as u32;
 			sub_depth += sub_aim * (*sub_add as u32)
@@ -58,7 +58,7 @@ fn part2(file_data: &Vec<Com>) -> u32 {
 }
 
 pub fn main() -> (u32, u32) {
-	let file_data = read::as_string("day2.txt");
-	let file_clean = clean(file_data);
-	return (part1(&file_clean), part2(&file_clean));
+	let file_raw = read::as_string("day2.txt");
+	let file_data = clean(file_raw);
+	return (part1(&file_data), part2(&file_data));
 }

@@ -7,7 +7,7 @@ struct Bit {
 }
 
 impl Bit {
-	fn most(self) -> bool {
+	fn most(&self) -> bool {
 		return !(self.count0 > self.count1);
 	}
 }
@@ -18,9 +18,9 @@ fn clean(file_data: String) -> Vec<String> {
 		.collect();
 }
 
-fn bits(file_data: &Vec<String>) -> Vec<Bit> {
-	let mut vec_bits= vec![Bit::default(); file_data[0].chars().count()];
-	for itr_num in file_data {
+fn bits(data_clean: &Vec<String>) -> Vec<Bit> {
+	let mut vec_bits = vec![Bit::default(); data_clean[0].chars().count()];
+	for itr_num in data_clean {
 		let num_split: Vec<char> = itr_num.chars().collect();
 		for itr_bit in num_split.iter().enumerate() {
 			match itr_bit.1 {
@@ -44,8 +44,8 @@ fn filter(vec_data: &Vec<String>, char_bonk: char, bit_index: usize) -> Vec<Stri
 }
 
 
-fn rating(file_data: &Vec<String>, bit_flip: bool) -> String {
-	let mut vec_all = file_data.clone();
+fn rating(data_clean: &Vec<String>, bit_flip: bool) -> String {
+	let mut vec_all = data_clean.clone();
 	let mut itr_idx = 0;
 	while vec_all.len() != 1 {
 		let vec_bits = bits(&vec_all);
@@ -67,9 +67,9 @@ fn rating(file_data: &Vec<String>, bit_flip: bool) -> String {
 	return vec_all[0].clone();
 }
 
-fn part1(file_data: &Vec<String>) -> u32 {
-	let vec_bits = bits(file_data);
-	let str_len = file_data[0].len();
+fn part1(data_clean: &Vec<String>) -> u32 {
+	let vec_bits = bits(data_clean);
+	let str_len = data_clean[0].len();
 	let mut final_epsilon = String::with_capacity(str_len);
 	let mut final_gamma = String::with_capacity(str_len);
 	for itr_bit in vec_bits {
@@ -87,16 +87,16 @@ fn part1(file_data: &Vec<String>) -> u32 {
 	return int_epsilon * int_gamma;
 }
 
-fn part2(file_data: &Vec<String>) -> u32 {
-	let rating_oxy = rating(&file_data, true);
-	let rating_scrub = rating(&file_data, false);
+fn part2(data_clean: &Vec<String>) -> u32 {
+	let rating_oxy = rating(&data_clean, true);
+	let rating_scrub = rating(&data_clean, false);
 	let int_oxy = u32::from_str_radix(&rating_oxy, 2).unwrap();
 	let int_scrub = u32::from_str_radix(&rating_scrub, 2).unwrap();
 	return int_oxy * int_scrub;
 }
 
 pub fn main() -> (u32, u32) {
-	let file_data = read::as_string("day3.txt");
-	let file_clean = clean(file_data);
-	return (part1(&file_clean), part2(&file_clean));
+	let file_raw = read::as_string("day3.txt");
+	let file_data = clean(file_raw);
+	return (part1(&file_data), part2(&file_data));
 }
