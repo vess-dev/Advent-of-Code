@@ -5,8 +5,8 @@ use crate::read;
 
 fn between(hash_points: &mut HashMap<(i16, i16), u16>, point_1: (i16, i16), point_2: (i16, i16)) {
 	let mut point_slope = (0, 0);
-	point_slope.0 = if point_1.0 < point_2.0 { 1 } else if point_1.0 > point_2.0 { -1 } else { 0 } ;
-	point_slope.1 = if point_1.1 < point_2.1 { 1 } else if point_1.1 > point_2.1 { -1 } else { 0 } ;
+	point_slope.0 = if point_1.0 < point_2.0 { 1 } else if point_1.0 > point_2.0 { -1 } else { 0 };
+	point_slope.1 = if point_1.1 < point_2.1 { 1 } else if point_1.1 > point_2.1 { -1 } else { 0 };
 	let (mut itr_x, mut itr_y) = point_1;
 	while (itr_x, itr_y) != point_2 {
 		let point_touch = hash_points.entry((itr_x, itr_y)).or_insert(0);
