@@ -2,7 +2,7 @@
 #![allow(unreachable_code)]
 #![allow(unused_variables)]
 
-use std::{time::Instant, vec};
+use std::time::Instant;
 
 mod read;
 
@@ -13,16 +13,15 @@ mod day4;
 mod day5;
 mod day6;
 
-enum FnSig<T1, T2, T3, NN> {
+enum FnSig<T1, T2, T3> {
     U16U16(fn() -> T1),
     U32U32(fn() -> T2),
     USZUSZ(fn() -> T3),
-    NULNUL(fn() -> NN),
 }
 
-fn main() {
-    use FnSig::*;
-    let vec_days = vec![FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::U32U32(day4::main), FnSig::USZUSZ(day5::main), FnSig::NULNUL(day6::main)];
+fn time() {
+   use FnSig::*;
+    let vec_days = [FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::U32U32(day4::main), FnSig::USZUSZ(day5::main)];
     let test_count = 1;
     let mut test_ret = String::new();
     let time_total = Instant::now();
@@ -33,7 +32,6 @@ fn main() {
                 U16U16(func_ref) => format!("{:?}", func_ref()),
                 U32U32(func_ref) => format!("{:?}", func_ref()),
                 USZUSZ(func_ref) => format!("{:?}", func_ref()),
-                NULNUL(func_ref) => format!("{:?}", func_ref()),
             };
         }
         let time_elapsed = time_now.elapsed().as_secs_f64();
@@ -42,5 +40,16 @@ fn main() {
         println!("{} trials of day {}: {:.6}s\n", test_count, time_day, (time_elapsed/test_count as f64));
     }
     let time_elapsed = time_total.elapsed().as_secs_f64();
-    println!("{} trials of all, averages: {:.6} seconds.", test_count, (time_elapsed/test_count as f64));
+    println!("{} trials of all, averages: {:.6} seconds.", test_count, (time_elapsed/test_count as f64)); 
+}
+
+fn test() {
+    println!("{:?}", day6::main());
+}
+
+fn main() {
+    #[cfg(not(debug_assertions))]
+    time();
+    #[cfg(debug_assertions)]
+    test();
 }
