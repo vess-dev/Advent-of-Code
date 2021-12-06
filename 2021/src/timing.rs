@@ -43,13 +43,9 @@ fn time() {
     println!("{} trials of all, averages: {:.6} seconds.", test_count, (time_elapsed/test_count as f64)); 
 }
 
-fn test() {
-    println!("{:?}", day6::main());
-}
-
 fn main() {
     #[cfg(not(debug_assertions))]
     time();
     #[cfg(debug_assertions)]
-    test();
+    println!("{:?}", day6::main());
 }
