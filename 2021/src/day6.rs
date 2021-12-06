@@ -13,7 +13,7 @@ fn part2(data_clean: &()) -> () {
 }
 
 pub fn main() -> ((), ()) {
-	let file_raw = read::as_string("dayX.txt");
+	let file_raw = read::as_string("day6.txt");
 	let file_data = clean(file_raw);
 	return (part1(&file_data), part2(&file_data));
 }

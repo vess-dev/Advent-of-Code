@@ -13,3 +13,4 @@ name = "aoc2021"
 path = "src/timing.rs"
 
 [dependencies]
+itertools = "0.10.1"

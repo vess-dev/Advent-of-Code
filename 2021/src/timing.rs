@@ -2,7 +2,7 @@
 #![allow(unreachable_code)]
 #![allow(unused_variables)]
 
-use std::time::Instant;
+use std::{time::Instant, vec};
 
 mod read;
 
@@ -11,17 +11,19 @@ mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day6;
 
-enum FnSig<T1, T2, NN> {
+enum FnSig<T1, T2, T3, NN> {
     U16U16(fn() -> T1),
     U32U32(fn() -> T2),
+    USZUSZ(fn() -> T3),
     NULNUL(fn() -> NN),
 }
 
 fn main() {
     use FnSig::*;
-    let vec_days = vec![FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::NULNUL(day4::main)]; //FnSig::NULNUL(day5::main)
-    let test_count = 100;
+    let vec_days = vec![FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::U32U32(day4::main), FnSig::USZUSZ(day5::main), FnSig::NULNUL(day6::main)];
+    let test_count = 1;
     let mut test_ret = String::new();
     let time_total = Instant::now();
     for itr_day in vec_days.iter().enumerate() {
@@ -30,6 +32,7 @@ fn main() {
             test_ret = match itr_day.1 {
                 U16U16(func_ref) => format!("{:?}", func_ref()),
                 U32U32(func_ref) => format!("{:?}", func_ref()),
+                USZUSZ(func_ref) => format!("{:?}", func_ref()),
                 NULNUL(func_ref) => format!("{:?}", func_ref()),
             };
         }
