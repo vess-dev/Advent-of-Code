@@ -24,7 +24,7 @@ enum FnSig<T1, T2, T3, T4> {
 fn time() {
    use FnSig::*;
     let vec_days = [FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::U32U32(day4::main), FnSig::USZUSZ(day5::main), FnSig::U64U64(day6::main)];
-    let test_count = 3;
+    let test_count = 1;
     let mut test_ret = String::new();
     let time_total = Instant::now();
     for itr_day in vec_days.iter().enumerate() {
