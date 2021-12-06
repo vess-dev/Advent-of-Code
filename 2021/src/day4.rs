@@ -14,8 +14,8 @@ impl Board {
 		};
 	}
 
-	fn update(&mut self, moves_next: &u8) {
-		self.moves_done.push(moves_next.clone());
+	fn update(&mut self, moves_next: u8) {
+		self.moves_done.push(moves_next);
 	}
 
 	fn check(&self) -> bool {
@@ -77,7 +77,7 @@ fn part1(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
 	let mut vec_boards = data_clean.1.to_vec();
 	while !vec_boards.iter().any(|temp_board| temp_board.check()) {
 		let moves_next = vec_moves.pop().unwrap();
-		vec_boards.iter_mut().for_each(|temp_board| temp_board.update(&moves_next));
+		vec_boards.iter_mut().for_each(|temp_board| temp_board.update(moves_next));
 	};
 	for itr_board in vec_boards {
 		if itr_board.check() {
@@ -92,14 +92,14 @@ fn part2(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
 	let mut vec_boards = data_clean.1.to_vec();
 	while vec_boards.iter().filter(|temp_board| !temp_board.check()).count() != 1 {
 		let moves_next = vec_moves.pop().unwrap();
-		vec_boards.iter_mut().filter(|temp_board| !temp_board.check()).for_each(|temp_board| temp_board.update(&moves_next));
+		vec_boards.iter_mut().filter(|temp_board| !temp_board.check()).for_each(|temp_board| temp_board.update(moves_next));
 	}
 	let mut board_last = vec_boards.iter().filter(|temp_board| !temp_board.check()).last().unwrap().clone();
 	loop {
 		let board_bool = board_last.check();
 		if !board_bool {
 			let moves_next = vec_moves.pop().unwrap();
-			board_last.update(&moves_next);
+			board_last.update(moves_next);
 		} else {
 			return board_last.score();
 		}
