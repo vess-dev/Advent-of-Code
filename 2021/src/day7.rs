@@ -13,22 +13,13 @@ fn walk(data_clean: &Vec<i32>, flag_burn: bool) -> i32 {
 	let vec_min = *data_clean.iter().min().unwrap();
 	let vec_max = *data_clean.iter().max().unwrap();
 	for itr_spot in vec_min..=vec_max {
-		let mut fuel_new: i32 = 0;
 		if flag_burn {
-			fuel_new = data_clean.iter().map(|temp_num| burn(*temp_num, itr_spot)).sum();
+			vec_fuel.push(data_clean.iter().map(|temp_num| burn(*temp_num, itr_spot)).sum());
 		} else {
-			fuel_new = data_clean.iter().map(|temp_num| (temp_num - itr_spot).abs()).sum();
+			vec_fuel.push(data_clean.iter().map(|temp_num| (temp_num - itr_spot).abs()).sum());
 		}
-		vec_fuel.push(fuel_new);
 	}
 	return *vec_fuel.iter().min().unwrap();
-}
-
-// A condensed one-liner solve for day 7.
-// Faster than the non-meme solution.
-// Probably because a lack of vectors.
-fn meme(data_clean: &Vec<i32>, flag_burn: bool) -> i32 {
-	return (*data_clean.iter().min().unwrap()..=*data_clean.iter().max().unwrap()).map(|itr_spot| data_clean.iter().map(|temp_num| if flag_burn {(1..=(temp_num - itr_spot).abs()).sum()} else {(temp_num-itr_spot).abs()}).sum()).fold(i32::MAX, |a, b| a.min(b));
 }
 
 fn part1(data_clean: &Vec<i32>) -> i32 {
