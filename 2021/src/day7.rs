@@ -4,8 +4,8 @@ fn clean(file_data: String) -> Vec<i32> {
 	return file_data.split(",").map(|temp_num| temp_num.parse().unwrap()).collect();
 }
 
-fn burn(pos_start: i32, pos_goal: i32) -> i32 {
-	return (1..=(pos_start - pos_goal).abs()).sum();
+fn burn(pos_spot: i32) -> i32 {
+	return (pos_spot.pow(2)+pos_spot)/2;
 }
 
 fn walk(data_clean: &Vec<i32>, flag_burn: bool) -> i32 {
@@ -14,7 +14,7 @@ fn walk(data_clean: &Vec<i32>, flag_burn: bool) -> i32 {
 	let vec_max = *data_clean.iter().max().unwrap();
 	for itr_spot in vec_min..=vec_max {
 		if flag_burn {
-			vec_fuel.push(data_clean.iter().map(|temp_num| burn(*temp_num, itr_spot)).sum());
+			vec_fuel.push(data_clean.iter().map(|temp_num| burn(*temp_num - itr_spot)).sum());
 		} else {
 			vec_fuel.push(data_clean.iter().map(|temp_num| (temp_num - itr_spot).abs()).sum());
 		}
