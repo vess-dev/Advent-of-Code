@@ -14,3 +14,4 @@ path = "src/timing.rs"
 
 [dependencies]
 itertools = "0.10.1"
+num-bigint = "0.4.3"
