@@ -25,8 +25,7 @@ enum FnSig<U16, U32, U64, I16, USZ> {
 }
 
 fn time() {
-    let x = i16::MAX;
-   use FnSig::*;
+    use FnSig::*;
     let vec_days = [FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::U32U32(day4::main), FnSig::USZUSZ(day5::main), FnSig::U64U64(day6::main), FnSig::I16I16(day7::main)];
     let test_count = 100;
     let mut test_type = String::new();
