@@ -28,7 +28,7 @@ fn time() {
     let x = i16::MAX;
    use FnSig::*;
     let vec_days = [FnSig::U16U16(day1::main), FnSig::U32U32(day2::main), FnSig::U32U32(day3::main), FnSig::U32U32(day4::main), FnSig::USZUSZ(day5::main), FnSig::U64U64(day6::main), FnSig::I16I16(day7::main)];
-    let test_count = 1;
+    let test_count = 100;
     let mut test_type = String::new();
     if test_count == 1 {
         test_type = String::from("trial");
@@ -61,5 +61,5 @@ fn main() {
     #[cfg(not(debug_assertions))]
     time();
     #[cfg(debug_assertions)]
-    println!("{:?}", day7::main());
+    println!("{:?}", day8::main());
 }

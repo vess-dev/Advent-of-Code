@@ -24,7 +24,9 @@ fn walk(data_clean: &Vec<i32>, flag_burn: bool) -> i32 {
 	return *vec_fuel.iter().min().unwrap();
 }
 
-// A condensed one line solve for day 7. Faster than non-meme solution, probably because a lack of a vector.
+// A condensed one-liner solve for day 7.
+// Faster than the non-meme solution.
+// Probably because a lack of vectors.
 fn meme(data_clean: &Vec<i32>, flag_burn: bool) -> i32 {
 	return (*data_clean.iter().min().unwrap()..=*data_clean.iter().max().unwrap()).map(|itr_spot| data_clean.iter().map(|temp_num| if flag_burn {(1..=(temp_num - itr_spot).abs()).sum()} else {(temp_num-itr_spot).abs()}).sum()).fold(i32::MAX, |a, b| a.min(b));
 }
