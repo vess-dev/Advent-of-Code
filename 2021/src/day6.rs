@@ -1,6 +1,6 @@
 use crate::read;
 
-fn clean(file_data: String) -> [u64; 9] {
+fn clean(file_data: &String) -> [u64; 9] {
 	let mut fish_arr = [0; 9];
 	file_data.split(",")
 		.map(|temp_num| temp_num.parse::<u8>().unwrap())
@@ -38,6 +38,6 @@ fn part2(data_clean: &[u64; 9]) -> u64 {
 
 pub fn main() -> (u64, u64) {
 	let file_raw = read::as_string("day6.txt");
-	let file_data = clean(file_raw);
+	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }

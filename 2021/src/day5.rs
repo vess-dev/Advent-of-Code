@@ -25,7 +25,7 @@ fn ortho(point_1: (i16, i16), point_2: (i16, i16)) -> bool {
 	return false;
 }
 
-fn clean(file_data: String) -> Vec<((i16, i16), (i16, i16))> {
+fn clean(file_data: &String) -> Vec<((i16, i16), (i16, i16))> {
 	let vec_points: Vec<((i16, i16), (i16, i16))> = file_data.split("\n")
 		.map(|temp_line: &str| temp_line.split(" -> ")
 			.map(|temp_pair: &str| temp_pair.split(",")
@@ -54,6 +54,6 @@ fn part2(data_clean: &Vec<((i16, i16), (i16, i16))>) -> usize {
 
 pub fn main() -> (usize, usize) {
 	let file_raw = read::as_string("day5.txt");
-	let file_data = clean(file_raw);
+	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }

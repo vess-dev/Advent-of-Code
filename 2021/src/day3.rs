@@ -12,7 +12,7 @@ impl Bit {
 	}
 }
 
-fn clean(file_data: String) -> Vec<String> {
+fn clean(file_data: &String) -> Vec<String> {
 	return file_data.split("\n")
 		.map(|temp_num| temp_num.to_string())
 		.collect();
@@ -97,6 +97,6 @@ fn part2(data_clean: &Vec<String>) -> u32 {
 
 pub fn main() -> (u32, u32) {
 	let file_raw = read::as_string("day3.txt");
-	let file_data = clean(file_raw);
+	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }
