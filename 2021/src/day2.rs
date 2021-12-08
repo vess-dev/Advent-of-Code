@@ -7,7 +7,7 @@ enum Com {
 	Down(u8),
 }
 
-fn clean(file_data: String) -> Vec<Com> {
+fn clean(file_data: &String) -> Vec<Com> {
 	return file_data.split("\n")
 		.map(|temp_dir| {
 			let com_full: Vec<&str> = temp_dir.split(" ").collect();
@@ -59,6 +59,6 @@ fn part2(data_clean: &Vec<Com>) -> u32 {
 
 pub fn main() -> (u32, u32) {
 	let file_raw = read::as_string("day2.txt");
-	let file_data = clean(file_raw);
+	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }

@@ -49,7 +49,7 @@ impl Board {
 	}
 }
 
-fn clean(file_data: String) -> (Vec<u8>, Vec<Board>) {
+fn clean(file_data: &String) -> (Vec<u8>, Vec<Board>) {
 	let mut data_string = file_data.replace("  ", " ");
 	data_string = data_string.replace("\n ", "\n");
 	let data_raw: Vec<&str> = data_string.split("\n\n").collect();
@@ -109,6 +109,6 @@ fn part2(data_clean: &(Vec<u8>, Vec<Board>)) -> u32 {
 
 pub fn main() -> (u32, u32) {
 	let file_raw = read::as_string("day4.txt");
-	let file_data = clean(file_raw);
+	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }

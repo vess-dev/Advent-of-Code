@@ -1,6 +1,6 @@
 use crate::read;
 
-fn clean(file_data: String) -> Vec<i32> {
+fn clean(file_data: &String) -> Vec<i32> {
 	return file_data.split(",").map(|temp_num| temp_num.parse().unwrap()).collect();
 }
 
@@ -32,6 +32,6 @@ fn part2(data_clean: &Vec<i32>) -> i32 {
 
 pub fn main() -> (i32, i32) {
 	let file_raw = read::as_string("day7.txt");
-	let file_data = clean(file_raw);
+	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }

@@ -1,6 +1,6 @@
 use crate::read;
 
-fn clean(file_data: String) -> () {
+fn clean(file_data: &String) -> () {
 	return ();
 }
 
@@ -14,6 +14,6 @@ fn part2(data_clean: &()) -> () {
 
 pub fn main() -> ((), ()) {
 	let file_raw = read::as_string("dayX.txt");
-	let file_data = clean(file_raw);
+	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }
