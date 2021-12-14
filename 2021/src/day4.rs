@@ -2,35 +2,35 @@ use crate::read;
 
 #[derive(Clone, Debug, Default)]
 struct Board {
-	moves_done: Vec<u8>,
-	board_state: Vec<u8>,
+	called: Vec<u8>,
+	board: Vec<u8>,
 }
 
 impl Board {
 	fn new(moves_size: usize, board_data: &Vec<u8>) -> Self {
 		return Board {
-			moves_done: Vec::with_capacity(moves_size.clone()),
-			board_state: board_data.clone(),
+			called: Vec::with_capacity(moves_size.clone()),
+			board: board_data.clone(),
 		};
 	}
 
 	fn update(&mut self, moves_next: u8) {
-		self.moves_done.push(moves_next);
+		self.called.push(moves_next);
 	}
 
 	fn check(&self) -> bool {
-		for itr_row in self.board_state.chunks(5) {
-			if itr_row.iter().all(|temp_num| self.moves_done.contains(temp_num)) {
+		for itr_row in self.board.chunks(5) {
+			if itr_row.iter().all(|temp_num| self.called.contains(temp_num)) {
 				return true;
 			}
 		}
 		for itr_idx in 0..5 {
-			if self.board_state.iter()
+			if self.board.iter()
 				.skip(itr_idx)
 				.step_by(5)
 				.collect::<Vec<_>>()
 				.iter()
-				.all(|temp_num| self.moves_done.contains(temp_num)) {
+				.all(|temp_num| self.called.contains(temp_num)) {
 					return true;
 			}
 		}
@@ -38,10 +38,10 @@ impl Board {
 	}
 
 	fn score(&self) -> u32 {
-		let score_mult = *self.moves_done.last().unwrap() as u32;
+		let score_mult = *self.called.last().unwrap() as u32;
 		let mut score_sum: u32 = 0;
-		for itr_num in &self.board_state {
-			if !self.moves_done.contains(&itr_num) {
+		for itr_num in &self.board {
+			if !self.called.contains(&itr_num) {
 				score_sum += *itr_num as u32;
 			}
 		}
