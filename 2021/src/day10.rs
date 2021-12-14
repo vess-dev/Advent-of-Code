@@ -1,40 +1,34 @@
 use crate::read;
+use itertools::Itertools;
 
 struct Chunk {
 	data: String,
 }
 
 impl Chunk {
-	fn verify(&self) -> Option<char> {
+	fn verify(&self, flag_finish: bool) -> String {
 		let mut vec_roll = Vec::with_capacity(self.data.len());
 		for itr_char in self.data.chars() {
 			if [')', ']', '}', '>'].contains(&itr_char) {
 				let stack_last = *vec_roll.last().unwrap();
-				if itr_char != close(stack_last) {
-					return Some(itr_char);
+				if !flag_finish {
+					if itr_char != close(stack_last) {
+						return itr_char.to_string();
+					} else {
+						vec_roll.pop();
+					}
 				} else {
-					vec_roll.pop();
+					if itr_char == close(stack_last) {
+						vec_roll.pop();
+					}
 				}
 			} else {
 				vec_roll.push(itr_char);
 			}
 		}
-		return None;
-	}
-
-	fn finish(&self) -> String {
-		let mut vec_roll = Vec::with_capacity(self.data.len());
-		for itr_char in self.data.chars() {
-			if [')', ']', '}', '>'].contains(&itr_char) {
-				let stack_last = *vec_roll.last().unwrap();
-				if itr_char == close(stack_last) {
-					vec_roll.pop();
-				}
-			} else {
-				vec_roll.push(itr_char);
-			}
+		if !flag_finish {
+			return "".to_string();
 		}
-
 		return vec_roll.iter().rev().map(|temp_char| close(*temp_char)).collect();
 	}
 }
@@ -56,41 +50,27 @@ fn clean(file_data: &String) -> Vec<Chunk> {
 }
 
 fn part1(data_clean: &Vec<Chunk>) -> u32 {
-	let vec_eval: Vec<Option<char>> = data_clean.iter().map(|temp_chunk| temp_chunk.verify()).filter(|temp_result| *temp_result != None).collect();
-	let mut score_syntax = 0;
-	for itr_result in vec_eval {
-		if let Some(char_type) = itr_result {
-			score_syntax += match char_type {
-				')' => 3,
-				']' => 57,
-				'}' => 1197,
-				'>' => 25137,
-				_ => unreachable!(),
-			}
-		}
-	}
-	return score_syntax;
+	return data_clean.iter().map(|temp_chunk| temp_chunk.verify(false)).filter(|temp_result| *temp_result != "").fold(0, |temp_acc, temp_char| temp_acc + match temp_char.as_str() {
+			")" => 3,
+			"]" => 57,
+			"}" => 1197,
+			">" => 25137,
+			_ => unreachable!(),
+		});
 }
 
 fn part2(data_clean: &Vec<Chunk>) -> u64 {
-	let vec_eval: Vec<String> = data_clean.iter().filter(|temp_chunk| temp_chunk.verify() == None).map(|temp_chunk| temp_chunk.finish()).collect();
-	let mut score_syntax = Vec::new();
-	for itr_result in vec_eval {
-		let mut score_line = 0;
-		for itr_char in itr_result.chars() {
-			score_line *= 5;
-			score_line += match itr_char {
+	let vec_eval: Vec<u64> = data_clean.iter().filter(|temp_chunk| temp_chunk.verify(false) == "").map(|temp_chunk| temp_chunk.verify(true)).map(|temp_line| temp_line.chars().fold(0, |mut temp_acc, temp_char| {
+		temp_acc *= 5;
+		temp_acc + match temp_char {
 				')' => 1,
 				']' => 2,
 				'}' => 3,
 				'>' => 4,
 				_ => unreachable!(),
 			}
-		}
-		score_syntax.push(score_line);
-	}
-	score_syntax.sort();
-	return score_syntax[score_syntax.len()/2];
+	})).sorted().collect();
+	return vec_eval[vec_eval.len()/2];
 }
 
 pub fn main() -> (u32, u64) {
