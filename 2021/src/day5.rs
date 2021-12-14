@@ -3,6 +3,17 @@ use std::collections::HashMap;
 
 use crate::read;
 
+fn clean(file_data: &String) -> Vec<((i16, i16), (i16, i16))> {
+	let vec_points: Vec<((i16, i16), (i16, i16))> = file_data.split("\n")
+		.map(|temp_line: &str| temp_line.split(" -> ")
+			.map(|temp_pair: &str| temp_pair.split(",")
+				.map(|temp_num| temp_num.parse::<i16>().unwrap())
+				.collect_tuple().unwrap())
+			.collect_tuple().unwrap())
+		.collect();
+	return vec_points;
+}
+
 fn between(hash_points: &mut HashMap<(i16, i16), u16>, point_1: (i16, i16), point_2: (i16, i16)) {
 	let mut point_slope = (0, 0);
 	point_slope.0 = if point_1.0 < point_2.0 { 1 } else if point_1.0 > point_2.0 { -1 } else { 0 };
@@ -23,17 +34,6 @@ fn ortho(point_1: (i16, i16), point_2: (i16, i16)) -> bool {
 		return true;
 	}
 	return false;
-}
-
-fn clean(file_data: &String) -> Vec<((i16, i16), (i16, i16))> {
-	let vec_points: Vec<((i16, i16), (i16, i16))> = file_data.split("\n")
-		.map(|temp_line: &str| temp_line.split(" -> ")
-			.map(|temp_pair: &str| temp_pair.split(",")
-				.map(|temp_num| temp_num.parse::<i16>().unwrap())
-				.collect_tuple().unwrap())
-			.collect_tuple().unwrap())
-		.collect();
-	return vec_points;
 }
 
 fn part1(data_clean: &Vec<((i16, i16), (i16, i16))>) -> usize {
