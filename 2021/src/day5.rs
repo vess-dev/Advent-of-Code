@@ -36,23 +36,23 @@ fn ortho(point_1: (i16, i16), point_2: (i16, i16)) -> bool {
 	return false;
 }
 
-fn part1(data_clean: &Vec<((i16, i16), (i16, i16))>) -> usize {
+fn part1(data_clean: &Vec<((i16, i16), (i16, i16))>) -> u16 {
 	let mut hash_points: HashMap<(i16, i16), u16> = HashMap::new();
 	for itr_point in data_clean.iter().filter(|temp_point| ortho(temp_point.0, temp_point.1)) {
 		between(&mut hash_points, itr_point.0, itr_point.1);
 	}
-	return hash_points.values().into_iter().filter(|temp_num| **temp_num >= 2).count();
+	return hash_points.values().into_iter().filter(|temp_num| **temp_num >= 2).count() as u16;
 }
 
-fn part2(data_clean: &Vec<((i16, i16), (i16, i16))>) -> usize {
+fn part2(data_clean: &Vec<((i16, i16), (i16, i16))>) -> u16 {
 	let mut hash_points: HashMap<(i16, i16), u16> = HashMap::new();
 	for itr_point in data_clean {
 		between(&mut hash_points, itr_point.0, itr_point.1);
 	}
-	return hash_points.values().into_iter().filter(|temp_num| **temp_num >= 2).count();
+	return hash_points.values().into_iter().filter(|temp_num| **temp_num >= 2).count() as u16;
 }
 
-pub fn main() -> (usize, usize) {
+pub fn main() -> (u16, u16) {
 	let file_raw = read::as_string("day5.txt");
 	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
