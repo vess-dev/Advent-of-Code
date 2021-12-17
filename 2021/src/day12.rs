@@ -6,8 +6,8 @@ enum Double {
 	Yes,
 }
 
-fn clean(file_data: &String) -> HashMap<String, Vec<String>> {
-	let mut cave_map: HashMap<String, Vec<String>> = HashMap::new();
+fn clean(file_data: &String) -> HashMap<&str, Vec<&str>> {
+	let mut cave_map: HashMap<&str, Vec<&str>> = HashMap::new();
 	let vec_data: Vec<(&str, &str)> = file_data.split("\n")
 		.map(|temp_line| {
 			let mut line_split = temp_line.split("-");
@@ -15,28 +15,28 @@ fn clean(file_data: &String) -> HashMap<String, Vec<String>> {
 		})
 		.collect();
 	for itr_cave in vec_data {
-		let cave_start = itr_cave.0.to_string();
-		let cave_end = itr_cave.1.to_string();
+		let cave_start = itr_cave.0;
+		let cave_end = itr_cave.1;
 		if None == cave_map.get(&cave_start) {
-			cave_map.insert(cave_start.clone(), Vec::new());
+			cave_map.insert(cave_start, Vec::new());
 		}
 		if None == cave_map.get(&cave_end) {
-			cave_map.insert(cave_end.clone(), Vec::new());
+			cave_map.insert(cave_end, Vec::new());
 		}
-		cave_map.get_mut(&cave_start).unwrap().push(cave_end.clone());
-		cave_map.get_mut(&cave_end).unwrap().push(cave_start.clone());
+		cave_map.get_mut(&cave_end).unwrap().push(cave_start);
+		cave_map.get_mut(&cave_start).unwrap().push(cave_end);
 	}
 	return cave_map;
 }
 
-fn walk(cave_map: &HashMap<String, Vec<String>>, cave_pathcount: &mut u32, cave_curr: &String, cave_walked: &Vec<&String>, cave_stage: &Double) {
-	if cave_curr == &"end".to_string() {
+fn walk(cave_map: &HashMap<&str, Vec<&str>>, cave_pathcount: &mut u32, cave_curr: &str, cave_walked: &Vec<&str>, cave_stage: &Double) {
+	if cave_curr == "end" {
 		*cave_pathcount += 1;
 		return;
 	}
 	let cave_to = cave_map.get(cave_curr).unwrap();
 	for itr_to in cave_to {
-		if itr_to == &"start".to_string() {
+		if itr_to == &"start" {
 			continue;
 		}
 		if itr_to.chars().all(|temp_char| char::is_ascii_lowercase(&temp_char)) {
@@ -58,14 +58,14 @@ fn walk(cave_map: &HashMap<String, Vec<String>>, cave_pathcount: &mut u32, cave_
 	}
 }
 
-fn part1(data_clean: &HashMap<String, Vec<String>>) -> u32 {
+fn part1(data_clean: &HashMap<&str, Vec<&str>>) -> u32 {
 	let mut cave_pathcount = 0;
 	let cave_start = "start".to_string();
 	walk(&data_clean, &mut cave_pathcount, &cave_start, &vec![&cave_start], &Double::No);
 	return cave_pathcount;
 }
 
-fn part2(data_clean: &HashMap<String, Vec<String>>) -> u32 {
+fn part2(data_clean: &HashMap<&str, Vec<&str>>) -> u32 {
 	let mut cave_pathcount = 0;
 	let cave_start = "start".to_string();
 	walk(&data_clean, &mut cave_pathcount, &cave_start, &vec![&cave_start], &Double::Yes);
