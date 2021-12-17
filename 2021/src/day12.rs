@@ -44,17 +44,17 @@ fn walk(cave_map: &HashMap<String, Vec<String>>, cave_pathcount: &mut u32, cave_
 				match cave_stage {
 					&Double::No => {continue},
 					&Double::Yes => {
-						let mut cave_walked = cave_walked.clone();
-						cave_walked.push(itr_to);
-						walk(cave_map, cave_pathcount, itr_to, &mut cave_walked, &Double::No);
+						let mut cave_walkedcopy = cave_walked.clone();
+						cave_walkedcopy.push(itr_to);
+						walk(cave_map, cave_pathcount, itr_to, &mut cave_walkedcopy, &Double::No);
 						continue;
 					},
 				}
 			}
 		}
-		let mut cave_walked = cave_walked.clone();
-		cave_walked.push(itr_to);
-		walk(cave_map, cave_pathcount, itr_to, &mut cave_walked, cave_stage);
+		let mut cave_walkedcopy = cave_walked.clone();
+		cave_walkedcopy.push(itr_to);
+		walk(cave_map, cave_pathcount, itr_to, &mut cave_walkedcopy, cave_stage);
 	}
 }
 
