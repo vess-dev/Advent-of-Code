@@ -4,7 +4,7 @@ use itertools::Itertools;
 struct Display {
 	preamble: Vec<Vec<char>>,
 	message: Vec<Vec<char>>,
-	mapping: Vec<Vec<char>>,
+	mapping: [Vec<char>; 10],
 }
 
 impl Display {
@@ -51,7 +51,7 @@ fn clean(file_data: &String) -> Vec<Display> {
 			Display {
 				preamble: display_split.next().unwrap().split(" ").map(|temp_msg| temp_msg.chars().sorted().collect()).collect(),
 				message: display_split.next().unwrap().split(" ").map(|temp_msg| temp_msg.chars().sorted().collect()).collect(),
-				mapping: vec![Vec::new(); 10],
+				mapping: Default::default(),
 			}
 		}).collect();
 }
