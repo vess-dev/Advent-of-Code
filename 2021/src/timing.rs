@@ -69,8 +69,7 @@ fn time() {
 
 fn main() {
     #[cfg(not(debug_assertions))]
-    //time();
-    println!("{:?}", day13::main());
+    time();
     #[cfg(debug_assertions)]
-    println!("{:?}", day13::main());
+    println!("{:?}", day15::main());
 }

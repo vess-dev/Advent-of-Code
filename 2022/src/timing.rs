@@ -8,14 +8,16 @@ use std::time::Instant;
 mod read;
 
 mod day1;
+mod day2;
 
-enum FnSig<U16> {
-    U16U16(fn() -> U16),
+enum FnSig<U32, NON> {
+    U32U32(fn() -> U32),
+    NONNON(fn() -> NON),
 }
 
 fn time() {
     use FnSig::*;
-    let vec_days = [FnSig::U16U16(day1::main)];
+    let vec_days = [FnSig::U32U32(day1::main), FnSig::NONNON(day2::main)];
     let test_count = 10;
     let mut test_type = String::new();
     if test_count == 1 {
@@ -29,7 +31,8 @@ fn time() {
         let time_now = Instant::now();
         for _temp_test in 0..test_count {
             test_ret = match itr_day.1 {
-                U16U16(func_ref) => format!("{:?}", func_ref()),
+                U32U32(func_ref) => format!("{:?}", func_ref()),
+                NONNON(func_ref) => format!("{:?}", func_ref()),
             };
         }
         let time_elapsed = time_now.elapsed().as_secs_f64();
@@ -43,8 +46,7 @@ fn time() {
 
 fn main() {
     #[cfg(not(debug_assertions))]
-    //time();
-    println!("{:?}", day1::main());
+    time();
     #[cfg(debug_assertions)]
-    println!("{:?}", day1::main());
+    println!("{:?}", day2::main());
 }
