@@ -38,7 +38,7 @@ fn part2(data_clean: &Vec<char>) -> u16 {
 }
 
 pub fn main() -> (u16, u16) {
-	let file_raw = read::as_string("day5.txt");
+	let file_raw = read::as_string("day6.txt");
 	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
 }
