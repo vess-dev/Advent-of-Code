@@ -10,16 +10,16 @@ mod read;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
-enum FnSig<U16, U32, NON> {
+enum FnSig<U16, U32> {
 	U16U16(fn() -> U16),
 	U32U32(fn() -> U32),
-	NONNON(fn() -> NON),
 }
 
 fn time() {
 	use FnSig::*;
-	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::NONNON(day3::main)];
+	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main)];
 	let test_count = 10;
 	let mut test_type = String::new();
 	if test_count == 1 {
@@ -35,7 +35,6 @@ fn time() {
 			test_ret = match itr_day.1 {
 				U16U16(func_ref) => format!("{:?}", func_ref()),
 				U32U32(func_ref) => format!("{:?}", func_ref()),
-				NONNON(func_ref) => format!("{:?}", func_ref()),
 			};
 		}
 		let time_elapsed = time_now.elapsed().as_secs_f64();
@@ -51,5 +50,5 @@ fn main() {
 	#[cfg(not(debug_assertions))]
 	time();
 	#[cfg(debug_assertions)]
-	println!("{:?}", day3::main());
+	println!("{:?}", day5::main());
 }
