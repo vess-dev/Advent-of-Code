@@ -25,7 +25,6 @@ fn get_matches(line_1: &str, line_2: &str, line_3: &str) -> char {
 fn part1(data_clean: &Vec<&str>) -> u16 {
 	let char_list = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	let mut char_score = 0;
-	println!("{:?}", char_score);
 	for itr_line in data_clean {
 		let line_split = itr_line.split_at(itr_line.len() / 2);
 		let char_match = get_match(line_split.0, line_split.1);
