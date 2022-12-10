@@ -11,7 +11,8 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
-mod day5;
+
+mod day6;
 
 enum FnSig<U16, U32> {
 	U16U16(fn() -> U16),
@@ -20,7 +21,7 @@ enum FnSig<U16, U32> {
 
 fn time() {
 	use FnSig::*;
-	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main)];
+	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main), FnSig::U16U16(day6::main)];
 	let test_count = 10;
 	let mut test_type = String::new();
 	if test_count == 1 {
@@ -51,5 +52,5 @@ fn main() {
 	#[cfg(not(debug_assertions))]
 	time();
 	#[cfg(debug_assertions)]
-	println!("{:?}", day5::main());
+	println!("{:?}", day6::main());
 }
