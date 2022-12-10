@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 #![allow(unreachable_code)]
 #![allow(unused_assignments)]
+#![allow(unused_parens)]
 #![allow(unused_variables)] 
 
 use std::time::Instant;
@@ -11,17 +12,19 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
-
+mod day5;
 mod day6;
+mod day7;
 
-enum FnSig<U16, U32> {
+enum FnSig<U16, U32, STR> {
 	U16U16(fn() -> U16),
 	U32U32(fn() -> U32),
+	STRSTR(fn() -> STR),
 }
 
 fn time() {
 	use FnSig::*;
-	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main), FnSig::U16U16(day6::main)];
+	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main), FnSig::STRSTR(day5::main), FnSig::U16U16(day6::main)];
 	let test_count = 10;
 	let mut test_type = String::new();
 	if test_count == 1 {
@@ -37,6 +40,7 @@ fn time() {
 			test_ret = match itr_day.1 {
 				U16U16(func_ref) => format!("{:?}", func_ref()),
 				U32U32(func_ref) => format!("{:?}", func_ref()),
+				STRSTR(func_ref) => format!("{:?}", func_ref()),
 			};
 		}
 		let time_elapsed = time_now.elapsed().as_secs_f64();
@@ -52,5 +56,5 @@ fn main() {
 	#[cfg(not(debug_assertions))]
 	time();
 	#[cfg(debug_assertions)]
-	println!("{:?}", day6::main());
+	println!("{:?}", day7::main());
 }
