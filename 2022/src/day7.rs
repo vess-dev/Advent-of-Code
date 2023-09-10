@@ -1,7 +1,7 @@
 use crate::read;
 
-fn clean(file_data: &String) -> () {
-	return ();
+fn clean(file_data: &String) -> Vec<&str> {
+	return file_data.split("\n").collect();
 }
 
 fn part1(data_clean: &()) -> () {
