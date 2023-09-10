@@ -58,7 +58,7 @@ def run():
 		return angle_degrees
 
 	def lazer(input_in, input_loc):
-		astr_current = input_in
+		astr_current = input_in.copy()
 		astr_exploded = 0
 		while astr_exploded != 200:
 			astr_seen = sight(astr_current, input_loc)
