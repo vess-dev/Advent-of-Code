@@ -17,21 +17,15 @@ def run():
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
-		tape_input = [1]
-		comp_main.run()
-		comp_main.flag_payload = tape_input.pop(0)
-		comp_main.run()
-		return comp_main.mem_output[-1]
+		comp_return = comp_main.run([1])
+		return comp_return
 
 	def test(input_in):
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
-		tape_input = [5]
-		comp_main.run()
-		comp_main.flag_payload = tape_input.pop(0)
-		comp_main.run()
-		return comp_main.mem_output[-1]
+		comp_return = comp_main.run([5])
+		return comp_return
 
 	return diag(file_in), test(file_in)
 
