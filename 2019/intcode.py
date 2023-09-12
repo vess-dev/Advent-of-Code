@@ -1,3 +1,5 @@
+import pprint
+
 class Comp:
 
 	op_ref = {
@@ -35,12 +37,15 @@ class Comp:
 			flag_count = range(1, len(op_flags))
 			op_data = list(map(self.get, flag_count, op_flags))
 			mem_read = (self.mem_pos + op_offset - 1)
-			# Position mode.
-			if op_flags[-1] == "0":
-				op_data.append(self.mem_tape[mem_read])
-			# Relative mode.
-			elif op_flags[-1] == "2":
-				pass
+			match op_flags[-1]:
+				# Position mode.
+				case "0":
+					op_data.append(self.mem_tape[mem_read])
+				case "1":
+					op_data.append(self.mem_tape[mem_read])
+				# Relative mode.
+				case "2":
+					pass
 		return (op_base, op_flags, op_data)
 
 	def get(self, input_offset, input_mode):
@@ -60,29 +65,49 @@ class Comp:
 	def step(self, input_debug=False):
 		op_base, op_flags, op_data = self.prepare()
 		if input_debug:
-			print(self.mem_pos, op_base, op_flags, op_data)
+			print(f"| Position: {self.mem_pos} | Opcode: {op_base} | Flags: {op_flags} | Data: {op_data} |")
 		match op_base:
 			case "01": # "01": [4, "add"]
 				self.mem_tape[op_data[2]] = op_data[0] + op_data[1]
 			case "02": # "02": [4, "mult"]
 				self.mem_tape[op_data[2]] = op_data[0] * op_data[1]
-			# "03": [2, "input"]
-			case "03":
+			case "03": # "03": [2, "input"]
 				if self.flag_input:
 					self.flag_input = False
-					self.mem_tape[op_data[2]] = self.flag_payload
+					self.mem_tape[op_data[0]] = self.flag_payload
 					self.flag_payload = None
 				else:
 					self.flag_input = True
 					return
-				return
-			# "04": [2, "output"]
-			case "04":
-				self.mem_out.append(op_data[0])
-			# "05": [3, "jump notzero"]
-			# "06": [3, "jump zero"]
-			# "07": [4, "less than"]
-			# "08": [4, "equal to"]
+			case "04": # "04": [2, "output"]
+				if op_flags[0] == "1":
+					self.mem_output.append(op_data[0])
+				else:
+					self.mem_output.append(self.mem_tape[op_data[0]])
+			case "05": # "05": [3, "jump notzero"]
+				if op_data[0] != 0:
+					if op_flags[1] == "1":
+						self.mem_pos = op_data[1]
+					else:
+						self.mem_pos = self.mem_tape[op_data[1]]
+					return
+			case "06": # "06": [3, "jump zero"]
+				if op_data[0] == 0:
+					if op_flags[1] == "1":
+						self.mem_pos = op_data[1]
+					else:
+						self.mem_pos = self.mem_tape[op_data[1]]
+					return
+			case "07": # "07": [4, "less than"]
+				if op_data[0] < op_data[1]:
+					self.mem_tape[op_data[2]] = 1
+				else:
+					self.mem_tape[op_data[2]] = 0
+			case "08": # "08": [4, "equal to"]
+				if op_data[0] == op_data[1]:
+					self.mem_tape[op_data[2]] = 1
+				else:
+					self.mem_tape[op_data[2]] = 0
 			# "09": [2, "offset"]
 			case "99": # "99": [0, "halt"]
 				self.flag_halt = True
@@ -90,6 +115,13 @@ class Comp:
 		return
 
 	def run(self, input_debug=False):
-		while not (self.flag_halt or self.flag_input):
+		while not self.flag_halt:
 			self.step(input_debug)
+			if input_debug:
+				print("| Pointer:", self.mem_pos, end=" ")
+				print("| Offset:", self.mem_base, end=" ")
+				print("| Output:", self.mem_output, end=" |\n")
+				print("| Tape:", self.mem_tape, "|", end="\n\n")
+			if self.flag_input:
+				break
 		return

@@ -18,19 +18,22 @@ def run():
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
 		tape_input = [1]
-		while not comp_main.flag_halt:
-			comp_main.run(input_debug=True)
-			if comp_main.flag_input:
-				comp_main.flag_payload = tape_input.pop(0)
-		return comp_main.mem_output[0]
+		comp_main.run()
+		comp_main.flag_payload = tape_input.pop(0)
+		comp_main.run()
+		return comp_main.mem_output[-1]
 
 	def test(input_in):
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
-		return comp_main.run([5])
+		tape_input = [5]
+		comp_main.run()
+		comp_main.flag_payload = tape_input.pop(0)
+		comp_main.run()
+		return comp_main.mem_output[-1]
 
-	return diag(file_in)
+	return diag(file_in), test(file_in)
 
 if __name__ == "__main__":
 	print(run())
