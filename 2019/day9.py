@@ -17,8 +17,9 @@ def run():
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
-		comp_main.run([1])
-		return comp_main.last()
+		#comp_main.run([1])
+		comp_main.run(input_debug=True)
+		return comp_main.mem_output
 
 	def coord(input_in):
 		tape_mem = input_in.copy()
@@ -28,7 +29,7 @@ def run():
 		return comp_main.last()
 
 
-	return boost(file_in), coord(file_in)
+	return boost(file_in)
 
 if __name__ == "__main__":
 	print(run())
