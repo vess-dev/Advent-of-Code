@@ -60,7 +60,7 @@ def run():
 				sig_max = comp_e.last()
 		return sig_max
 
-	return ampl(file_in), loop(file_in)
+	return loop(file_in)
 
 if __name__ == "__main__":
 	print(run())

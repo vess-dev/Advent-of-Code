@@ -114,7 +114,13 @@ class Comp:
 		self.mem_pos += self.op_ref[op_base][0]
 		return
 
-	def run(self, input_debug=False):
+	def status(self):
+		if self.mem_output:
+			return self.mem_output[-1]
+		else:
+			return
+
+	def run(self, input_sim=[], input_debug=False):
 		while not self.flag_halt:
 			self.step(input_debug)
 			if input_debug:
@@ -123,5 +129,8 @@ class Comp:
 				print("| Output:", self.mem_output, end=" |\n")
 				print("| Tape:", self.mem_tape, "|", end="\n\n")
 			if self.flag_input:
-				break
-		return
+				if input_sim:
+					self.flag_payload = input_sim.pop(0)
+				else:
+					break
+		return self.status()
