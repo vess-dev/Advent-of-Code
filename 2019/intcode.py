@@ -122,15 +122,15 @@ class Comp:
 
 	def run(self, input_sim=[], input_debug=False):
 		while not self.flag_halt:
+			if self.flag_input:
+				if input_sim:
+					self.flag_payload = input_sim.pop(0)
+				else:
+					break
 			self.step(input_debug)
 			if input_debug:
 				print("| Pointer:", self.mem_pos, end=" ")
 				print("| Offset:", self.mem_base, end=" ")
 				print("| Output:", self.mem_output, end=" |\n")
 				print("| Tape:", self.mem_tape, "|", end="\n\n")
-			if self.flag_input:
-				if input_sim:
-					self.flag_payload = input_sim.pop(0)
-				else:
-					break
 		return self.status()

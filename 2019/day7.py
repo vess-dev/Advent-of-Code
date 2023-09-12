@@ -56,11 +56,11 @@ def run():
 				sig_c = comp_c.run([sig_b])
 				sig_d = comp_d.run([sig_c])
 				sig_e = comp_e.run([sig_d])
-			if comp_e.last() > sig_max:
-				sig_max = comp_e.last()
+			if sig_e > sig_max:
+				sig_max = sig_e
 		return sig_max
 
-	return loop(file_in)
+	return ampl(file_in), loop(file_in)
 
 if __name__ == "__main__":
 	print(run())
