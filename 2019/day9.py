@@ -14,16 +14,16 @@ for temp_itr, temp_int in enumerate(file_prep):
 def run():
 
 	def boost(input_in):
-		mem_tape = input_in.copy()
+		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
-		comp_main.load(mem_tape)
+		comp_main.load(tape_mem)
 		comp_main.run([1])
 		return comp_main.last()
 
 	def coord(input_in):
-		mem_tape = input_in.copy()
+		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
-		comp_main.load(mem_tape)
+		comp_main.load(tape_mem)
 		comp_main.run([2])
 		return comp_main.last()
 

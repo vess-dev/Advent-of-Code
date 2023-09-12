@@ -1,12 +1,5 @@
 class Comp:
 
-	mem_tape = []
-	mem_pos = 0
-	mem_out = []
-	mem_base = 0
-
-	flag_halt = False
-
 	op_ref = {
 		"01": [4, "add"],
 		"02": [4, "mult"],
@@ -23,8 +16,11 @@ class Comp:
 	def load(self, input_tape):
 		self.mem_tape = input_tape
 		self.mem_pos = 0
-		self.mem_out = []
+		self.mem_output = []
 		self.mem_base = 0
+		self.flag_halt = False
+		self.flag_input = False
+		self.flag_payload = None
 		return
 
 	def prepare(self):
@@ -35,7 +31,7 @@ class Comp:
 		if op_base != "99":
 			op_offset = self.op_ref[op_base][0]
 			op_pad = op_current.rjust(op_offset + 1, "0")
-			op_flags = list(op_pad[:3][::-1])
+			op_flags = list(op_pad[:op_offset - 1][::-1])
 			flag_count = range(1, len(op_flags))
 			op_data = list(map(self.get, flag_count, op_flags))
 			mem_read = (self.mem_pos + op_offset - 1)
@@ -52,13 +48,11 @@ class Comp:
 			# Position mode.
 			case "0":
 				mem_read = (self.mem_pos + input_offset)
-				if input_offset != -1:
-					return self.mem_tape[self.mem_tape[mem_read]]
-				else:
-					return self.mem_tape[mem_read]
+				return self.mem_tape[self.mem_tape[mem_read]]
 			# Immediate mode.
 			case "1":
-				pass
+				mem_read = (self.mem_pos + input_offset)
+				return self.mem_tape[mem_read]
 			# Relative mode.
 			case "2":
 				pass
@@ -73,7 +67,18 @@ class Comp:
 			case "02": # "02": [4, "mult"]
 				self.mem_tape[op_data[2]] = op_data[0] * op_data[1]
 			# "03": [2, "input"]
+			case "03":
+				if self.flag_input:
+					self.flag_input = False
+					self.mem_tape[op_data[2]] = self.flag_payload
+					self.flag_payload = None
+				else:
+					self.flag_input = True
+					return
+				return
 			# "04": [2, "output"]
+			case "04":
+				self.mem_out.append(op_data[0])
 			# "05": [3, "jump notzero"]
 			# "06": [3, "jump zero"]
 			# "07": [4, "less than"]
@@ -85,6 +90,6 @@ class Comp:
 		return
 
 	def run(self, input_debug=False):
-		while not self.flag_halt:
+		while not (self.flag_halt or self.flag_input):
 			self.step(input_debug)
 		return
