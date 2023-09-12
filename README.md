@@ -11,7 +11,7 @@
 
 ## Requirements
 
-- Python 3 installed.
+- Python >=3.10 installed.
 - "python3" as a recognized terminal command.
 
 - Rust 2021 installed.
