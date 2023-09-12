@@ -26,6 +26,7 @@ class Comp:
 		return
 
 	def prepare(self):
+		print(str(self.mem_tape[self.mem_pos]))
 		op_current = str(self.mem_tape[self.mem_pos]).rjust(2, "0")
 		op_base = op_current[-2:]
 		op_flags = []
@@ -45,7 +46,7 @@ class Comp:
 					op_data.append(self.mem_tape[mem_read])
 				# Relative mode.
 				case "2":
-					pass
+					op_data.append(self.mem_tape[mem_read] + self.mem_base)
 		return (op_base, op_flags, op_data)
 
 	def get(self, input_offset, input_mode):
@@ -62,10 +63,18 @@ class Comp:
 			case "2":
 				pass
 
+	def debug(self, input_base, input_flags, input_data):
+		print(f"| Position: {self.mem_pos} | Opcode: {input_base} | Flags: {input_flags} | Data: {input_data} |")
+		print("| Pointer:", self.mem_pos, end=" ")
+		print("| Offset:", self.mem_base, end=" ")
+		print("| Output:", self.mem_output, end=" |\n")
+		print("| Tape:", self.mem_tape, "|", end="\n\n")
+		return
+
 	def step(self, input_debug=False):
 		op_base, op_flags, op_data = self.prepare()
 		if input_debug:
-			print(f"| Position: {self.mem_pos} | Opcode: {op_base} | Flags: {op_flags} | Data: {op_data} |")
+			self.debug(op_base, op_flags, op_data)
 		match op_base:
 			case "01": # "01": [4, "add"]
 				self.mem_tape[op_data[2]] = op_data[0] + op_data[1]
@@ -108,7 +117,8 @@ class Comp:
 					self.mem_tape[op_data[2]] = 1
 				else:
 					self.mem_tape[op_data[2]] = 0
-			# "09": [2, "offset"]
+			case "09": # "09": [2, "offset"]
+				self.mem_base += op_data[0]
 			case "99": # "99": [0, "halt"]
 				self.flag_halt = True
 		self.mem_pos += self.op_ref[op_base][0]
@@ -128,9 +138,4 @@ class Comp:
 				else:
 					break
 			self.step(input_debug)
-			if input_debug:
-				print("| Pointer:", self.mem_pos, end=" ")
-				print("| Offset:", self.mem_base, end=" ")
-				print("| Output:", self.mem_output, end=" |\n")
-				print("| Tape:", self.mem_tape, "|", end="\n\n")
 		return self.status()
