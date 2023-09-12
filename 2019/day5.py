@@ -14,18 +14,23 @@ for temp_itr, temp_int in enumerate(file_prep):
 def run():
 
 	def diag(input_in):
-		mem_tape = input_in.copy()
+		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
-		comp_main.load(mem_tape)
-		return comp_main.run([1])
+		comp_main.load(tape_mem)
+		tape_input = [1]
+		while not comp_main.flag_halt:
+			comp_main.run(input_debug=True)
+			if comp_main.flag_input:
+				comp_main.flag_payload = tape_input.pop(0)
+		return comp_main.mem_output[0]
 
 	def test(input_in):
-		mem_tape = input_in.copy()
+		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
-		comp_main.load(mem_tape)
+		comp_main.load(tape_mem)
 		return comp_main.run([5])
 
-	return diag(file_in), test(file_in)
+	return diag(file_in)
 
 if __name__ == "__main__":
 	print(run())

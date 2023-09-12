@@ -18,14 +18,14 @@ def run():
 		return intcode.Comp(), intcode.Comp(), intcode.Comp(), intcode.Comp(), intcode.Comp()
 
 	def ampl(input_in):
-		mem_tape = input_in.copy()
+		tape_mem = input_in.copy()
 		phase_list = list(itertools.permutations([0, 1, 2, 3, 4]))
 		comp_a, comp_b, comp_c, comp_d, comp_e = five()
 		comp_all = [comp_a, comp_b, comp_c, comp_d, comp_e]
 		sig_max = 0
 		for temp_perm in phase_list:
 			for temp_comp in comp_all:
-				temp_comp.load(mem_tape.copy())
+				temp_comp.load(tape_mem.copy())
 			sig_a = comp_a.run([temp_perm[0], 0])
 			sig_b = comp_b.run([temp_perm[1], sig_a])
 			sig_c = comp_c.run([temp_perm[2], sig_b])
@@ -36,14 +36,14 @@ def run():
 		return sig_max
 
 	def loop(input_in):
-		mem_tape = input_in.copy()
+		tape_mem = input_in.copy()
 		phase_list = list(itertools.permutations([5, 6, 7, 8, 9]))
 		comp_a, comp_b, comp_c, comp_d, comp_e = five()
 		comp_all = [comp_a, comp_b, comp_c, comp_d, comp_e]
 		sig_max = 0
 		for temp_perm in phase_list:
 			for temp_comp in comp_all:
-				temp_comp.load(mem_tape.copy())
+				temp_comp.load(tape_mem.copy())
 			sig_e = 0
 			sig_a = comp_a.run([temp_perm[0], sig_e])
 			sig_b = comp_b.run([temp_perm[1], sig_a])
