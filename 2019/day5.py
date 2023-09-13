@@ -17,15 +17,15 @@ def run():
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
-		comp_return = comp_main.run([1])
-		return comp_return
+		sig_status = comp_main.run([1])
+		return sig_status
 
 	def test(input_in):
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
-		comp_return = comp_main.run([5])
-		return comp_return
+		sig_status = comp_main.run([5])
+		return sig_status
 
 	return diag(file_in), test(file_in)
 

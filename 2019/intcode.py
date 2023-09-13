@@ -26,99 +26,83 @@ class Comp:
 		return
 
 	def prepare(self):
-		print(str(self.mem_tape[self.mem_pos]))
 		op_current = str(self.mem_tape[self.mem_pos]).rjust(2, "0")
 		op_base = op_current[-2:]
 		op_flags = []
 		op_data = []
+		op_pairs = []
 		if op_base != "99":
 			op_offset = self.op_ref[op_base][0]
 			op_pad = op_current.rjust(op_offset + 1, "0")
 			op_flags = list(op_pad[:op_offset - 1][::-1])
-			flag_count = range(1, len(op_flags))
-			op_data = list(map(self.get, flag_count, op_flags))
-			mem_read = (self.mem_pos + op_offset - 1)
-			match op_flags[-1]:
-				# Position mode.
-				case "0":
-					op_data.append(self.mem_tape[mem_read])
-				case "1":
-					op_data.append(self.mem_tape[mem_read])
-				# Relative mode.
-				case "2":
-					op_data.append(self.mem_tape[mem_read] + self.mem_base)
-		return (op_base, op_flags, op_data)
+			flag_count = list(range(1, len(op_flags) + 1))
+			op_data = [self.mem_tape[self.mem_pos + temp_itr] for temp_itr in flag_count]
+			op_pairs = list(zip(op_flags, op_data))
+		return (op_base, op_pairs)
 
-	def get(self, input_offset, input_mode):
-		match input_mode:
-			# Position mode.
-			case "0":
-				mem_read = (self.mem_pos + input_offset)
-				return self.mem_tape[self.mem_tape[mem_read]]
-			# Immediate mode.
-			case "1":
-				mem_read = (self.mem_pos + input_offset)
-				return self.mem_tape[mem_read]
-			# Relative mode.
-			case "2":
-				pass
-
-	def debug(self, input_base, input_flags, input_data):
-		print(f"| Position: {self.mem_pos} | Opcode: {input_base} | Flags: {input_flags} | Data: {input_data} |")
-		print("| Pointer:", self.mem_pos, end=" ")
-		print("| Offset:", self.mem_base, end=" ")
-		print("| Output:", self.mem_output, end=" |\n")
+	def debug(self, input_base, input_pairs):
+		print(f"| Position: {self.mem_pos} | Opcode: {input_base} | Pairs: {input_pairs} |")
+		print(f"| Pointer: {self.mem_pos} | Offset: {self.mem_base} | Output: {self.mem_output} |")
 		print("| Tape:", self.mem_tape, "|", end="\n\n")
 		return
 
+	def get(self, input_pair):
+		match input_pair[0]:
+			case "0": # Position mode.
+				return self.mem_tape[input_pair[1]]
+			case "1": # Immediate mode.
+				return input_pair[1]
+			case "2": # Relative mode.
+				return self.mem_tape[self.mem_base + input_pair[1]]
+		return
+
+	def set(self, input_pair, input_data):
+		match input_pair[0]:
+			case "0": # Position mode.
+				self.mem_tape[input_pair[1]] = input_data
+			case "2": # Relative mode.
+				self.mem_tape[self.mem_base + input_pair[1]] = input_data
+		return
+
 	def step(self, input_debug=False):
-		op_base, op_flags, op_data = self.prepare()
+		op_base, op_pairs = self.prepare()
 		if input_debug:
-			self.debug(op_base, op_flags, op_data)
+			self.debug(op_base, op_pairs)
 		match op_base:
 			case "01": # "01": [4, "add"]
-				self.mem_tape[op_data[2]] = op_data[0] + op_data[1]
+				self.set(op_pairs[2], self.get(op_pairs[0]) + self.get(op_pairs[1]))
 			case "02": # "02": [4, "mult"]
-				self.mem_tape[op_data[2]] = op_data[0] * op_data[1]
+				self.set(op_pairs[2], self.get(op_pairs[0]) * self.get(op_pairs[1]))
 			case "03": # "03": [2, "input"]
 				if self.flag_input:
 					self.flag_input = False
-					self.mem_tape[op_data[0]] = self.flag_payload
+					self.set(op_pairs[0], self.flag_payload)
 					self.flag_payload = None
 				else:
 					self.flag_input = True
 					return
 			case "04": # "04": [2, "output"]
-				if op_flags[0] == "1":
-					self.mem_output.append(op_data[0])
-				else:
-					self.mem_output.append(self.mem_tape[op_data[0]])
+				self.mem_output.append(self.get(op_pairs[0]))
 			case "05": # "05": [3, "jump notzero"]
-				if op_data[0] != 0:
-					if op_flags[1] == "1":
-						self.mem_pos = op_data[1]
-					else:
-						self.mem_pos = self.mem_tape[op_data[1]]
+				if self.get(op_pairs[0]) != 0:
+					self.mem_pos = self.get(op_pairs[1])
 					return
 			case "06": # "06": [3, "jump zero"]
-				if op_data[0] == 0:
-					if op_flags[1] == "1":
-						self.mem_pos = op_data[1]
-					else:
-						self.mem_pos = self.mem_tape[op_data[1]]
+				if self.get(op_pairs[0]) == 0:
+					self.mem_pos = self.get(op_pairs[1])
 					return
 			case "07": # "07": [4, "less than"]
-				if op_data[0] < op_data[1]:
-					self.mem_tape[op_data[2]] = 1
+				if self.get(op_pairs[0]) < self.get(op_pairs[1]):
+					self.set(op_pairs[2], 1)
 				else:
-					self.mem_tape[op_data[2]] = 0
+					self.set(op_pairs[2], 0)
 			case "08": # "08": [4, "equal to"]
-				if op_data[0] == op_data[1]:
-					self.mem_tape[op_data[2]] = 1
+				if self.get(op_pairs[0]) == self.get(op_pairs[1]):
+					self.set(op_pairs[2], 1)
 				else:
-					self.mem_tape[op_data[2]] = 0
+					self.set(op_pairs[2], 0)
 			case "09": # "09": [2, "offset"]
-				self.mem_base += op_data[0]
+				self.mem_base += self.get(op_pairs[0])
 			case "99": # "99": [0, "halt"]
 				self.flag_halt = True
 		self.mem_pos += self.op_ref[op_base][0]
@@ -127,8 +111,7 @@ class Comp:
 	def status(self):
 		if self.mem_output:
 			return self.mem_output[-1]
-		else:
-			return
+		return
 
 	def run(self, input_sim=[], input_debug=False):
 		while not self.flag_halt:
