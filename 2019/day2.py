@@ -15,8 +15,8 @@ def run():
 
 	def process(input_in):
 		tape_mem = input_in.copy()
-		#tape_mem[1] = 12
-		#tape_mem[2] = 2
+		tape_mem[1] = 12
+		tape_mem[2] = 2
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
 		comp_main.run()
