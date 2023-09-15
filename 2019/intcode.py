@@ -49,7 +49,11 @@ class Comp:
 	def get(self, input_pair):
 		match input_pair[0]:
 			case "0": # Position mode.
-				return self.mem_tape[input_pair[1]]
+				test_get = self.mem_tape.get(input_pair[1], None)
+				if test_get == None:
+					self.mem_tape[input_pair[1]] = 0
+					return 0
+				return test_get
 			case "1": # Immediate mode.
 				return input_pair[1]
 			case "2": # Relative mode.
