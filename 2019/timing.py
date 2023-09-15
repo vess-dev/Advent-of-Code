@@ -21,7 +21,7 @@ def clock(advent_day, test_count):
     return time_total
 
 def run():
-    advent_list = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10]
+    advent_list = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11]
     test_count = 3
     time_total = 0
     if test_count:

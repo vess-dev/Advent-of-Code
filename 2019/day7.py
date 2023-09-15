@@ -7,8 +7,8 @@ file_load = open("input/day7.txt", "r")
 file_prep = file_load.read()
 file_load.close()
 
-file_prep = list(map(int, file_prep.split(",")))
 file_in = {}
+file_prep = list(map(int, file_prep.split(",")))
 for temp_itr, temp_int in enumerate(file_prep):
 	file_in[temp_itr] = temp_int
 
