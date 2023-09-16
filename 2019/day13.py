@@ -41,7 +41,6 @@ def run():
 			new_tape[temp_itr] = temp_int
 		comp_main = intcode.Comp()
 		comp_main.load(new_tape)
-		comp_main.run()
 		while not comp_main.flag_halt:
 			comp_main.mem_output.clear()
 			comp_main.run([0])
