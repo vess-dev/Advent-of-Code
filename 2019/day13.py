@@ -14,10 +14,6 @@ for temp_itr, temp_int in enumerate(file_prep):
 
 def run():
 
-	def score(input_in):
-		index_score = input_in.index(-1)
-		return input_in[index_score + 2]
-
 	def blocks(input_in):
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
@@ -29,20 +25,27 @@ def run():
 				block_count += 1
 		return block_count
 
+	def score(input_in):
+		index_score = input_in.index(-1)
+		return input_in[index_score + 2]
+
 	def play(input_in):
 		tape_mem = input_in.copy()
 		tape_mem[0] = 2
+		tape_mem = list(map(str, tape_mem.values()))
+		tape_mem = ",".join(tape_mem)
+		tape_mem = tape_mem.replace("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", "3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3")
+		tape_mem = list(map(int, tape_mem.split(",")))
+		new_tape = {}
+		for temp_itr, temp_int in enumerate(tape_mem):
+			new_tape[temp_itr] = temp_int
 		comp_main = intcode.Comp()
-		score_current = 0
-		joystick_list = [-1, 0, 1]
-		while score_current == 0:
-			comp_main.load(tape_mem.copy())
-			while not comp_main.flag_halt:
-				comp_main.mem_output.clear()
-				joystick_choice = random.choice(joystick_list)
-				comp_main.run([joystick_choice])
-			score_current = score(comp_main.mem_output)
-			print(score_current)
+		comp_main.load(new_tape)
+		comp_main.run()
+		while not comp_main.flag_halt:
+			comp_main.mem_output.clear()
+			comp_main.run([0])
+		score_current = score(comp_main.mem_output)
 		return score_current
 
 	return blocks(file_in), play(file_in)
