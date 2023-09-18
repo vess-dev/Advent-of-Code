@@ -1,4 +1,4 @@
-from collections import OrderedDict
+import collections
 
 day_num = 7
 
@@ -34,7 +34,7 @@ for temp_bags in file_in:
 
 file_in = []
 for temp_bags in file_new:
-	file_in.append(list(OrderedDict.fromkeys(temp_bags)))
+	file_in.append(list(collections.OrderedDict.fromkeys(temp_bags)))
 input_search = [temp_bags[0] for temp_bags in file_in]
 file_in.pop(input_search.index("shiny gold"))
 file_in = [temp_bags for temp_bags in file_in if len(temp_bags) != 1]
