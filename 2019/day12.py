@@ -1,5 +1,4 @@
 import copy
-import intcode
 import math
 
 day_num = 12
