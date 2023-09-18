@@ -96,7 +96,7 @@ def run():
 				z_list.append(z_slice)
 		return math.lcm(x_final, y_final, z_final)
 
-	return simulate(file_in), history(file_in)
+	return simulate(file_in)#, history(file_in)
 
 if __name__ == "__main__":
 	print(run())
