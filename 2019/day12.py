@@ -17,19 +17,18 @@ file_in = [[list(map(int, temp_line.split(" "))), [0, 0, 0]] for temp_line in fi
 def run():
 
 	def timestep(input_list):
-		list_moons = copy.deepcopy(input_list)
-		for temp_moon in list_moons:
-			for temp_pull in list_moons:
+		for temp_moon in input_list:
+			for temp_pull in input_list:
 				if temp_moon != temp_pull:
 					for temp_index in range(3):
 						if temp_moon[0][temp_index] < temp_pull[0][temp_index]:
 							temp_moon[1][temp_index] += 1
 						elif temp_moon[0][temp_index] > temp_pull[0][temp_index]:
 							temp_moon[1][temp_index] -= 1
-		for temp_moon in list_moons:
+		for temp_moon in input_list:
 			for temp_index in range(3):
 				temp_moon[0][temp_index] += temp_moon[1][temp_index]
-		return list_moons
+		return input_list
 
 	def energy(input_list):
 		energy_final = 0
@@ -49,17 +48,16 @@ def run():
 		return energy(list_moons)
 
 	def smallstep(input_list):
-		list_moons = copy.deepcopy(input_list)
-		for temp_moon in list_moons:
-			for temp_pull in list_moons:
+		for temp_moon in input_list:
+			for temp_pull in input_list:
 				if temp_moon != temp_pull:
 					if temp_moon[0] < temp_pull[0]:
 						temp_moon[1] += 1
 					elif temp_moon[0] > temp_pull[0]:
 						temp_moon[1] -= 1
-		for temp_moon in list_moons:
+		for temp_moon in input_list:
 			temp_moon[0] += temp_moon[1]
-		return list_moons
+		return input_list
 
 	def history(input_in):
 		list_moons = copy.deepcopy(input_in)
