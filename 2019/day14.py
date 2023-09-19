@@ -1,4 +1,5 @@
 import collections
+import math
 
 day_num = 14
 
@@ -34,35 +35,42 @@ def run():
 		list_keys = list(input_list.keys())
 		for temp_item in list_keys:
 			if temp_item != "ORE":
-				if input_list[temp_item] > 0:
-					while input_list[temp_item] >= input_in[temp_item][1]:
-						input_list[temp_item] -= input_in[temp_item][1]
-						for temp_change in input_in[temp_item][2]:
-							input_list[temp_change[0]] += temp_change[1]
+				while input_list[temp_item] > 0:
+					input_list[temp_item] -= input_in[temp_item][1]
+					for temp_change in input_in[temp_item][2]:
+						input_list[temp_change[0]] += temp_change[1]
+		return input_list
+
+	def chunk(input_in, input_list):
+		while True:
+			list_old = input_list.copy()
+			input_list = cook(input_in, input_list)
+			if input_list == list_old:
+				break
 		return input_list
 
 	def bake(input_in):
-		print(input_in)
-		print()
 		list_raw = collections.defaultdict(lambda: 0)
 		list_raw["FUEL"] = 1
-		while True:
-			print(list_raw)
-			list_old = list_raw.copy()
-			list_raw = cook(input_in, list_raw)
-			if list_raw == list_old:
-				if any(list_raw[temp_item] > 0 for temp_item in list_raw if temp_item != "ORE"):
-					for temp_rule in input_in:
-						if list_raw[temp_rule] > 0:
-							list_raw[temp_rule] = 0
-							for temp_change in input_in[temp_rule][2]:
-								list_raw[temp_change[0]] += temp_change[1]
-							break
-				else:
-					break
+		list_raw = chunk(input_in, list_raw)
 		return list_raw["ORE"]
 
-	return bake(file_in)
+	def serve(input_in, input_one):
+		list_raw = collections.defaultdict(lambda: 0)
+		fuel_total = 1000000000000 // fuel_one
+		list_raw["FUEL"] = fuel_total
+		while True:	
+			list_raw = chunk(input_in, list_raw)
+			print("meow")
+			list_raw["FUEL"] = 1
+			if list_raw["ORE"] < 1_000_000_000_000:
+				fuel_total += 1
+			else:
+				break
+		return fuel_total
+
+	fuel_one = bake(file_in)
+	return fuel_one #, serve(file_in, fuel_one)
 
 if __name__ == "__main__":
 	print(run())
