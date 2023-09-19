@@ -35,10 +35,11 @@ def run():
 		list_keys = list(input_list.keys())
 		for temp_item in list_keys:
 			if temp_item != "ORE":
-				while input_list[temp_item] > 0:
-					input_list[temp_item] -= input_in[temp_item][1]
+				if input_list[temp_item] > 0:
+					change_mult = math.ceil(input_list[temp_item] / input_in[temp_item][1]) 
+					input_list[temp_item] -= input_in[temp_item][1] * change_mult
 					for temp_change in input_in[temp_item][2]:
-						input_list[temp_change[0]] += temp_change[1]
+						input_list[temp_change[0]] += temp_change[1] * change_mult
 		return input_list
 
 	def chunk(input_in, input_list):
@@ -55,22 +56,28 @@ def run():
 		list_raw = chunk(input_in, list_raw)
 		return list_raw["ORE"]
 
-	def serve(input_in, input_one):
-		list_raw = collections.defaultdict(lambda: 0)
-		fuel_total = 1000000000000 // fuel_one
-		list_raw["FUEL"] = fuel_total
+	def swoop(input_in, input_list, input_fuel, input_change):
 		while True:	
-			list_raw = chunk(input_in, list_raw)
-			print("meow")
-			list_raw["FUEL"] = 1
-			if list_raw["ORE"] < 1_000_000_000_000:
-				fuel_total += 1
+			input_list = chunk(input_in, input_list)
+			input_list["FUEL"] = input_change
+			if input_list["ORE"] < 1_000_000_000_000:
+				input_fuel += input_change
 			else:
 				break
-		return fuel_total
+		return input_fuel - input_change
+
+	def serve(input_in, input_one):
+		list_raw = collections.defaultdict(lambda: 0)
+		fuel_total = 1000000000000 // input_one
+		list_raw["FUEL"] = fuel_total
+		fuel_min = swoop(input_in, list_raw, fuel_total, 1000)
+		list_raw = collections.defaultdict(lambda: 0)
+		list_raw["FUEL"] = fuel_min
+		fuel_max = swoop(input_in, list_raw, fuel_min, 1)
+		return fuel_max
 
 	fuel_one = bake(file_in)
-	return fuel_one #, serve(file_in, fuel_one)
+	return fuel_one, serve(file_in, fuel_one)
 
 if __name__ == "__main__":
 	print(run())
