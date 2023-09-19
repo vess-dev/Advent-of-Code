@@ -81,5 +81,3 @@ def run():
 
 if __name__ == "__main__":
 	print(run())
-
-#any(list_raw[temp_item] > 0 for temp_item in list_raw if temp_item != "ORE")
