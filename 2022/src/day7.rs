@@ -6,13 +6,11 @@ use std::rc::{Weak, Rc};
 type RefDir = Rc<RefCell<Dir>>;
 type RefParent = Weak<RefCell<Dir>>;
 
-#[derive(Debug)]
 enum Type {
 	Dir(RefDir),
 	File(File),
 }
 
-#[derive(Debug)]
 struct Dir {
 	parent: Option<RefParent>,
 	children: HashMap<String, Type>,
@@ -20,7 +18,6 @@ struct Dir {
 	size: u32,
 }
 
-#[derive(Debug)]
 struct File {
 	name: String,
 	size: u32,
@@ -115,7 +112,7 @@ fn walk(dir_handle: &RefDir) -> u32 {
 	if dir_ref.size <= 100000 {
 		dir_size += dir_ref.size;
 	}
-	for temp_file in &dir_handle.borrow().children {
+	for temp_file in &dir_ref.children {
 		dir_size += match temp_file.1 {
 			Type::Dir(dir_handle) => walk(dir_handle),
 			_ => 0,
@@ -128,11 +125,31 @@ fn part1(data_clean: &RefDir) -> u32 {
 	return walk(data_clean);
 }
 
-fn part2(data_clean: &RefDir) -> () {
-	return ();
+fn delete(dir_handle: &RefDir, space_need: u32, space_current: u32) -> u32 {
+	let mut dir_size = space_current;
+	let dir_ref = dir_handle.borrow();
+	if dir_ref.size < space_current && dir_ref.size > space_need {
+		dir_size = dir_ref.size;
+	}
+	for temp_file in &dir_ref.children {
+		let dir_check = match temp_file.1 {
+			Type::Dir(dir_handle) => delete(dir_handle, space_need, dir_size),
+			_ => 0,
+		};
+		if dir_check < dir_size && dir_check > space_need{
+			dir_size = dir_check;
+		}
+	}
+	return dir_size;
 }
 
-pub fn main() -> (u32, ()) {
+fn part2(data_clean: &RefDir) -> u32 {
+	let space_extra = 70000000 - data_clean.borrow().size;
+	let space_need = 30000000 - space_extra;
+	return delete(data_clean, space_need, 70000000);
+}
+
+pub fn main() -> (u32, u32) {
 	let file_raw = read::as_string("day7.txt");
 	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
