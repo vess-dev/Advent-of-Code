@@ -7,7 +7,7 @@ fn clean(file_data: &String) -> Array2D<u8> {
 			.map(|temp_char| temp_char.parse::<u8>().unwrap())
 			.collect())
 		.collect();
-	return Array2D::from_rows(&vec_data);
+	return Array2D::from_rows(&vec_data).unwrap();
 }
 
 fn near(array_point: (usize, usize), max_x: usize, max_y: usize) -> Vec<(usize, usize)> {

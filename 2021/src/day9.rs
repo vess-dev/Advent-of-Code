@@ -7,7 +7,7 @@ fn clean(file_data: &String) -> Array2D<i8> {
 			.map(|temp_char| temp_char.parse::<i8>().unwrap())
 			.collect())
 		.collect();
-	return Array2D::from_rows(&vec_data);
+	return Array2D::from_rows(&vec_data).unwrap();
 }
 
 fn low(data_clean: &Array2D<i8>) -> Vec<(usize, usize, i8)> {
