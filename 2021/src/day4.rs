@@ -1,6 +1,6 @@
 use crate::read;
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Default)]
 struct Board {
 	called: Vec<u8>,
 	board: Vec<u8>,
