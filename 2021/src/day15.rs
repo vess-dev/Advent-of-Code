@@ -7,7 +7,7 @@ fn clean(file_data: &String) -> Array2D<u8> {
 			.map(|temp_char| temp_char.parse::<u8>().unwrap())
 			.collect())
 		.collect();
-	return Array2D::from_rows(&vec_data);
+	return Array2D::from_rows(&vec_data).unwrap();
 }
 
 fn walk(point_array: &Array2D<u8>, point_curr: (usize, usize), point_targ: (usize, usize), point_walked: &Vec<(usize, usize)>, tally_current: u32, tally_lowest: &mut u32) {
