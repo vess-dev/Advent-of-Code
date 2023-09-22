@@ -136,7 +136,7 @@ fn delete(dir_handle: &RefDir, space_need: u32, space_current: u32) -> u32 {
 			Type::Dir(dir_handle) => delete(dir_handle, space_need, dir_size),
 			_ => 0,
 		};
-		if dir_check < dir_size && dir_check > space_need{
+		if dir_check < dir_size && dir_check > space_need {
 			dir_size = dir_check;
 		}
 	}
