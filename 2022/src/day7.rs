@@ -1,5 +1,4 @@
 use crate::read;
-use std::borrow::BorrowMut;
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::{Weak, Rc};
@@ -7,11 +6,13 @@ use std::rc::{Weak, Rc};
 type RefDir = Rc<RefCell<Dir>>;
 type RefParent = Weak<RefCell<Dir>>;
 
+#[derive(Debug)]
 enum Type {
 	Dir(RefDir),
 	File(File),
 }
 
+#[derive(Debug)]
 struct Dir {
 	parent: Option<RefParent>,
 	children: HashMap<String, Type>,
@@ -19,6 +20,7 @@ struct Dir {
 	size: u32,
 }
 
+#[derive(Debug)]
 struct File {
 	name: String,
 	size: u32,
@@ -53,8 +55,8 @@ impl Dir {
 		self.size += type_size;
 		let mut dir_parent = self.parent.clone();
 		while let Some(_) = dir_parent {
-			let dir_ref = dir_parent.as_ref().unwrap().upgrade().unwrap();
-			dir_ref.as_ref().borrow_mut().size += type_size;
+			let dir_ref = dir_parent.unwrap().upgrade().unwrap();
+			dir_ref.borrow_mut().size += type_size;
 			dir_parent = dir_ref.borrow().parent.clone();
 		}
 		self.children.insert(child_name.to_string(), child_new);
@@ -91,11 +93,11 @@ fn clean(file_data: &String) -> RefDir {
 						let dir_name = dir_data[itr_index][1];
 						let dir_new = Dir::new(Some(Rc::downgrade(&dir_curr)), dir_name);
 						let dir_box = Type::Dir(Rc::new(RefCell::new(dir_new)));
-						dir_curr.as_ref().borrow_mut().push(dir_name, dir_box);
+						dir_curr.borrow_mut().push(dir_name, dir_box);
 					} else {
 						let file_name = dir_data[itr_index][1];
 						let file_size = dir_data[itr_index][0].parse().unwrap();
-						dir_curr.as_ref().borrow_mut().push(file_name, Type::File(File {name: file_name.to_owned(), size: file_size}));
+						dir_curr.borrow_mut().push(file_name, Type::File(File {name: file_name.to_owned(), size: file_size}));
 					}
 					itr_index += 1;
 				}
@@ -107,15 +109,30 @@ fn clean(file_data: &String) -> RefDir {
 	return dir_root;
 }
 
-fn part1(data_clean: &RefDir) -> () {
-	return ();
+fn walk(dir_handle: &RefDir) -> u32 {
+	let mut dir_size = 0;
+	let dir_ref = dir_handle.borrow();
+	if dir_ref.size <= 100000 {
+		dir_size += dir_ref.size;
+	}
+	for temp_file in &dir_handle.borrow().children {
+		dir_size += match temp_file.1 {
+			Type::Dir(dir_handle) => walk(dir_handle),
+			_ => 0,
+		}
+	}
+	return dir_size;
+}
+
+fn part1(data_clean: &RefDir) -> u32 {
+	return walk(data_clean);
 }
 
 fn part2(data_clean: &RefDir) -> () {
 	return ();
 }
 
-pub fn main() -> ((), ()) {
+pub fn main() -> (u32, ()) {
 	let file_raw = read::as_string("day7.txt");
 	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
