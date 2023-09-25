@@ -42,18 +42,19 @@ fn part1(data_clean: &Array2D<((u16, u16), u8)>) -> u16 {
 	return forest_seen.len() as u16;
 }
 
-fn line(forest_slice: &Vec<((u16, u16), u8)>, forest_pos: usize) -> u16 {
+fn line(forest_slice: &Vec<((u16, u16), u8)>) -> u16 {
 	let mut forest_count = 0;
-	for (temp_pos, (temp_loc, _)) in forest_slice.iter()
-		.enumerate()
-		.take(forest_pos)
-		.rev() {
-			if forest_slice.iter()
-				.take(temp_pos)
-				.any(|(_, temp_check)| temp_check >= &forest_slice[forest_slice.len() - temp_pos - 1].1) {
-					continue;
-				}
-			forest_count += 1;
+	println!("{:?}", forest_slice);
+	let rev_slice = forest_slice.iter()
+		.rev()
+		.enumerate();
+	for (temp_pos, (_, temp_tree)) in rev_slice.clone() {
+		if rev_slice.clone()
+			.take(temp_pos)
+			.any(|(_, (_, temp_check))| temp_check >= temp_tree) {
+				continue;
+		}
+		forest_count += 1;
 	}
 	return forest_count as u16;
 }
@@ -61,20 +62,26 @@ fn line(forest_slice: &Vec<((u16, u16), u8)>, forest_pos: usize) -> u16 {
 use std::process;
 
 fn score(forest_row: &Vec<((u16, u16), u8)>, forest_col: &Vec<((u16, u16), u8)>, forest_pos: (usize, usize)) -> u32 {
-	let rev_row = forest_row.clone().into_iter().rev().collect();
-	let rev_col = forest_col.clone().into_iter().rev().collect();
-	println!("{:?}", forest_row);
-	println!("{:?}", rev_row);
-	println!("{:?}", forest_col);
-	println!("{:?}", rev_col);
-	println!("{:?}", forest_pos);
+	let for_row = forest_row.clone().into_iter().take(forest_pos.0).collect();
+	let rev_rowsize = forest_row.len() - forest_pos.0 - 1;
+	let rev_row = forest_row.clone().into_iter().rev().take(rev_rowsize).collect();
+	let for_col = forest_col.clone().into_iter().take(forest_pos.1).collect();
+	let rev_colsize = forest_col.len() - forest_pos.1 - 1;
+	let rev_col = forest_col.clone().into_iter().rev().take(rev_colsize).collect();
 	let mut score_current = 1;
-	score_current *= line(forest_row, forest_pos.0) as u32;
-	score_current *= line(&rev_row, forest_row.len() - forest_pos.0 - 1) as u32;
-	score_current *= line(forest_col, forest_pos.0) as u32;
-	score_current *= line(&rev_col, forest_col.len() - forest_pos.1 - 1) as u32;
-	println!("{:?}", score_current);
-	println!();
+	score_current *= line(&for_row) as u32;
+	score_current *= line(&rev_row) as u32;
+	score_current *= line(&for_col) as u32;
+	score_current *= line(&rev_col) as u32;
+	{
+		println!("{:?}", line(&for_row) as u32);
+		println!("{:?}", line(&rev_row) as u32);
+		println!("{:?}", line(&for_col) as u32);
+		println!("{:?}", line(&rev_col) as u32);
+		println!("{:?}", forest_pos);
+		println!("{:?}", score_current);
+		println!();
+	}
 	//process::exit(1);
 	return score_current;
 }
