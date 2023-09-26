@@ -42,48 +42,15 @@ fn part1(data_clean: &Array2D<((u16, u16), u8)>) -> u16 {
 	return forest_seen.len() as u16;
 }
 
-fn line(forest_slice: &Vec<((u16, u16), u8)>) -> u16 {
-	let mut forest_count = 0;
-	println!("{:?}", forest_slice);
-	let rev_slice = forest_slice.iter()
-		.rev()
-		.enumerate();
-	for (temp_pos, (_, temp_tree)) in rev_slice.clone() {
-		if rev_slice.clone()
-			.take(temp_pos)
-			.any(|(_, (_, temp_check))| temp_check >= temp_tree) {
-				continue;
+fn tower(forest_slice: &Vec<((u16, u16), u8)>, tree_height: u8) -> u16 {
+	let mut tree_count = 0;
+	for (temp_pos, (_, temp_tree)) in forest_slice.iter().enumerate() {
+		tree_count += 1;
+		if *temp_tree >= tree_height {
+			break;
 		}
-		forest_count += 1;
 	}
-	return forest_count as u16;
-}
-
-use std::process;
-
-fn score(forest_row: &Vec<((u16, u16), u8)>, forest_col: &Vec<((u16, u16), u8)>, forest_pos: (usize, usize)) -> u32 {
-	let for_row = forest_row.clone().into_iter().take(forest_pos.0).collect();
-	let rev_rowsize = forest_row.len() - forest_pos.0 - 1;
-	let rev_row = forest_row.clone().into_iter().rev().take(rev_rowsize).collect();
-	let for_col = forest_col.clone().into_iter().take(forest_pos.1).collect();
-	let rev_colsize = forest_col.len() - forest_pos.1 - 1;
-	let rev_col = forest_col.clone().into_iter().rev().take(rev_colsize).collect();
-	let mut score_current = 1;
-	score_current *= line(&for_row) as u32;
-	score_current *= line(&rev_row) as u32;
-	score_current *= line(&for_col) as u32;
-	score_current *= line(&rev_col) as u32;
-	{
-		println!("{:?}", line(&for_row) as u32);
-		println!("{:?}", line(&rev_row) as u32);
-		println!("{:?}", line(&for_col) as u32);
-		println!("{:?}", line(&rev_col) as u32);
-		println!("{:?}", forest_pos);
-		println!("{:?}", score_current);
-		println!();
-	}
-	//process::exit(1);
-	return score_current;
+	return tree_count;
 }
 
 fn part2(data_clean: &Array2D<((u16, u16), u8)>) -> u32 {
@@ -92,9 +59,22 @@ fn part2(data_clean: &Array2D<((u16, u16), u8)>) -> u32 {
 	let mut score_max = 0;
 	for temp_xpos in 0..data_clean.column_len() {
 		for temp_ypos in 0..data_clean.row_len() {
-			let score_check = score(&forest_rows[temp_ypos], &forest_cols[temp_xpos], (temp_xpos, temp_ypos));
-			if score_check > score_max {
-				score_max = score_check;
+			let tree_height = data_clean.get(temp_ypos, temp_xpos).unwrap().1;
+			let check_row = &forest_rows[temp_ypos];
+			let check_col = &forest_cols[temp_xpos];
+			let check_rowsize = check_row.len() - temp_xpos - 1;
+			let check_colsize = check_col.len() - temp_ypos - 1;
+			let check_left = check_row.clone().into_iter().take(temp_xpos).rev().collect();
+			let check_right = check_row.clone().into_iter().rev().take(check_rowsize).rev().collect();
+			let check_up = check_col.clone().into_iter().take(temp_ypos).rev().collect();
+			let check_down = check_col.clone().into_iter().rev().take(check_colsize).rev().collect();
+			let mut score_current = 1;
+			score_current *= tower(&check_left, tree_height) as u32;
+			score_current *= tower(&check_right, tree_height) as u32;
+			score_current *= tower(&check_up, tree_height) as u32;
+			score_current *= tower(&check_down, tree_height) as u32;
+			if score_current > score_max {
+				score_max = score_current;
 			}
 		}
 	}
