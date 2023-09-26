@@ -1,5 +1,7 @@
 use crate::read;
+use itertools::Itertools;
 
+#[derive(Debug)]
 enum Com {
 	UP(u8),
 	DOWN(u8),
@@ -7,24 +9,30 @@ enum Com {
 	RIGHT(u8),
 }
 
-fn clean(file_data: &String) -> () {
-	let com_vec = Vec::new();
-	file_data.split("\n").map(|temp_line| temp_line.split(" ").map(|temp_com| {
-		match temp_com[0] {
-			"U" => 0,
-			"D" => 0,
-			"L" => 0,
-			"R" => 0,
-		}
-	}));
+fn clean(file_data: &String) -> Vec<Com> {
+	let com_vec = file_data.split("\n")
+		.map(|temp_line| temp_line.split(" ")
+			.collect_tuple()
+			.map(|(temp_com, temp_num)| {
+				let com_num = temp_num.parse().unwrap();
+				return match temp_com {
+					"U" => Com::UP(com_num),
+					"D" => Com::DOWN(com_num),
+					"L" => Com::LEFT(com_num),
+					"R" => Com::RIGHT(com_num),
+					_ => unreachable!(),
+				}
+			}).unwrap())
+		.collect();
+	return com_vec;
+}
+
+fn part1(data_clean: &Vec<Com>) -> () {
+	println!("{:?}", data_clean);
 	return ();
 }
 
-fn part1(data_clean: &()) -> () {
-	return ();
-}
-
-fn part2(data_clean: &()) -> () {
+fn part2(data_clean: &Vec<Com>) -> () {
 	return ();
 }
 
