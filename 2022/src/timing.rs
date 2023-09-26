@@ -16,16 +16,18 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
-enum FnSig<U16, U32, STR> {
+enum FnSig<U16, U32, STR, U16U32> {
 	U16U16(fn() -> U16),
 	U32U32(fn() -> U32),
 	STRSTR(fn() -> STR),
+	U16U32(fn() -> U16U32),
 }
 
 fn time() {
 	use FnSig::*;
-	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main), FnSig::STRSTR(day5::main), FnSig::U16U16(day6::main), FnSig::U32U32(day7::main)];
+	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main), FnSig::STRSTR(day5::main), FnSig::U16U16(day6::main), FnSig::U32U32(day7::main), FnSig::U16U32(day8::main)];
 	let test_count = 10;
 	let mut test_type = String::new();
 	if test_count == 1 {
@@ -40,6 +42,7 @@ fn time() {
 		for _temp_test in 0..test_count {
 			test_ret = match itr_day.1 {
 				U16U16(func_ref) => format!("{:?}", func_ref()),
+				U16U32(func_ref) => format!("{:?}", func_ref()),
 				U32U32(func_ref) => format!("{:?}", func_ref()),
 				STRSTR(func_ref) => format!("{:?}", func_ref()),
 			};
@@ -57,5 +60,5 @@ fn main() {
 	#[cfg(not(debug_assertions))]
 	time();
 	#[cfg(debug_assertions)]
-	println!("{:?}", day8::main());
+	println!("{:?}", day9::main());
 }
