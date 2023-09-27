@@ -1,6 +1,6 @@
 use crate::read;
 use array2d::Array2D;
-use std::collections::HashMap;
+use std::collections::HashSet;
 
 fn clean(file_data: &String) -> Array2D<((u16, u16), u8)> {
 	let vec_data: Vec<Vec<((u16, u16), u8)>> = file_data.split("\n"
@@ -15,20 +15,20 @@ fn clean(file_data: &String) -> Array2D<((u16, u16), u8)> {
 	return Array2D::from_rows(&vec_data).unwrap();
 }
 
-fn sight(forest_seen: &mut HashMap<(u16, u16), bool>, forest_slice: &Vec<((u16, u16), u8)>) -> () {
+fn sight(forest_seen: &mut HashSet<(u16, u16)>, forest_slice: &Vec<((u16, u16), u8)>) -> () {
 	for (temp_pos, (temp_loc, _)) in forest_slice.iter().enumerate() {
 		if forest_slice.iter()
 			.take(temp_pos)
 			.any(|(_, temp_check)| temp_check >= &forest_slice[temp_pos].1) {
 				continue;
 		}
-		forest_seen.insert(*temp_loc, true);
+		forest_seen.insert(*temp_loc);
 	}
 	return;
 }
 
 fn part1(data_clean: &Array2D<((u16, u16), u8)>) -> u16 {
-	let mut forest_seen: HashMap<(u16, u16), bool> = HashMap::new();
+	let mut forest_seen: HashSet<(u16, u16)> = HashSet::new();
 	for temp_row in data_clean.as_rows() {
 		let rev_row = temp_row.clone().into_iter().rev().collect();
 		sight(&mut forest_seen, &temp_row);

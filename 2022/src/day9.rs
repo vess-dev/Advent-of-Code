@@ -1,5 +1,6 @@
 use crate::read;
 use itertools::Itertools;
+use std::collections::HashSet;
 
 #[derive(Debug)]
 enum Com {
@@ -7,6 +8,66 @@ enum Com {
 	DOWN(u8),
 	LEFT(u8),
 	RIGHT(u8),
+}
+
+#[derive(Debug)]
+struct Rope {
+	posx: i16,
+	posy: i16,
+	tail: Option<Box<Rope>>,
+	history: HashSet<(i16, i16)>,
+}
+
+impl Rope {
+
+	fn new(rope_depth: u8) -> Rope {
+		return Rope {
+			posx: 0,
+			posy: 0,
+			tail: match rope_depth {
+				0 => None,
+				_ => Some(Box::new(Rope::new(rope_depth - 1))),
+			},
+			history: HashSet::from([(0, 0)]),
+		};
+	}
+
+	fn pull(&mut self, com_next: &Com) -> () {
+		let mut pull_dist = 0;
+		match com_next {
+			Com::UP(temp_dist) => pull_dist = *temp_dist,
+			Com::DOWN(temp_dist) => pull_dist = *temp_dist,
+			Com::LEFT(temp_dist) => pull_dist = *temp_dist,
+			Com::RIGHT(temp_dist) => pull_dist = *temp_dist,
+		}
+		for temp_itr in 0..pull_dist {
+			match com_next {
+				Com::UP(_) => self.posy += 1,
+				Com::DOWN(_) =>self.posy -= 1,
+				Com::LEFT(_) => self.posx -= 1,
+				Com::RIGHT(_) => self.posx += 1,
+			}
+			self.tail.as_mut().unwrap().follow((self.posx, self.posy));
+		}
+	}
+
+	fn follow(&mut self, head_pos: (i16, i16)) -> () {
+		let head_dist = Self::dist((self.posx, self.posy), head_pos);
+		if head_dist > 1 {
+			if head_pos.0 == self.posx || head_pos.1 == self.posy {
+				
+			}
+		}
+		return;
+	}
+
+	fn dist(pos_base: (i16, i16), pos_targ: (i16, i16)) -> i16 {
+		let comp_x = (pos_targ.0 as f32 - pos_base.0 as f32);
+		let comp_y = (pos_targ.1 as f32 - pos_base.1 as f32);
+		let comp_total = comp_x.powf(2.0) + comp_y.powf(2.0);
+		return comp_total.sqrt().ceil() as i16;
+	}
+
 }
 
 fn clean(file_data: &String) -> Vec<Com> {
@@ -28,7 +89,11 @@ fn clean(file_data: &String) -> Vec<Com> {
 }
 
 fn part1(data_clean: &Vec<Com>) -> () {
-	println!("{:?}", data_clean);
+	let mut rope_head = Rope::new(1);
+	for temp_com in data_clean {
+		rope_head.pull(temp_com);
+	}
+	println!("{:?}", rope_head);
 	return ();
 }
 
