@@ -65,28 +65,28 @@ def run():
 		y_slice = [[temp_moon[0][1], 0] for temp_moon in list_moons]
 		z_slice = [[temp_moon[0][2], 0] for temp_moon in list_moons]
 		x_final, y_final, z_final = 0, 0, 0
-		list_history = {}
+		list_history = set()
 		while True:
 			x_slice = smallstep(x_slice)
 			if str(x_slice) in list_history:
 				x_final = len(list_history)
 				list_history.clear()
 				break
-			list_history[str(x_slice)] = True
+			list_history.add(str(x_slice))
 		while True:
 			y_slice = smallstep(y_slice)
 			if str(y_slice) in list_history:
 				y_final = len(list_history)
 				list_history.clear()
 				break
-			list_history[str(y_slice)] = True
+			list_history.add(str(y_slice))
 		while True:
 			z_slice = smallstep(z_slice)
 			if str(z_slice) in list_history:
 				z_final = len(list_history)
 				list_history.clear()
 				break
-			list_history[str(z_slice)] = True
+			list_history.add(str(z_slice))
 		return math.lcm(x_final, y_final, z_final)
 
 	return simulate(file_in), history(file_in)
