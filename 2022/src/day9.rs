@@ -42,8 +42,8 @@ impl Rope {
 		}
 		for temp_itr in 0..pull_dist {
 			match com_next {
-				Com::UP(_) => self.posy += 1,
-				Com::DOWN(_) =>self.posy -= 1,
+				Com::UP(_) => self.posy -= 1,
+				Com::DOWN(_) => self.posy += 1,
 				Com::LEFT(_) => self.posx -= 1,
 				Com::RIGHT(_) => self.posx += 1,
 			}
@@ -53,19 +53,37 @@ impl Rope {
 
 	fn follow(&mut self, head_pos: (i16, i16)) -> () {
 		let head_dist = Self::dist((self.posx, self.posy), head_pos);
-		if head_dist > 1 {
-			if head_pos.0 == self.posx || head_pos.1 == self.posy {
-				
+		if head_dist > 1.5 {
+			if head_pos.0 < self.posx {
+				self.posx -= 1;
+			} else if head_pos.0 > self.posx {
+				self.posx += 1;
 			}
+			if head_pos.1 < self.posy {
+				self.posy -= 1;
+			} else if head_pos.1 > self.posy {
+				self.posy += 1;
+			}
+		}
+		self.history.insert((self.posx, self.posy));
+		if self.tail.is_some() {
+			self.tail.as_mut().unwrap().follow((self.posx, self.posy));
 		}
 		return;
 	}
 
-	fn dist(pos_base: (i16, i16), pos_targ: (i16, i16)) -> i16 {
+	fn dist(pos_base: (i16, i16), pos_targ: (i16, i16)) -> f32 {
 		let comp_x = (pos_targ.0 as f32 - pos_base.0 as f32);
 		let comp_y = (pos_targ.1 as f32 - pos_base.1 as f32);
 		let comp_total = comp_x.powf(2.0) + comp_y.powf(2.0);
-		return comp_total.sqrt().ceil() as i16;
+		return comp_total.sqrt();
+	}
+
+	fn last(&self) -> &Rope {
+		if self.tail.is_some() {
+			return self.tail.as_ref().unwrap().last();
+		}
+		return &self;
 	}
 
 }
@@ -88,20 +106,24 @@ fn clean(file_data: &String) -> Vec<Com> {
 	return com_vec;
 }
 
-fn part1(data_clean: &Vec<Com>) -> () {
+fn part1(data_clean: &Vec<Com>) -> u16 {
 	let mut rope_head = Rope::new(1);
 	for temp_com in data_clean {
 		rope_head.pull(temp_com);
 	}
-	println!("{:?}", rope_head);
-	return ();
+	return rope_head.tail.as_ref().unwrap().history.len() as u16;
 }
 
-fn part2(data_clean: &Vec<Com>) -> () {
-	return ();
+fn part2(data_clean: &Vec<Com>) -> u16 {
+	let mut rope_head = Rope::new(9);
+	for temp_com in data_clean {
+		rope_head.pull(temp_com);
+	}
+	let rope_tail = rope_head.last();
+	return rope_tail.history.len() as u16;
 }
 
-pub fn main() -> ((), ()) {
+pub fn main() -> (u16, u16) {
 	let file_raw = read::as_string("day9.txt");
 	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
