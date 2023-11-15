@@ -2,7 +2,6 @@ use crate::read;
 use itertools::Itertools;
 use std::collections::HashSet;
 
-#[derive(Debug)]
 enum Com {
 	UP(u8),
 	DOWN(u8),
@@ -10,7 +9,6 @@ enum Com {
 	RIGHT(u8),
 }
 
-#[derive(Debug)]
 struct Rope {
 	posx: i16,
 	posy: i16,
