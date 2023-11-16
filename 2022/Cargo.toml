@@ -14,4 +14,5 @@ path = "src/timing.rs"
 
 [dependencies]
 array2d = "0.3.0"
+evalexpr = "11.1.0"
 itertools = "0.11.0"
