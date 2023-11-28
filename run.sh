@@ -1,8 +1,9 @@
 #!/bin/bash
-clear
-python -B "./2019/timing.py"
-python -B "./2020/timing.py"
-cargo run --manifest-path="./2021/Cargo.toml"
-cargo run --manifest-path="./2022/Cargo.toml"
+echo -ne "\033]0;unning Advent...\007"
+cd 2019 ; python -B timing.py ; cd ..
+cd 2020 ; python -B timing.py ; cd ..
+cd 2021 ; cargo run --release ; cd ..
+cd 2022 ; cargo run --release ; cd ..
+cd 2023 ; go run . ; cd ..
 read -n 1 -s -p "Press any key to continue"
 exit
