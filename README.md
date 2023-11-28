@@ -4,6 +4,10 @@
 
 ## Completion
 
+- 2015 : [TODO] Random. Java?
+- 2016 : [TODO] Julia
+- 2017 : [TODO] Nim.
+- 2018 : [TODO] Zig.
 - 2019 : 14/25 days complete in Python 3.
 - 2020 : 25/25 days complete in Python 3. [DONE]
 - 2021 : 14/25 days complete in Rust 2021.
