@@ -15,13 +15,13 @@
 ## Requirements
 
 - Python >=3.10 installed.
-- "python3" as a recognized terminal command.
+  - "python3" as a recognized terminal command.
 
 - Rust 2021 installed.
-- "cargo" as a recognized terminal command.
+  - "cargo" as a recognized terminal command.
 
 - Golang 1.21 installed.
-- "go" as a recognized terminal command.
+  - "go" as a recognized terminal command.
 
 ## Directory
 
