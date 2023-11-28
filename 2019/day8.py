@@ -29,11 +29,13 @@ def run():
 			new_slice = new_slice.replace("0", " ")
 			new_slice = new_slice.replace("1", "*")
 			layer_image[temp_idx] = new_slice
+		print(" ", end="")
 		for temp_idx, temp_char in enumerate(layer_image, start=1):
 			if temp_idx % input_size[0] == 0:
-				print(temp_char)
+				print(temp_char, end="\n ")
 			else:
 				print(temp_char, end="")
+		print()
 		return
 
 	return layer(file_in, [25, 6]), decode(file_in, [25, 6])

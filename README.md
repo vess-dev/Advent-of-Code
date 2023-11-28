@@ -8,7 +8,7 @@
 - 2020 : 25/25 days complete in Python 3. [DONE]
 - 2021 : 14/25 days complete in Rust 2021.
 - 2022 : 11/25 days complete in Rust 2021.
-- 2023 : 0/25 days complete in Golang.
+- 2023 : 0/25 days complete in Golang 1.21.
 
 64 total days finished.
 
@@ -20,19 +20,28 @@
 - Rust 2021 installed.
 - "cargo" as a recognized terminal command.
 
+- Golang 1.21 installed.
+- "go" as a recognized terminal command.
+
 ## Directory
 
 The years written in Python contain the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
-- day\*.py : The code that solves both parts of the day from the input held in "/input".
-- timing.py : Code that times every solution for both parts and prints the average.
+- /day\*.py : The code that solves both parts of the day from the input held in "/input".
+- /timing.py : Code that times every solution for both parts and prints the average.
 
 The years written in Rust contain the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
 - /src/day\*.rs : The code that solves both parts of the day from the input held in "/input".
 - /src/timing.rs : Code that times every solution for both parts and prints the average.
+
+The years written in Golang contain the following structure:
+
+- /input/day\*.txt : Holds the inputs in text files.
+- /day\*.go : The code that solves both parts of the day from the input held in "/input".
+- /timing.go : Code that times every solution for both parts and prints the average.
 
 In the top level directory:
 

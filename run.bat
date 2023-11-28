@@ -1,9 +1,9 @@
 @echo off
 title Running Advent...
-cls
-python -B %~dp0/2019/timing.py
-python -B %~dp0/2020/timing.py
-cargo run --manifest-path=%~dp0/2021/Cargo.toml
-cargo run --manifest-path=%~dp0/2022/Cargo.toml
+cd 2019 & python -B timing.py & cd ..
+cd 2020 & python -B timing.py & cd ..
+cd 2021 & cargo run --release & cd ..
+cd 2022 & cargo run --release & cd ..
+cd 2023 & go run . & cd ..
 pause
 exit
