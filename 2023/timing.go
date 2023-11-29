@@ -21,16 +21,17 @@ func main() {
 	day_list := []func()(any,any){day1}
 	test_count := 10
 	time_total := time.Now()
+	var since_test time.Duration
 	for itr_index, itr_func := range day_list {
 		time_now := time.Now()
 		var test_return [2]any
 		for itr_test := 0; itr_test < test_count; itr_test++ {
 			test_return[0], test_return[1] = itr_func()
 		}
-		since_test := time.Since(time_now)
+		since_test += time.Since(time_now)
 		fmt.Printf("Day %v: %v\n", itr_index+1, test_return)
-		fmt.Printf("%v trials of day %v: %v\n\n", test_count, itr_index+1, since_test)
+		fmt.Printf("%v trials of day %v: %.7fs\n\n", test_count, itr_index+1, since_test.Seconds() / float64(test_count))
 	}
 	since_start := time.Since(time_total)
-	fmt.Printf("%v trials of all, averages: %v seconds\n", test_count, since_start)
+	fmt.Printf("%v trials of all, averages: %.7f seconds.\n", test_count, since_start.Seconds() / float64(test_count))
 }
