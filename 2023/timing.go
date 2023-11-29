@@ -21,10 +21,10 @@ func main() {
 	day_list := []func()(any,any){day1}
 	test_count := 10
 	time_total := time.Now()
-	var since_test time.Duration
 	for itr_index, itr_func := range day_list {
 		time_now := time.Now()
 		var test_return [2]any
+		var since_test time.Duration
 		for itr_test := 0; itr_test < test_count; itr_test++ {
 			test_return[0], test_return[1] = itr_func()
 		}
