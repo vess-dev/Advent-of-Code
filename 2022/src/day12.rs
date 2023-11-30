@@ -2,13 +2,45 @@ use crate::read;
 use pathfinding::prelude::bfs;
 use std::collections::HashMap;
 
-
 const DIR_LIST: [(i64, i64); 4] = [
 	(1, 0),
 	(0, 1),
 	(-1, 0),
 	(0, -1),
 ];
+
+#[derive(Clone, Copy, Eq, Hash, Ord, PartialEq, PartialOrd)]
+struct Pos {
+	loc: (i64, i64),
+}
+
+impl Pos {
+	
+	fn new(pos_loc: (i64, i64)) -> Pos {
+		return Pos {
+			loc: pos_loc,
+		};
+	}
+
+	fn next(&self, data_clean: &HashMap<(i64, i64), char>) -> Vec<Pos> {
+		let mut vec_next = Vec::new();
+		let char_onrad = *data_clean.get(&self.loc).unwrap() as i64;
+		for temp_dir in DIR_LIST {
+			let new_x = self.loc.0 + temp_dir.0;
+			let new_y = self.loc.1 + temp_dir.1;
+			let new_pos = (new_x, new_y);
+			if let Some(char_next) = data_clean.get(&new_pos) {
+				let char_nextrad = *char_next as i64;
+				if (char_nextrad - char_onrad) <= 1 {
+					let pos_valid = Pos::new(new_pos);
+					vec_next.push(pos_valid);
+				}
+			}
+		}
+		return vec_next;
+	}
+
+}
 
 fn clean(file_data: &String) -> HashMap<(i64, i64), char> {
 	let mut arr_data = HashMap::new();
@@ -26,65 +58,40 @@ fn clean(file_data: &String) -> HashMap<(i64, i64), char> {
 	return arr_data;
 }
 
-fn walk(data_clean: &HashMap<(i64, i64), char>, walk_now: (i64, i64), walk_history: &Vec<(i64, i64)>, walk_distance: &mut usize) -> Option<Vec<(i64, i64)>> {
-	let char_on = data_clean.get(&walk_now).unwrap();
-	if char_on == &'`' {
-		return Some(walk_history.clone());
+fn find(data_clean: &HashMap<(i64, i64), char>, target_char: &char) -> Vec<Pos> {
+	let mut pos_list = Vec::new();
+	for temp_item in data_clean {
+		if temp_item.1 == target_char {
+			let target_pos = Pos::new(*temp_item.0);
+			pos_list.push(target_pos);
+		}
 	}
-	let mut walk_current = walk_history.clone();
-	walk_current.push(walk_now);
-	if walk_current.len() > *walk_distance {
-		return None;
-	}
-	let mut walk_short = Vec::new();
-	for temp_pair in DIR_LIST {
-		let new_x = walk_now.0 + temp_pair.0;
-		let new_y = walk_now.1 + temp_pair.1;
-		let walk_next = (new_x, new_y);
-		if !walk_current.contains(&walk_next) {
-			if let Some(char_next) = data_clean.get(&walk_next) {
-				let char_nextrad = *char_next as i32;
-				let char_onrad = *char_on as i32;
-				if ((char_nextrad - char_onrad) >= -1) {
-					if let Some(test_walk) = walk(data_clean, walk_next, &walk_current, walk_distance) {
-						if test_walk.len() <= *walk_distance {
-							*walk_distance = test_walk.len();
-							walk_short = test_walk;
-						}
-					}
-				}
+	return pos_list;
+}
+
+fn part1(data_clean: &HashMap<(i64, i64), char>) -> usize {
+	let pos_start = find(data_clean, &'`')[0];
+	let pos_end = find(data_clean, &'{')[0];
+	let pos_minpath = bfs(&pos_start, |temp_pos| temp_pos.next(data_clean), |temp_pos| *temp_pos == pos_end);
+	return pos_minpath.unwrap().len() - 1;
+}
+
+fn part2(data_clean: &HashMap<(i64, i64), char>) -> usize {
+	let pos_start = find(data_clean, &'a');
+	let pos_end = find(data_clean, &'{')[0];
+	let mut pos_minpath = usize::MAX;
+	for temp_pos in pos_start {
+		let pos_testpath = bfs(&temp_pos, |temp_pos| temp_pos.next(data_clean), |temp_pos| *temp_pos == pos_end);
+		if let Some(pos_check) = pos_testpath {
+			if pos_check.len() < pos_minpath {
+				pos_minpath = pos_check.len();
 			}
 		}
 	}
-	if walk_short.len() != 0 {
-		return Some(walk_short);
-	}
-	return None;
+	return pos_minpath - 1;
 }
 
-fn find(data_clean: &HashMap<(i64, i64), char>, target_char: &char) -> Option<(i64, i64)> {
-	for temp_item in data_clean {
-		if temp_item.1 == &'{' {
-			return Some(*temp_item.0);
-		}
-	}
-	return None;
-}
-
-fn part1(data_clean: &HashMap<(i64, i64), char>) -> () {
-	let arr_start = find(data_clean, '{').unwrap();
-	let mut arr_maxpath = data_clean.len();
-	let arr_minpath = walk(data_clean, arr_start, &Vec::new(), &mut arr_maxpath)
-		.unwrap();
-	println!("{:?}", arr_minpath.len());
-	return ();
-}
-
-fn part2(data_clean: &HashMap<(i64, i64), char>) -> () {
-	return ();
-}
-
-pub fn main() -> ((), ()) {
+pub fn main() -> (usize, usize) {
 	let file_raw = read::as_string("day12.txt");
 	let file_data = clean(&file_raw);
 	return (part1(&file_data), part2(&file_data));
