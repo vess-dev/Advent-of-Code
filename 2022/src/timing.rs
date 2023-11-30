@@ -34,11 +34,9 @@ fn time() {
 	use FnSig::*;
 	let vec_days = [FnSig::U32U32(day1::main), FnSig::U16U16(day2::main), FnSig::U16U16(day3::main), FnSig::U16U16(day4::main), FnSig::STRSTR(day5::main), FnSig::U16U16(day6::main), FnSig::U32U32(day7::main), FnSig::U16U32(day8::main), FnSig::U16U16(day9::main), FnSig::U16STR(day10::main), FnSig::U64U64(day11::main)];
 	let test_count = 10;
-	let mut test_type = String::new();
-	if test_count == 1 {
-		test_type = String::from("trial");
-	} else {
-		test_type = String::from("trials");
+	let mut test_type = String::from("trial");
+	if test_count > 1 {
+		test_type.push('s');
 	}
 	let mut test_ret = String::new();
 	let time_total = Instant::now();
