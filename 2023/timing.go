@@ -17,7 +17,7 @@ func main() {
 			test_return[0], test_return[1] = itr_func()
 		}
 		since_test += time.Since(time_now)
-		fmt.Printf("Day %v: %v\n", itr_index+1, test_return)
+		fmt.Printf("Day %v: (%v, %v)\n", itr_index+1, test_return[0], test_return[1])
 		since_testavg := since_test.Seconds() / float64(test_count)
 		fmt.Printf("%v trials of day %v: %.7fs\n\n", test_count, itr_index+1, since_testavg)
 	}
