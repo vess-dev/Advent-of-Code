@@ -4,15 +4,15 @@
 
 ## Completion
 
-- 2015 : [TODO] Random. Java?
+- 2015 : [TODO] Haskell.
 - 2016 : [TODO] Julia
 - 2017 : [TODO] Nim.
 - 2018 : [TODO] Zig.
 - 2019 : 14/25 days complete in Python 3.
 - 2020 : 25/25 days complete in Python 3. [DONE]
 - 2021 : 14/25 days complete in Rust 2021.
-- 2022 : 11/25 days complete in Rust 2021.
-- 2023 : 0/25 days complete in Golang 1.21.
+- 2022 : 12/25 days complete in Rust 2021.
+- 2023 : 1/25 days complete in Golang 1.21.
 
 64 total days finished.
 

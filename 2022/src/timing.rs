@@ -20,6 +20,7 @@ mod day9;
 mod day10;
 mod day11;
 mod day12;
+mod day13;
 
 enum FnSig<U16, U13, U1S, U32, U64, STR, USZ> {
 	U16U16(fn() -> U16),
@@ -67,5 +68,5 @@ fn main() {
 	#[cfg(not(debug_assertions))]
 	time();
 	#[cfg(debug_assertions)]
-	println!("{:?}", day12::main());
+	println!("{:?}", day13::main());
 }
