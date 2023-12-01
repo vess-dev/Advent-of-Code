@@ -26,14 +26,13 @@ func d1reverse(in_string string) string {
 }
 
 func d1checkmap(in_string string) (bool, string) {
-	var string_ret string
 	string_rev := d1reverse(in_string)
 	for temp_idx, temp_comp := range MAP_NUM {
 		if strings.Contains(in_string, temp_comp) || strings.Contains(string_rev, temp_comp) {
 			return true, fmt.Sprint(temp_idx + 1)
 		}
 	}
-	return false, string_ret
+	return false, ""
 }
 
 func d1checkline(in_string string, in_toggle bool) string {
