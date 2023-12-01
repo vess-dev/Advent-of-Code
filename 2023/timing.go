@@ -5,18 +5,6 @@ import (
 	"time"
 )
 
-func check(in_error error) {
-	if in_error != nil {
-		panic(in_error)
-	}
-}
-
-func use(val_list ...any) {
-    for _, itr_val := range val_list {
-        _ = itr_val
-    }
-}
-
 func main() {
 	day_list := []func()(any,any){day1, day2}
 	test_count := 10

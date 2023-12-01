@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"unicode"
@@ -25,14 +24,14 @@ func d1reverse(in_string string) string {
 	return string_rev
 }
 
-func d1checkmap(in_string string) (bool, string) {
+func d1checkmap(in_string string) string {
 	string_rev := d1reverse(in_string)
 	for temp_idx, temp_comp := range MAP_NUM {
 		if strings.Contains(in_string, temp_comp) || strings.Contains(string_rev, temp_comp) {
-			return true, fmt.Sprint(temp_idx + 1)
+			return fmt.Sprint(temp_idx + 1)
 		}
 	}
-	return false, ""
+	return ""
 }
 
 func d1checkline(in_string string, in_toggle bool) string {
@@ -44,8 +43,8 @@ func d1checkline(in_string string, in_toggle bool) string {
 		} else {
 			if in_toggle {
 				check_string = check_string + string(temp_char)
-				temp_bool, temp_string := d1checkmap(check_string)
-				if temp_bool {
+				temp_string := d1checkmap(check_string)
+				if len(temp_string) > 0 {
 					return temp_string
 				}
 			}
@@ -59,7 +58,7 @@ func d1getnum(in_string string, in_toggle bool) int {
 	string_num = string_num + d1checkline(in_string, in_toggle)
 	string_num = string_num + d1checkline(d1reverse(in_string), in_toggle)
 	int_data, int_error := strconv.Atoi(string_num)
-	check(int_error)
+	tcheck(int_error)
 	return int_data
 }
 
@@ -80,9 +79,7 @@ func d1part2(in_clean []string) int {
 }
 
 func day1() (any, any) {
-	file_data, file_error := os.ReadFile("input/day1.txt")
-	check(file_error)
-	file_string := string(file_data)
+	file_string := tload("input/day1.txt")
 	file_clean := d1clean(file_string)
 	return d1part1(file_clean), d1part2(file_clean)
 }
