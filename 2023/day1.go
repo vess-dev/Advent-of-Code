@@ -62,18 +62,10 @@ func d1getnum(in_string string, in_toggle bool) int {
 	return int_data
 }
 
-func d1part1(in_clean []string) int {
+func d1parts(in_clean []string, in_toggle bool) int {
 	var total_value int
 	for _, temp_line := range in_clean {
-		total_value += d1getnum(temp_line, false)
-	}
-	return total_value
-}
-
-func d1part2(in_clean []string) int {
-	var total_value int
-	for _, temp_line := range in_clean {
-		total_value += d1getnum(temp_line, true)
+		total_value += d1getnum(temp_line, in_toggle)
 	}
 	return total_value
 }
@@ -81,5 +73,5 @@ func d1part2(in_clean []string) int {
 func day1() (any, any) {
 	file_string := tload("input/day1.txt")
 	file_clean := d1clean(file_string)
-	return d1part1(file_clean), d1part2(file_clean)
+	return d1parts(file_clean, false), d1parts(file_clean, true)
 }
