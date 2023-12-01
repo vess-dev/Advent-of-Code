@@ -1,7 +1,7 @@
 package main
 
 import (
-	"os"
+
 )
 
 func d2clean(in_raw string) any {
@@ -18,9 +18,7 @@ func d2part2(in_clean any) any {
 }
 
 func day2() (any, any) {
-	file_data, file_error := os.ReadFile("input/day2.txt")
-	tcheck(file_error)
-	file_string := string(file_data)
+	file_string := tload("input/day1.txt")
 	file_clean := d2clean(file_string)
 	return d2part1(file_clean), d2part2(file_clean)
 }

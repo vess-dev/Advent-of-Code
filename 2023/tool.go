@@ -11,7 +11,7 @@ func tcheck(in_error error) {
 }
 
 func tload(in_path string) string {
-	file_data, file_error := os.ReadFile("input/day1.txt")
+	file_data, file_error := os.ReadFile(in_path)
 	tcheck(file_error)
 	return string(file_data)
 }
