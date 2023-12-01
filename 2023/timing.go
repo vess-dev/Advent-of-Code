@@ -18,7 +18,7 @@ func use(val_list ...any) {
 }
 
 func main() {
-	day_list := []func()(any,any){day1}
+	day_list := []func()(any,any){day1, day2}
 	test_count := 10
 	time_total := time.Now()
 	for itr_index, itr_func := range day_list {
