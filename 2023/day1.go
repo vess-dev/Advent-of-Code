@@ -19,10 +19,10 @@ func d1clean(in_raw string) []string {
 
 func d1reverse(in_string string) string {
 	var string_rev string
-    for _, temp_char := range in_string { 
-        string_rev = string(temp_char) + string_rev 
-    } 
-    return string_rev
+	for _, temp_char := range in_string { 
+		string_rev = string(temp_char) + string_rev 
+	} 
+	return string_rev
 }
 
 func d1checkmap(in_string string) (bool, string) {
