@@ -14,7 +14,7 @@
 - 2022 : 12/25 days complete in Rust 2021.
 - 2023 : 1/25 days complete in Golang 1.21.
 
-64 total days finished.
+66 total days finished.
 
 ## Requirements
 
