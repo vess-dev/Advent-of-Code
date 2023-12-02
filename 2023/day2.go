@@ -66,7 +66,7 @@ func d2part2(in_clean [][]d2game) int {
 				rgb_min[2] = temp_hand.blue
 			}
 		}
-		total_score += rgb_min[0] * rgb_min[1] * rgb_min[2]
+		total_score += (rgb_min[0] * rgb_min[1] * rgb_min[2])
 	}
 	return total_score
 }
