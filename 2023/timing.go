@@ -2,11 +2,16 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 )
 
-func main() {
-	day_list := []func()(any,any){day1, day2}
+var day_list = []func()(any,any){
+	day1, day2, day3,
+}
+
+func ttime() {
 	test_count := 10
 	time_total := time.Now()
 	for itr_index, itr_func := range day_list {
@@ -24,4 +29,14 @@ func main() {
 	since_start := time.Since(time_total)
 	since_startavg := since_start.Seconds() / float64(test_count)
 	fmt.Printf("%v trials of all, averages: %.7f seconds.\n", test_count, since_startavg)
+}
+
+func main() {
+	if len(os.Args) >= 2 {
+		int_data, int_error := strconv.Atoi(os.Args[1])
+		tcheck(int_error)
+		fmt.Println(day_list[int_data-1]())
+	} else {
+		ttime()
+	}
 }

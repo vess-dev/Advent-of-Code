@@ -5,7 +5,7 @@ import (
 )
 
 func dXclean(in_raw string) any {
-	out_clean := in_raw 
+	out_clean := in_raw
 	return out_clean
 }
 
@@ -18,7 +18,7 @@ func dXpart2(in_clean any) any {
 }
 
 func dayX() (any, any) {
-	file_string := tload("input/day1.txt")
+	file_string := tload("input/dayX.txt")
 	file_clean := dXclean(file_string)
 	return dXpart1(file_clean), dXpart2(file_clean)
 }
