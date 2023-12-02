@@ -15,8 +15,8 @@ func d2clean(in_raw string) [][]d2game {
 	string_list := strings.Split(in_raw, "\n")
 	var final_list [][]d2game
 	for _, temp_game := range string_list {
-		game_list := strings.Split(temp_game, ": ")[1]
-		draw_list := strings.Split(game_list, "; ")
+		game_line := strings.Split(temp_game, ": ")[1]
+		draw_list := strings.Split(game_line, "; ")
 		var draw_stack []d2game
 		for _, temp_draw := range draw_list {
 			hand_list := strings.Split(temp_draw, ", ")
