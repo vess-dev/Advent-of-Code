@@ -45,8 +45,7 @@ func d2clean(in_raw string) [][]d2game {
 
 func d2part1(in_clean [][]d2game) int {
 	var total_score int
-	NEXTGAME:
-	for temp_idx, temp_game := range in_clean {
+	NEXTGAME: for temp_idx, temp_game := range in_clean {
 		for _, temp_hand := range temp_game {
 			if temp_hand.red > 12 || temp_hand.green > 13 || temp_hand.blue > 14 {
 				continue NEXTGAME
