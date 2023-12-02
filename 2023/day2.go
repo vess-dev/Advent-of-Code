@@ -30,7 +30,7 @@ func d2clean(in_raw string) [][]d2game {
 						case "red":
 							game_new.red = int_data
 						case "green":
-							game_new.green= int_data
+							game_new.green = int_data
 						case "blue":
 							game_new.blue = int_data
 					}
