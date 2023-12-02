@@ -22,15 +22,7 @@ func tload(in_path string) string {
 }
 
 func tprint[T any](in_list []T) {
-	fmt.Print("[")
-	for temp_idx, temp_item := range in_list {
-		if temp_idx == (len(in_list) - 1) {
-			fmt.Printf("%v", temp_item)
-		} else {
-			fmt.Printf("%v | ", temp_item)
-		}
-	}
-	fmt.Println("]")
+	fmt.Printf("%#v", in_list)
 }
 
 func tuse(in_list ...any) {
