@@ -27,12 +27,9 @@ func d2clean(in_raw string) [][]d2game {
 					int_data, int_error := strconv.Atoi(grab_list[0])
 					tcheck(int_error)
 					switch grab_list[1] {
-						case "red":
-							game_new.red = int_data
-						case "green":
-							game_new.green = int_data
-						case "blue":
-							game_new.blue = int_data
+						case "red": game_new.red = int_data
+						case "green": game_new.green = int_data
+						case "blue": game_new.blue = int_data
 					}
 				}
 				draw_stack = append(draw_stack, game_new)
