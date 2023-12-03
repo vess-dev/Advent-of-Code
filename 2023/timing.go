@@ -7,8 +7,9 @@ import (
 	"time"
 )
 
+var d3Inst = day3[rune]
 var day_list = []func()(any,any){
-	day1, day2, day3,
+	day1, day2, d3Inst,
 }
 
 func ttime() {
