@@ -11,7 +11,7 @@ func tcheck(in_error error) {
 	}
 }
 
-func tdrop[T any](in_list []T, in_index int) []T {
+func tdrop(in_list []any, in_index int) []any {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
 
@@ -21,7 +21,7 @@ func tload(in_path string) string {
 	return string(file_data)
 }
 
-func tprint[T any](in_list []T) {
+func tprint(in_list []any) {
 	fmt.Printf("%#v", in_list)
 }
 
