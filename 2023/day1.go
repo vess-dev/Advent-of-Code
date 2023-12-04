@@ -4,10 +4,9 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"unicode"
 )
 
-var MAP_NUM = [9]string {
+var d1MAP_NUM = [9]string {
 	"one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 }
 
@@ -26,7 +25,7 @@ func d1reverse(in_string string) string {
 
 func d1checkmap(in_string string) string {
 	string_rev := d1reverse(in_string)
-	for temp_idx, temp_comp := range MAP_NUM {
+	for temp_idx, temp_comp := range d1MAP_NUM {
 		if strings.Contains(in_string, temp_comp) || strings.Contains(string_rev, temp_comp) {
 			return fmt.Sprint(temp_idx + 1)
 		}
@@ -35,14 +34,14 @@ func d1checkmap(in_string string) string {
 }
 
 func d1checkline(in_string string, in_toggle bool) string {
-	runes_line := []rune(in_string)
 	var check_string string
-	for _, temp_char := range runes_line {
-		if unicode.IsDigit(temp_char) {
-			return string(temp_char)
+	line_curr := strings.Split(in_string, "")
+	for _, temp_char := range line_curr {
+		if tdigit(temp_char) {
+			return temp_char
 		} else {
 			if in_toggle {
-				check_string = check_string + string(temp_char)
+				check_string = check_string + temp_char
 				temp_string := d1checkmap(check_string)
 				if len(temp_string) > 0 {
 					return temp_string
