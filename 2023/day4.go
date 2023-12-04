@@ -38,10 +38,8 @@ func d4match(in_card d4Card) int {
 func d4score(in_wins int) int {
 	if in_wins > 1 {
 		return tpow(2, in_wins-1)
-	} else if in_wins == 1 {
-		return 1
 	}
-	return 0
+	return in_wins
 }
 
 func d4part1(in_clean []d4Card) int {
