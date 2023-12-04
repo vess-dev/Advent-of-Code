@@ -5,22 +5,22 @@ import (
 	"strings"
 )
 
-type d2game struct {
+type d2Game struct {
 	red int
 	green int
 	blue int
 }
 
-func d2clean(in_raw string) [][]d2game {
+func d2clean(in_raw string) [][]d2Game {
 	string_list := strings.Split(in_raw, "\n")
-	var final_list [][]d2game
+	final_list := make([][]d2Game, len(string_list))
 	for _, temp_game := range string_list {
 		game_line := strings.Split(temp_game, ": ")[1]
 		draw_list := strings.Split(game_line, "; ")
-		var draw_stack []d2game
+		var draw_stack []d2Game
 		for _, temp_draw := range draw_list {
 			hand_list := strings.Split(temp_draw, ", ")
-			game_new := d2game{}
+			game_new := d2Game{}
 			for _, temp_hand := range hand_list {
 				grab_list := strings.Split(temp_hand, " ")
 				int_data, int_error := strconv.Atoi(grab_list[0])
@@ -38,7 +38,7 @@ func d2clean(in_raw string) [][]d2game {
 	return final_list
 }
 
-func d2part1(in_clean [][]d2game) int {
+func d2part1(in_clean [][]d2Game) int {
 	var total_score int
 	NEXTGAME: for temp_idx, temp_game := range in_clean {
 		for _, temp_hand := range temp_game {
@@ -51,7 +51,7 @@ func d2part1(in_clean [][]d2game) int {
 	return total_score
 }
 
-func d2part2(in_clean [][]d2game) int {
+func d2part2(in_clean [][]d2Game) int {
 	var total_score int
 	for _, temp_game := range in_clean {
 		var rgb_min [3]int
