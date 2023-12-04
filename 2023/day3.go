@@ -71,7 +71,10 @@ func d3part1(in_clean d3Map) int {
 		if temp_check, temp_ok := temp_val.(*d3Part); temp_ok {
 			if !part_set.Contains(temp_check) {
 				for _, temp_rel := range d3MAP_REL {
-					if _, temp_ok := in_clean[d3Point{temp_key.x + temp_rel[0], temp_key.y + temp_rel[1]}].(string); temp_ok {
+					check_x := temp_key.x + temp_rel[0]
+					check_y := temp_key.y + temp_rel[1]
+					check_point := in_clean[d3Point{check_x, check_y}]
+					if _, temp_ok := check_point.(string); temp_ok {
 						part_set.Add(temp_check)
 						break
 					}
@@ -91,7 +94,10 @@ func d3part2(in_clean d3Map) int {
 		if temp_val == "*" {
 			part_set := mapset.NewSet[*d3Part]()
 			for _, temp_rel := range d3MAP_REL {
-				if temp_ref, temp_ok := in_clean[d3Point{temp_key.x + temp_rel[0], temp_key.y + temp_rel[1]}].(*d3Part); temp_ok {
+				check_x := temp_key.x + temp_rel[0]
+				check_y := temp_key.y + temp_rel[1]
+				check_point := in_clean[d3Point{check_x, check_y}]
+				if temp_ref, temp_ok := check_point.(*d3Part); temp_ok {
 					part_set.Add(temp_ref)
 				}
 			}
