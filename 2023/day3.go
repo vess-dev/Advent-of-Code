@@ -15,6 +15,7 @@ type d3Part struct {
 	num int
 }
 type d3Map = map[d3Point]any
+
 var d3MAP_REL = [8][2]int {
 	{-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0},
 }
@@ -96,7 +97,7 @@ func d3part2(in_clean d3Map) int {
 			}
 			if part_set.Cardinality() == 2 {
 				gear_list := part_set.ToSlice()
-				total_part += gear_list[0].num * gear_list[1].num
+				total_part += (gear_list[0].num * gear_list[1].num)
 			}
 		}
 	}

@@ -3,7 +3,18 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 )
+
+func tcast(in_slice []string) []int {
+	out_slice := make([]int, len(in_slice))
+	for temp_idx, temp_string := range in_slice {
+		int_data, int_error := strconv.Atoi(temp_string)
+		tcheck(int_error)
+		out_slice[temp_idx] = int_data
+	}
+	return out_slice
+}
 
 func tcheck(in_error error) {
 	if in_error != nil {
@@ -29,7 +40,7 @@ func tload(in_path string) string {
 }
 
 func tprint(in_list any) {
-	fmt.Printf("%#v", in_list)
+	fmt.Printf("%#v\n", in_list)
 }
 
 func tuse(in_list ...any) {
