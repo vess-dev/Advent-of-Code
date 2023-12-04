@@ -57,10 +57,8 @@ func d4part2(in_clean []d4Card) int {
 	for temp_idx, temp_card := range in_clean {
 		card_count[temp_idx] += 1
 		card_wins := d4match(temp_card)
-		for temp_win := 1; temp_win <= card_count[temp_idx]; temp_win++ {
-			for temp_itr := 1; temp_itr <= card_wins; temp_itr++ {
-				card_count[temp_idx + temp_itr] += 1
-			}
+		for temp_itr := 1; temp_itr <= card_wins; temp_itr++ {
+			card_count[temp_idx + temp_itr] += card_count[temp_idx]
 		}
 		total_cards += card_count[temp_idx]
 	}
