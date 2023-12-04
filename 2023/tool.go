@@ -42,7 +42,7 @@ func tload(in_path string) string {
 func tpow(in_num int, in_exp int) int {
 	if in_exp == 0 { return 1 }
 	if in_exp == 1 { return in_num }
-	var_y := tpow(in_num, in_exp/2)
+	var_y := tpow(in_num, in_exp / 2)
 	if in_exp % 2 == 0 { return var_y * var_y }
 	return in_num * var_y * var_y
 }
