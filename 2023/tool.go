@@ -11,6 +11,13 @@ func tcheck(in_error error) {
 	}
 }
 
+func tdigit(in_string string) bool {
+	switch in_string {
+		case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9": return true 
+		default: return false
+	}
+}
+
 func tdrop(in_list []any, in_index int) []any {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
@@ -21,7 +28,7 @@ func tload(in_path string) string {
 	return string(file_data)
 }
 
-func tprint(in_list []any) {
+func tprint(in_list any) {
 	fmt.Printf("%#v", in_list)
 }
 
