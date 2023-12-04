@@ -26,22 +26,48 @@ func d4clean(in_raw string) []d4Card {
 	return card_final
 }
 
+func d4match(in_card d4Card) int {
+	var card_wins int
+	for _, temp_num := range in_card.numhave {
+		if slices.Contains(in_card.numwin, temp_num) {
+			card_wins += 1
+		}
+	}
+	return card_wins
+}
+
+func d4score(in_wins int) int {
+	if in_wins > 1 {
+		return (int(math.Pow(2, float64(in_wins-1))))
+	} else if in_wins == 1 {
+		return 1
+	}
+	return 0
+}
+
 func d4part1(in_clean []d4Card) int {
 	var total_score int
 	for _, temp_card := range in_clean {
-		var card_score int
-		for _, temp_num := range temp_card.numhave {
-			if slices.Contains(temp_card.numwin, temp_num) {
-				card_score += 1
-			}
-		}
-		tprint(card_score)
+		card_wins := d4match(temp_card)
+		total_score += d4score(card_wins)
 	}
 	return total_score
 }
 
 func d4part2(in_clean []d4Card) int {
-	return 0
+	card_count := make([]int, len(in_clean))
+	var total_cards int
+	for temp_idx, temp_card := range in_clean {
+		card_count[temp_idx] += 1
+		card_wins := d4match(temp_card)
+		for temp_win := 1; temp_win <= card_count[temp_idx]; temp_win++ {
+			for temp_itr := 1; temp_itr <= card_wins; temp_itr++ {
+				card_count[temp_idx + temp_itr] += 1
+			}
+		}
+		total_cards += card_count[temp_idx]
+	}
+	return total_cards
 }
 
 func day4() (any, any) {
