@@ -10,7 +10,7 @@ type d3Point struct {
 	x int
 	y int
 }
-type d3Num struct {
+type d3Part struct {
 	pos d3Point
 	num int
 }
@@ -19,7 +19,7 @@ var d3MAP_REL = [8][2]int {
 	{-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0},
 }
 
-func d3check(in_slice []string, in_posx int, in_posy int) ([]d3Point, *d3Num) {
+func d3check(in_slice []string, in_posx int, in_posy int) ([]d3Point, *d3Part) {
 	var ret_string string
 	var ret_point []d3Point
 	for temp_itr := 0; temp_itr <= 2; temp_itr++ {
@@ -38,7 +38,7 @@ func d3check(in_slice []string, in_posx int, in_posy int) ([]d3Point, *d3Num) {
 	int_data, int_error := strconv.Atoi(ret_string)
 	tcheck(int_error)
 	anchor_point := d3Point{in_posx, in_posy}
-	int_final := d3Num{anchor_point, int_data}
+	int_final := d3Part{anchor_point, int_data}
 	return ret_point, &int_final
 }
 
@@ -65,9 +65,9 @@ func d3clean(in_raw string) d3Map {
 
 func d3part1(in_clean d3Map) int {
 	var total_part int
-	part_set := mapset.NewSet[*d3Num]()
+	part_set := mapset.NewSet[*d3Part]()
 	for temp_key, temp_val := range in_clean {
-		if temp_check, temp_ok := temp_val.(*d3Num); temp_ok {
+		if temp_check, temp_ok := temp_val.(*d3Part); temp_ok {
 			if !part_set.Contains(temp_check) {
 				for _, temp_rel := range d3MAP_REL {
 					if _, temp_ok := in_clean[d3Point{temp_key.x + temp_rel[0], temp_key.y + temp_rel[1]}].(string); temp_ok {
@@ -88,9 +88,9 @@ func d3part2(in_clean d3Map) int {
 	var total_part int
 	for temp_key, temp_val := range in_clean {
 		if temp_val == "*" {
-			part_set := mapset.NewSet[*d3Num]()
+			part_set := mapset.NewSet[*d3Part]()
 			for _, temp_rel := range d3MAP_REL {
-				if temp_ref, temp_ok := in_clean[d3Point{temp_key.x + temp_rel[0], temp_key.y + temp_rel[1]}].(*d3Num); temp_ok {
+				if temp_ref, temp_ok := in_clean[d3Point{temp_key.x + temp_rel[0], temp_key.y + temp_rel[1]}].(*d3Part); temp_ok {
 					part_set.Add(temp_ref)
 				}
 			}
