@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math"
 	"slices"
 	"strings"
 )
@@ -38,7 +37,7 @@ func d4match(in_card d4Card) int {
 
 func d4score(in_wins int) int {
 	if in_wins > 1 {
-		return (int(math.Pow(2, float64(in_wins-1))))
+		return tpow(2, in_wins-1)
 	} else if in_wins == 1 {
 		return 1
 	}
