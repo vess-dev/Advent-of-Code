@@ -29,7 +29,7 @@ func tdigit(in_string string) bool {
 	}
 }
 
-func tdrop(in_list []any, in_index int) []any {
+func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
 
@@ -37,6 +37,21 @@ func tload(in_path string) string {
 	file_data, file_error := os.ReadFile(in_path)
 	tcheck(file_error)
 	return string(file_data)
+}
+
+func tmake(in_fill any, in_len ...int) any {
+	var slice_final []any
+	if len(in_len) == 1 {
+		for temp_itr := 1; temp_itr <= in_len[0]; temp_itr++ {
+			slice_final = append(slice_final, in_fill)
+		}
+	} else {
+		for temp_itr := 1; temp_itr <= in_len[0]; temp_itr++ {
+			slice_next := tmake(in_fill, in_len[1:]...)
+			slice_final = append(slice_final, slice_next)
+		}
+	}
+	return slice_final
 }
 
 func tpow(in_num int, in_exp int) int {
@@ -47,8 +62,10 @@ func tpow(in_num int, in_exp int) int {
 	return in_num * var_y * var_y
 }
 
-func tprint(in_list any) {
-	fmt.Printf("%#v\n", in_list)
+func tprint(in_list ...any) {
+	for _, temp_var := range in_list {
+		fmt.Printf("%#v\n", temp_var)
+	}
 }
 
 func tuse(in_list ...any) {
