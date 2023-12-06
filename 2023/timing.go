@@ -12,7 +12,7 @@ var day_list = []func()(any,any){
 }
 
 func ttime() {
-	test_count := 10
+	test_count := 100
 	time_total := time.Now()
 	for itr_index, itr_func := range day_list {
 		time_now := time.Now()
