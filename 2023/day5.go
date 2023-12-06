@@ -3,6 +3,7 @@ package main
 import (
 	"math"
 	"sort"
+	"slices"
 	"strings"
 )
 
@@ -37,8 +38,7 @@ func d5clean(in_raw string) ([]int, [][]d5Range) {
 }
 
 func d5map(in_input []int, in_set []d5Range) []int {
-	ret_map := make([]int, len(in_input))
-	copy(ret_map, in_input)
+	ret_map := slices.Clone(in_input)
 	for _, temp_range := range in_set {
 		for temp_idx, temp_int := range in_input {
 			if temp_int >= temp_range.min {
@@ -52,7 +52,7 @@ func d5map(in_input []int, in_set []d5Range) []int {
 }
 
 func d5part1(in_input []int, in_ranges [][]d5Range) int {
-	next_map := in_input
+	next_map := slices.Clone(in_input)
 	for _, temp_set := range in_ranges {
 		next_map = d5map(next_map, temp_set)
 	}
@@ -79,8 +79,7 @@ func d5shake(in_min int, in_max int, in_div int, in_ranges [][]d5Range) (int, in
 }
 
 func d5part2(in_input []int, in_ranges [][]d5Range) int {
-	check_map := make([]int, len(in_input))
-	copy(check_map, in_input)
+	check_map := slices.Clone(in_input)
 	for temp_itr := 0; temp_itr <= len(in_input)-1; temp_itr += 2 {
 		check_map[temp_itr+1] = check_map[temp_itr] + check_map[temp_itr+1] - 1
 	}
