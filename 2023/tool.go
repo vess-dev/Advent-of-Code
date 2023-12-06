@@ -28,6 +28,15 @@ func tcopy[T any](in_var []T) []T {
 	return slices.Clone(in_var)
 }
 
+func tcountdigit(in_int int) int {
+	if in_int > 0 {
+		return int(math.Log10(float64(in_int)))+1
+	} else if in_int == 0 {
+		return 1
+	}
+	return int(math.Log10(float64(-in_int)))+2
+}
+
 func tdigit(in_string string) bool {
 	switch in_string {
 		case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9": return true 
@@ -39,7 +48,7 @@ func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
 
-func tmindx(in_list []int) int {
+func tminidx(in_list []int) int {
 	int_min := math.MaxInt
 	int_idx := -1
 	for temp_idx, temp_val := range in_list {
@@ -49,6 +58,20 @@ func tmindx(in_list []int) int {
 		}
 	}
 	return int_idx
+}
+
+func tconcatint(in_x int, in_y int) int {
+	int_digits := tcountdigit(in_y)
+	int_new := in_x * tpow(10, int_digits) + in_y
+	return int_new
+}
+
+func tconcatgroup(in_ints []int) int {
+	final_int := in_ints[0]
+	for _, temp_int := range in_ints[1:] {
+		final_int = tconcatint(final_int, temp_int)
+	}
+	return final_int
 }
 
 func tload(in_path string) string {

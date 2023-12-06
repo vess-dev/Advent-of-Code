@@ -12,11 +12,11 @@
 - 2020 : 25/25 days complete in Python 3. [DONE]
 - 2021 : 14/25 days complete in Rust 2021.
 - 2022 : 12/25 days complete in Rust 2021.
-- 2023 : 5/25 days complete in Golang 1.21.
+- 2023 : 6/25 days complete in Golang 1.21.
 
-70 total days finished.
+71 total days finished.
 
-4900+ SLOC in total.
+5000+ SLOC in total.
 
 ## Requirements
 
