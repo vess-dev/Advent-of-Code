@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
@@ -31,6 +32,18 @@ func tdigit(in_string string) bool {
 
 func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
+}
+
+func tmindx(in_list []int) int {
+	val_min := math.MaxInt
+	val_idx := -1
+	for temp_idx, temp_val := range in_list {
+		if temp_val < val_min {
+			val_min = temp_val
+			val_idx = temp_idx
+		}
+	}
+	return val_idx
 }
 
 func tload(in_path string) string {
@@ -63,8 +76,12 @@ func tpow(in_num int, in_exp int) int {
 }
 
 func tprint(in_list ...any) {
-	for _, temp_var := range in_list {
-		fmt.Printf("%#v\n", temp_var)
+	if len(in_list) == 0 {
+		fmt.Println()
+	} else {
+		for _, temp_var := range in_list {
+			fmt.Printf("%#v\n", temp_var)
+		}
 	}
 }
 
