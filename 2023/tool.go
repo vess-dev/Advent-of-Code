@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"slices"
 	"strconv"
 )
 
@@ -21,6 +22,10 @@ func tcheck(in_error error) {
 	if in_error != nil {
 		panic(in_error)
 	}
+}
+
+func tcopy[T any](in_var []T) []T {
+	return slices.Clone(in_var)
 }
 
 func tdigit(in_string string) bool {
