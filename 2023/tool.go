@@ -35,15 +35,15 @@ func tdrop[T any](in_list []T, in_index int) []T {
 }
 
 func tmindx(in_list []int) int {
-	val_min := math.MaxInt
-	val_idx := -1
+	int_min := math.MaxInt
+	int_idx := -1
 	for temp_idx, temp_val := range in_list {
-		if temp_val < val_min {
-			val_min = temp_val
-			val_idx = temp_idx
+		if temp_val < int_min {
+			int_min = temp_val
+			int_idx = temp_idx
 		}
 	}
-	return val_idx
+	return int_idx
 }
 
 func tload(in_path string) string {
