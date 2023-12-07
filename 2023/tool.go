@@ -113,8 +113,24 @@ func tprint(in_list ...any) {
 	}
 }
 
+func tstringints(in_ints []int) string {
+	var int_string string
+	for _, temp_int := range in_ints {
+		int_string += fmt.Sprint(temp_int)
+	}
+	return int_string
+}
+
 func tuse(in_list ...any) {
 	for _, temp_var := range in_list {
 		_ = temp_var
 	}
+}
+
+func tzip(in_x []any, in_y []any) [][]any {
+	var int_zip [][]any
+	for temp_idx := range in_x {
+		int_zip = append(int_zip, []any{in_x[temp_idx], in_y[temp_idx]})
+	}
+	return int_zip
 }
