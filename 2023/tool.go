@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"os"
 	"slices"
 	"strconv"
@@ -111,6 +112,11 @@ func tprint(in_list ...any) {
 			fmt.Printf("%#v\n", temp_var)
 		}
 	}
+}
+
+func trand(in_min int, in_max int) int {
+	rand_int := rand.Intn(in_max - in_min) + in_min
+	return rand_int
 }
 
 func tstringints(in_ints []int) string {
