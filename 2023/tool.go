@@ -27,40 +27,13 @@ func tcheck(in_error error) {
 	}
 }
 
-func tcopy[T any](in_var []T) []T {
-	return slices.Clone(in_var)
-}
-
-func tcountdigit(in_int int) int {
-	if in_int > 0 {
-		return int(math.Log10(float64(in_int))) + 1
-	} else if in_int == 0 {
-		return 1
+func tconcatdigits(in_ints []int) int {
+	ret_int := in_ints[0]
+	for _, temp_int := range in_ints[1:] {
+		ret_int *= 10
+		ret_int += temp_int
 	}
-	return int(math.Log10(float64(-in_int))) + 2
-}
-
-func tdigit(in_string string) bool {
-	switch in_string {
-		case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9": return true 
-		default: return false
-	}
-}
-
-func tdrop[T any](in_list []T, in_index int) []T {
-	return append(in_list[:in_index], in_list[in_index+1:]...)
-}
-
-func tminidx(in_list []int) int {
-	int_min := math.MaxInt
-	int_idx := -1
-	for temp_idx, temp_val := range in_list {
-		if temp_val < int_min {
-			int_min = temp_val
-			int_idx = temp_idx
-		}
-	}
-	return int_idx
+	return ret_int
 }
 
 func tconcatint(in_x int, in_y int) int {
@@ -75,6 +48,38 @@ func tconcatgroup(in_ints []int) int {
 		final_int = tconcatint(final_int, temp_int)
 	}
 	return final_int
+}
+
+func tcopy[T any](in_var []T) []T {
+	return slices.Clone(in_var)
+}
+
+func tcountdigit(in_int int) int {
+	if (in_int == 0) {
+		return 1;
+	}
+	int_current := in_int
+	var ret_count int
+	for {
+		if (int_current != 0) {
+			int_current = int_current / 10
+			ret_count += 1
+		} else {
+			break
+		}
+	}
+	return ret_count
+}
+
+func tdigit(in_string string) bool {
+	switch in_string {
+		case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9": return true 
+		default: return false
+	}
+}
+
+func tdrop[T any](in_list []T, in_index int) []T {
+	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
 
 func tline(in_list ...any) {
@@ -107,6 +112,18 @@ func tmake(in_fill any, in_len ...int) any {
 		}
 	}
 	return slice_final
+}
+
+func tminidx(in_list []int) int {
+	int_min := math.MaxInt
+	int_idx := -1
+	for temp_idx, temp_val := range in_list {
+		if temp_val < int_min {
+			int_min = temp_val
+			int_idx = temp_idx
+		}
+	}
+	return int_idx
 }
 
 func tpow(in_base int, in_exp int) int {
