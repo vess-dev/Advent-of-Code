@@ -83,7 +83,7 @@ func d5part2(in_input []int, in_ranges [][]d5Range) int {
 	for temp_itr := 0; temp_itr <= len(in_input)-1; temp_itr += 2 {
 		range_min, range_max := check_map[temp_itr], check_map[temp_itr] + check_map[temp_itr+1]
 		var check_min int
-		for {
+		for true {
 			range_min, range_max, check_min = d5shake(range_min, range_max, in_ranges)
 			if check_min < min_val {
 				min_val = check_min

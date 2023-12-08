@@ -82,6 +82,23 @@ func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
 
+func tgcd(in_x int, in_y int) int {
+	for in_y != 0 {
+			var_t := in_y
+			in_y = in_x % in_y
+			in_x = var_t
+	}
+	return in_x
+}
+
+func tlcm(in_x int, in_y int, in_ints ...int) int {
+	ret_lcm := in_x * in_y / tgcd(in_x, in_y)
+	for temp_itr := 0; temp_itr < len(in_ints); temp_itr++ {
+		ret_lcm = tlcm(ret_lcm, in_ints[temp_itr])
+	}
+	return ret_lcm
+}
+
 func tline(in_list ...any) {
 	if len(in_list) == 0 {
 		fmt.Println(strings.Repeat("=", 100))
@@ -124,6 +141,11 @@ func tminidx(in_list []int) int {
 		}
 	}
 	return int_idx
+}
+
+func tpop(in_slice []any) (any, []any) {
+	ret_pop, ret_slice := in_slice[0], in_slice[1:]
+	return ret_pop, ret_slice
 }
 
 func tpow(in_base int, in_exp int) int {
