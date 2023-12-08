@@ -59,9 +59,9 @@ func d5part1(in_input []int, in_ranges [][]d5Range) int {
 	return next_map[0]
 }
 
-func d5shake(in_min int, in_max int, in_div int, in_ranges [][]d5Range) (int, int, int) {
-	range_diff := in_max - in_min
-	range_step := range_diff/in_div;
+func d5shake(in_min int, in_max int, in_ranges [][]d5Range) (int, int, int) {
+	range_dig := tcountdigit(in_max - in_min) - 2
+	range_step := tpow(10, range_dig)
 	min_val := math.MaxInt
 	new_min, new_max := in_min, in_max
 	for temp_itr := in_min; temp_itr <= in_max; temp_itr += range_step {
@@ -79,19 +79,18 @@ func d5shake(in_min int, in_max int, in_div int, in_ranges [][]d5Range) (int, in
 
 func d5part2(in_input []int, in_ranges [][]d5Range) int {
 	check_map := tcopy(in_input)
+	min_val := math.MaxInt
 	for temp_itr := 0; temp_itr <= len(in_input)-1; temp_itr += 2 {
-		check_map[temp_itr+1] = check_map[temp_itr] + check_map[temp_itr+1] - 1
-	}
-	sort.Ints(check_map)
-	range_min, range_max, range_div := check_map[0], check_map[len(check_map)-1], len(in_input)
-	var min_val int
-	for true {
-		range_min, range_max, min_val = d5shake(range_min, range_max, range_div, in_ranges)
-		if (range_max - range_min) <= len(in_input) {
-			if range_div == 1 {
+		range_min, range_max := check_map[temp_itr], check_map[temp_itr] + check_map[temp_itr+1]
+		var check_min int
+		for true {
+			range_min, range_max, check_min = d5shake(range_min, range_max, in_ranges)
+			if check_min < min_val {
+				min_val = check_min
+			}
+			if (range_max - range_min) < 10 {
 				break
 			}
-			range_div = 1
 		}
 	}
 	return min_val

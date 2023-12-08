@@ -7,6 +7,8 @@ import (
 	"os"
 	"slices"
 	"strconv"
+	"strings"
+	"time"
 )
 
 func tcast(in_slice []string) []int {
@@ -31,11 +33,11 @@ func tcopy[T any](in_var []T) []T {
 
 func tcountdigit(in_int int) int {
 	if in_int > 0 {
-		return int(math.Log10(float64(in_int)))+1
+		return int(math.Log10(float64(in_int))) + 1
 	} else if in_int == 0 {
 		return 1
 	}
-	return int(math.Log10(float64(-in_int)))+2
+	return int(math.Log10(float64(-in_int))) + 2
 }
 
 func tdigit(in_string string) bool {
@@ -75,6 +77,17 @@ func tconcatgroup(in_ints []int) int {
 	return final_int
 }
 
+func tline(in_list ...any) {
+	if len(in_list) == 0 {
+		fmt.Println(strings.Repeat("=", 100))
+	} else {
+		for _, temp_var := range in_list[:len(in_list)-1] {
+			fmt.Printf("%#v, ", temp_var)
+		}
+		fmt.Printf("%#v\n", in_list[len(in_list)-1])
+	}
+}
+
 func tload(in_path string) string {
 	file_data, file_error := os.ReadFile(in_path)
 	tcheck(file_error)
@@ -96,12 +109,19 @@ func tmake(in_fill any, in_len ...int) any {
 	return slice_final
 }
 
-func tpow(in_num int, in_exp int) int {
-	if in_exp == 0 { return 1 }
-	if in_exp == 1 { return in_num }
-	var_y := tpow(in_num, in_exp / 2)
-	if in_exp % 2 == 0 { return var_y * var_y }
-	return in_num * var_y * var_y
+func tpow(in_base int, in_exp int) int {
+	ret_result := 1
+    for {
+        if in_exp & 1 == 1 {
+            ret_result *= in_base
+        }
+        in_exp >>= 1
+        if in_exp == 0 {
+            break
+        }
+        in_base *= in_base
+    }
+    return ret_result
 }
 
 func tprint(in_list ...any) {
@@ -117,6 +137,11 @@ func tprint(in_list ...any) {
 func trand(in_min int, in_max int) int {
 	rand_int := rand.Intn(in_max - in_min) + in_min
 	return rand_int
+}
+
+func tsleep(in_seconds int) {
+	sleep_duration := time.Duration(in_seconds) * time.Second
+	time.Sleep(sleep_duration)
 }
 
 func tstringints(in_ints []int) string {
