@@ -57,9 +57,8 @@ func d8part1(in_gen d8Gen, in_map d8Map) int {
 }
 
 func d8done(in_slice []string) bool {
-	byte_z := []byte("Z")[0]
 	for _, temp_string := range in_slice {
-		if temp_string[2] != byte_z {
+		if temp_string[2] != d8BYTE_Z {
 			return false
 		}
 	}
@@ -96,5 +95,5 @@ func d8part2(in_gen d8Gen, in_map d8Map) int {
 func day8() (any, any) {
 	file_string := tload("input/day8.txt")
 	file_dir, file_map := d8clean(file_string)
-	return d8part2(file_dir, file_map), 5
+	return d8part1(file_dir, file_map), d8part2(file_dir, file_map)
 }
