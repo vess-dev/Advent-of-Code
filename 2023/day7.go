@@ -13,7 +13,7 @@ type d7Card struct {
 
 var d7CARD_RANK = map[string]int{"2":1, "3":2, "4":3, "5":4, "6":5, "7":6, "8":7, "9":8, "T":9, "J":10, "Q":11, "K":12, "A":13}
 var d7JOKE_RANK = map[string]int{"J":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "T":10, "Q":11, "K":12, "A":13}
-var d7HAND_RANK = map[string]int{"11111":1, "1112":2, "122":3, "113":4, "23":5, "14":6, "5":7}
+var d7HAND_RANK = map[int]int{11111:1, 1112:2, 122:3, 113:4, 23:5, 14:6, 5:7}
 
 func d7clean(in_raw string) []d7Card {
 	string_list := strings.Split(in_raw, "\n")
@@ -47,7 +47,7 @@ func d7rank(in_card d7Card, in_toggle bool) int {
 	} else if in_toggle {
 		card_counts = append(card_counts, joker_count)
 	}
-	hand_string := tstringints(card_counts)
+	hand_string := tconcatdigits(card_counts)
 	hand_rank := d7HAND_RANK[hand_string]
 	return hand_rank
 }
