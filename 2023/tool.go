@@ -112,7 +112,7 @@ func tmake(in_fill any, in_len ...int) any {
 func tpow(in_base int, in_exp int) int {
 	ret_result := 1
     for {
-        if in_exp & 1 == 1 {
+        if (in_exp & 1) == 1 {
             ret_result *= in_base
         }
         in_exp >>= 1
