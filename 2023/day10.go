@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -78,15 +77,14 @@ func d10walk(in_map d10Map, in_start d10Point) (int, d10Map) {
 	var step_count int
 	current_point := in_start
 	last_point := in_start
-	loop_map := tcopymap(in_map)
+	loop_map := make(d10Map)
 	for true {
 		for _, temp_pair := range d10MAP_REL {
 			check_point := d10Point{temp_pair[0], temp_pair[1]}
 			next_point := d10Point{current_point.x + temp_pair[0], current_point.y + temp_pair[1]}
 			if next_point != last_point {
 				if d10flow(in_map, current_point, next_point, check_point) {
-					//tline(in_map[current_point], current_point, next_point)
-					loop_map[current_point] = "X"
+					loop_map[current_point] = in_map[current_point]
 					last_point = current_point
 					current_point = next_point
 					step_count += 1
@@ -106,55 +104,46 @@ func d10part1(in_map d10Map, in_start d10Point) (int, d10Map) {
 	return d10walk(in_map, in_start)
 }
 
-func d10debug(in_map d10Map, in_maxx int, in_maxy int) {
-	for temp_y := 0; temp_y <= in_maxx; temp_y++ {
-		for temp_x := 0; temp_x <= in_maxx; temp_x++ {
-			fmt.Print(in_map[d10Point{temp_x, temp_y}])
-		}
-		fmt.Println()
-	}
-}
-
-func d10count(in_map d10Map, in_x int, in_y int, in_maxx int, in_maxy int) (int, int, int, int) {
-	var right_count int
-	for temp_x := in_x; temp_x >= 0; temp_x-- {
-		if in_map[d10Point{temp_x, in_y}] == "X" {
-			right_count += 1
+func d10fix(in_map d10Map, in_start d10Point) d10Map {
+	fix_map := tcopymap(in_map)
+	var flag_right, flag_down, flag_left, flag_up bool
+	for _, temp_pair := range d10MAP_REL {
+		check_point := d10Point{temp_pair[0], temp_pair[1]}
+		next_point := d10Point{in_start.x + temp_pair[0], in_start.y + temp_pair[1]}
+		if d10flow(in_map, in_start, next_point, check_point) {
+			if temp_pair == [2]int{1, 0} { flag_right = true }
+			if temp_pair == [2]int{0, 1} { flag_down = true }
+			if temp_pair == [2]int{-1, 0} { flag_left = true }
+			if temp_pair == [2]int{0, -1} { flag_up = true }
 		}
 	}
-	var down_count int
-	for temp_y := in_y; temp_y <= in_maxy; temp_y++ {
-		if in_map[d10Point{in_x, temp_y}] == "X" {
-			down_count += 1
-		}
-	}
-	var left_count int
-	for temp_x := in_x; temp_x <= in_maxx; temp_x++ {
-		if in_map[d10Point{temp_x, in_y}] == "X" {
-			left_count += 1
-		}
-	}
-	var up_count int
-	for temp_y := in_y; temp_y >= 0; temp_y-- {
-		if in_map[d10Point{in_x, temp_y}] == "X" {
-			up_count += 1
-		}
-	}
-	return right_count, down_count, left_count, up_count
+	if flag_up && flag_down { fix_map[in_start] = "|" }
+	if flag_right && flag_left { fix_map[in_start] = "-" }
+	if flag_right && flag_up { fix_map[in_start] = "L" }
+	if flag_left && flag_up { fix_map[in_start] = "J" }
+	if flag_down && flag_left { fix_map[in_start] = "7" }
+	if flag_right && flag_down { fix_map[in_start] = "F" }
+	return fix_map
 }
 
 func d10part2(in_map d10Map, in_start d10Point, in_maxx int, in_maxy int) int {
 	var inside_seen int
+	fix_map := d10fix(in_map, in_start)
 	for temp_y := 0; temp_y <= in_maxy; temp_y++ {
+		var toggle_scan bool
+		var char_last string
 		for temp_x := 0; temp_x <= in_maxx; temp_x++ {
-			if in_map[d10Point{temp_x, temp_y}] != "X" {
-				x_right, x_down, x_left, x_up := d10count(in_map, temp_x, temp_y, in_maxx, in_maxy)
-				if (x_right > 0) && (x_down > 0) && (x_left > 0) && (x_up > 0) {
-					if (x_right % 2 == 1) || (x_down % 2 == 1) || (x_left % 2 == 1) || (x_up % 2 == 1) {
-						tline(in_map[d10Point{temp_x, temp_y}], temp_x, temp_y, x_right, x_down, x_left, x_up)
-						inside_seen += 1
-					}
-				}
+			switch fix_map[d10Point{temp_x, temp_y}] {
+				case "|": toggle_scan = !toggle_scan
+				case "L":
+					char_last = "L"
+					toggle_scan = !toggle_scan
+				case "J": if char_last == "L" { toggle_scan = !toggle_scan }
+				case "7": if char_last == "F" { toggle_scan = !toggle_scan }
+				case "F":
+					char_last = "F"
+					toggle_scan = !toggle_scan
+				case "": if toggle_scan { inside_seen += 1 }
 			}
 		}
 	}
