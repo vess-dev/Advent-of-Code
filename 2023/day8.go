@@ -5,8 +5,8 @@ import (
 )
 
 type d8Node struct {
-	l string
-	r string
+	left string
+	right string
 }
 type d8Gen struct {
 	queue []string
@@ -45,8 +45,8 @@ func d8part1(in_gen d8Gen, in_map d8Map) int {
 	for true {
 		map_next := map_gen.Next()
 		switch map_next {
-			case "L": map_current = in_map[map_current].l
-			case "R": map_current = in_map[map_current].r
+			case "L": map_current = in_map[map_current].left
+			case "R": map_current = in_map[map_current].right
 		}
 		map_steps += 1
 		if map_current == "ZZZ" {
@@ -79,8 +79,8 @@ func d8part2(in_gen d8Gen, in_map d8Map) int {
 		for temp_itr, temp_string := range map_current {
 			if temp_string[2] != d8BYTE_Z {
 				switch map_next {
-					case "L": map_current[temp_itr] = in_map[temp_string].l
-					case "R": map_current[temp_itr] = in_map[temp_string].r
+					case "L": map_current[temp_itr] = in_map[temp_string].left
+					case "R": map_current[temp_itr] = in_map[temp_string].right
 				}
 				map_steps[temp_itr] += 1
 			}

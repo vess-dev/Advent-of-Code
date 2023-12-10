@@ -5,7 +5,6 @@ import (
 	"math"
 	"math/rand"
 	"os"
-	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -50,8 +49,20 @@ func tconcatgroup(in_ints []int) int {
 	return final_int
 }
 
-func tcopy[T any](in_var []T) []T {
-	return slices.Clone(in_var)
+func tcopy[T any](in_slice []T) []T {
+	slice_new := make([]T, len(in_slice))
+	for temp_idx, temp_item := range in_slice {
+		slice_new[temp_idx] = temp_item
+	}
+	return slice_new
+}
+
+func tcopymap[T comparable, U any](in_map map[T]U) map[T]U {
+	map_new := make(map[T]U, len(in_map))
+	for temp_key, temp_value := range in_map {
+		map_new[temp_key] = temp_value
+	}
+	return map_new
 }
 
 func tcountdigit(in_int int) int {
@@ -78,6 +89,13 @@ func tdigit(in_string string) bool {
 	}
 }
 
+func tdist(in_x1 int, in_y1 int, in_x2 int, in_y2 int) float64 {
+	x_diff := tpow(in_x2 - in_x1, 2)
+	y_diff := tpow(in_y2 - in_y1, 2)
+	float_sum := float64(x_diff + y_diff)
+	return math.Sqrt(float_sum)
+}
+
 func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
@@ -89,6 +107,15 @@ func tgcd(in_x int, in_y int) int {
 			in_x = var_t
 	}
 	return in_x
+}
+
+func thas(in_item any, in_slice []any) bool {
+	for _, temp_item := range in_slice {
+		if in_item == temp_item {
+			return true
+		}
+	}
+	return false
 }
 
 func tlcm(in_x int, in_y int, in_ints ...int) int {
@@ -176,6 +203,17 @@ func tprint(in_list ...any) {
 func trand(in_min int, in_max int) int {
 	rand_int := rand.Intn(in_max - in_min) + in_min
 	return rand_int
+}
+
+func tshas(in_slice []any, in_check []any) bool {
+	for _, temp_item := range in_slice {
+		for _, temp_check := range in_check {
+			if temp_item == temp_check {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func tsleep(in_seconds int) {

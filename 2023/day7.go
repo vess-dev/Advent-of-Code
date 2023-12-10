@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -41,7 +42,7 @@ func d7rank(in_card d7Card, in_toggle bool) int {
 	for _, temp_val := range card_count {
 		card_counts = append(card_counts, temp_val)
 	}
-	sort.Ints(card_counts)
+	slices.Sort(card_counts)
 	if (in_toggle && (joker_count != 5)) {
 		card_counts[len(card_counts) - 1] += joker_count 
 	} else if in_toggle {
