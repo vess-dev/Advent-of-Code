@@ -3,6 +3,7 @@ package main
 import (
 	"math"
 	"sort"
+	"slices"
 	"strings"
 )
 
@@ -55,7 +56,7 @@ func d5part1(in_input []int, in_ranges [][]d5Range) int {
 	for _, temp_set := range in_ranges {
 		next_map = d5map(next_map, temp_set)
 	}
-	sort.Ints(next_map)
+	slices.Sort(next_map)
 	return next_map[0]
 }
 
