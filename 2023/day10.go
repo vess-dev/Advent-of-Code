@@ -154,6 +154,5 @@ func day10() (any, any) {
 	file_string := tload("input/day10.txt")
 	file_map, file_start, max_x, max_y := d10clean(file_string)
 	dist_far, loop_map := d10part1(file_map, file_start)
-	tuse(max_x, max_y, loop_map)
 	return dist_far, d10part2(loop_map, file_start, max_x, max_y)
 }
