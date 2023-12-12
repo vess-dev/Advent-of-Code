@@ -10,6 +10,13 @@ import (
 	"time"
 )
 
+func tabs(in_int int) int {
+	if in_int < 0 {
+		return -in_int
+	}
+	return in_int
+}
+
 func tcast(in_slice []string) []int {
 	out_slice := make([]int, len(in_slice))
 	for temp_idx, temp_string := range in_slice {
@@ -219,6 +226,12 @@ func tshas(in_slice []any, in_check []any) bool {
 func tsleep(in_seconds int) {
 	sleep_duration := time.Duration(in_seconds) * time.Second
 	time.Sleep(sleep_duration)
+}
+
+func tsteps(in_x1 int, in_y1 int, in_x2 int, in_y2 int) int {
+	x_diff := tabs(in_x2 - in_x1)
+	y_diff := tabs(in_y2 - in_y1)
+	return x_diff + y_diff
 }
 
 func tstringints(in_ints []int) string {
