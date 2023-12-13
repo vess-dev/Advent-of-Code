@@ -17,14 +17,20 @@ func tabs(in_int int) int {
 	return in_int
 }
 
+func tbin(in_num int, in_length int) []string {
+	bin_format := strings.Replace("%0?b", "?", fmt.Sprint(in_length), 1)
+	bin_string := fmt.Sprintf(bin_format, in_num)
+	return strings.Split(bin_string, "")
+}
+
 func tcast(in_slice []string) []int {
-	out_slice := make([]int, len(in_slice))
+	slice_ints := make([]int, len(in_slice))
 	for temp_idx, temp_string := range in_slice {
 		int_data, int_error := strconv.Atoi(temp_string)
 		tcheck(int_error)
-		out_slice[temp_idx] = int_data
+		slice_ints[temp_idx] = int_data
 	}
-	return out_slice
+	return slice_ints
 }
 
 func tcheck(in_error error) {
@@ -70,6 +76,16 @@ func tcopymap[T comparable, U any](in_map map[T]U) map[T]U {
 		map_new[temp_key] = temp_value
 	}
 	return map_new
+}
+
+func tcount[T comparable](in_slice []T, in_match T) int {
+	var match_count int
+	for temp_idx := range in_slice {
+		if in_slice[temp_idx] == in_match {
+			match_count += 1
+		}
+	}
+	return match_count
 }
 
 func tcountdigit(in_int int) int {
@@ -177,6 +193,15 @@ func tminidx(in_list []int) int {
 	return int_idx
 }
 
+func tones(in_int int) int {
+	var bit_sum int
+	for in_int > 0 {
+		in_int &= (in_int - 1)
+		bit_sum += 1
+	}
+	return bit_sum
+}
+
 func tpop(in_slice []any) (any, []any) {
 	ret_pop, ret_slice := in_slice[0], in_slice[1:]
 	return ret_pop, ret_slice
@@ -212,6 +237,15 @@ func trand(in_min int, in_max int) int {
 	return rand_int
 }
 
+func tsame[T comparable](in_slice []T) bool {
+	for _, temp_item := range in_slice[1:] {
+		if in_slice[0] != temp_item {
+			return false
+		}
+	}
+	return true
+}
+
 func tshas(in_slice []any, in_check []any) bool {
 	for _, temp_item := range in_slice {
 		for _, temp_check := range in_check {
@@ -240,6 +274,14 @@ func tstringints(in_ints []int) string {
 		int_string += fmt.Sprint(temp_int)
 	}
 	return int_string
+}
+
+func tsum(in_ints []int) int {
+	var final_sum int
+	for _, temp_int := range in_ints {
+		final_sum += temp_int
+	}
+	return final_sum
 }
 
 func tuse(in_list ...any) {
