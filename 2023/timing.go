@@ -7,14 +7,15 @@ import (
 	"time"
 )
 
-var day_list = []func()(any,any){
+type TLIST_SIG = []func()(any,any)
+var TDAY_LIST = TLIST_SIG{
 	day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12,
 }
 
-func ttime() {
+func ttime(in_list TLIST_SIG) {
 	test_count := 10
 	time_total := time.Now()
-	for itr_index, itr_func := range day_list {
+	for itr_index, itr_func := range in_list {
 		time_now := time.Now()
 		var test_return [2]any
 		var since_test time.Duration
@@ -32,11 +33,17 @@ func ttime() {
 }
 
 func main() {
-	if len(os.Args) >= 2 {
+	arg_len := len(os.Args)
+	if arg_len == 2 {
 		int_data, int_error := strconv.Atoi(os.Args[1])
 		tcheck(int_error)
-		fmt.Println(day_list[int_data-1]())
+		fmt.Println(TDAY_LIST[int_data-1]())
+	} else if (arg_len == 3) && (os.Args[1] == "t") {
+		int_data, int_error := strconv.Atoi(os.Args[2])
+		tcheck(int_error)
+		one_list := TLIST_SIG{TDAY_LIST[int_data-1]}
+		ttime(one_list)
 	} else {
-		ttime()
+		ttime(TDAY_LIST)
 	}
 }

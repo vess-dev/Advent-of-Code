@@ -14,15 +14,6 @@ func d9clean(in_raw string) [][]int {
 	return final_list
 }
 
-func d9equal(in_slice []int) bool {
-	for _, temp_int := range in_slice[1:] {
-		if in_slice[0] != temp_int {
-			return false
-		}
-	}
-	return true
-}
-
 func d9diff(in_slice []int) []int {
 	ret_slice := make([]int, len(in_slice) - 1)
 	for temp_idx, temp_int := range in_slice[1:] {
@@ -38,7 +29,7 @@ func d9dig(in_slice []int, in_toggle bool) int {
 	} else {
 		ret_val = in_slice[0]
 	}
-	if !d9equal(in_slice) {
+	if !tsame(in_slice) {
 		diff_slice := d9diff(in_slice)
 		if !in_toggle {
 			ret_val += d9dig(diff_slice, in_toggle)
