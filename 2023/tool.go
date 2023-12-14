@@ -123,6 +123,18 @@ func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
 
+func tequal(in_base []int, in_comp []int) bool {
+	if len(in_base) != len(in_comp) {
+		return false
+	}
+	for temp_idx, temp_value := range in_base {
+		if temp_value != in_comp[temp_idx] {
+			return false
+		}
+	}
+	return true
+}
+
 func tgcd(in_x int, in_y int) int {
 	for in_y != 0 {
 			var_t := in_y
