@@ -9,6 +9,11 @@ type d12Record struct {
 	list []string
 	verify []int
 }
+type d12Index struct {
+	index int
+	left int
+}
+type d12Map = map[d12Index]int
 
 func d12clean(in_raw string) ([]d12Record, []d12Record) {
 	string_list := strings.Split(in_raw, "\n")
@@ -29,40 +34,55 @@ func d12clean(in_raw string) ([]d12Record, []d12Record) {
 	return record_list, expand_list
 }
 
-func d12loop(in_list []string, in_verify []int) int {
-	for temp_idx, temp_char := range in_list {
-		if temp_char == "?" {
-			dot_list := tcopy(in_list)
-			dot_list[temp_idx] = "."
-			hash_list := tcopy(in_list)
-			hash_list[temp_idx] = "#"
-			return d12loop(dot_list, in_verify) + d12loop(hash_list, in_verify)
+func d12loop(in_cache *d12Map, in_list []string, in_verify []int, in_index int) int {
+	if (in_index > 0) && (in_index < len(in_list)) {
+			if in_list[in_index-1] == "#" {
+			return 0
 		}
 	}
-	var test_verify []int
-	var hash_count int
-	for _, temp_char := range in_list {
-		switch temp_char {
-			case ".":
-				if hash_count > 0 {
-					test_verify = append(test_verify, hash_count)
-					hash_count = 0
-				}
-			case "#": hash_count += 1
+	if len(in_verify) == 0 {
+		if in_index >= len(in_list) {
+			return 1
 		}
-	}
-	if hash_count > 0 {
-		test_verify = append(test_verify, hash_count)
-	}
-	if tequal(in_verify, test_verify) {
+		for _, temp_char := range in_list[in_index:] {
+			if temp_char == "#" {
+				return 0
+			}
+		}
 		return 1
 	}
-	return 0
+
+	var find_index int
+	L1: for find_index = in_index; true; find_index++ {
+		if find_index >= len(in_list) {
+			return 0
+		}
+		switch in_list[find_index] {
+			case "#": break L1
+			case "?": break L1
+		}
+	}
+	var hash_count int
+	L2: for _, temp_char := range in_list[find_index:] {
+		switch temp_char {
+			case ".": break L2
+			default: hash_count += 1
+		}
+	}
+	var result_sum int
+	if hash_count >= in_verify[0] {
+		result_sum += d12loop(in_cache, in_list, in_verify[1:], find_index + in_verify[0] + 1)
+	}
+	if in_list[find_index] == "?" {
+		result_sum += d12loop(in_cache, in_list, in_verify, find_index + 1)
+	}
+	return result_sum
 }
 
 func d12valid(in_record d12Record, in_group *sync.WaitGroup, in_chan chan int) {
 	var valid_count int
-	valid_count = d12loop(in_record.list, in_record.verify)
+	cache_map := make(d12Map)
+	valid_count = d12loop(&cache_map, in_record.list, in_record.verify, 0)
 	in_chan <- valid_count
 	in_group.Done()
 }
@@ -72,7 +92,8 @@ func d12part1(in_clean []d12Record) int {
 	chan_sum := make(chan int, len(in_clean))
 	for _, temp_record := range in_clean {
 		chan_group.Add(1)
-		go d12valid(temp_record, &chan_group, chan_sum)
+		d12valid(temp_record, &chan_group, chan_sum)
+		//break
 	}
 	chan_group.Wait()
 	close(chan_sum)
