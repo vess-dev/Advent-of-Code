@@ -165,10 +165,13 @@ func tline(in_list ...any) {
 	if len(in_list) == 0 {
 		fmt.Println(strings.Repeat("=", 100))
 	} else {
-		for _, temp_var := range in_list[:len(in_list)-1] {
-			fmt.Printf("%#v, ", temp_var)
+		final_index := len(in_list)-1
+		var final_string string
+		for _, temp_var := range in_list[:final_index] {
+			final_string += fmt.Sprintf("%#v, ", temp_var)
 		}
-		fmt.Printf("%#v\n", in_list[len(in_list)-1])
+		final_string += fmt.Sprintf("%#v", in_list[final_index])
+		fmt.Println(final_string)
 	}
 }
 
@@ -238,9 +241,11 @@ func tprint(in_list ...any) {
 	if len(in_list) == 0 {
 		fmt.Println()
 	} else {
+		var final_string string
 		for _, temp_var := range in_list {
-			fmt.Printf("%#v\n", temp_var)
+			final_string += fmt.Sprintf("%#v\n", temp_var)
 		}
+		fmt.Print(final_string)
 	}
 }
 
