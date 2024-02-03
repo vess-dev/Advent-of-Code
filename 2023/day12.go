@@ -3,7 +3,6 @@ package main
 import (
 	"strings"
 	"sync"
-	"time"
 )
 
 type d12Record struct {
@@ -25,12 +24,14 @@ func d12clean(in_raw string) ([]d12Record, []d12Record) {
 		int_list := strings.Split(pair_list[1], ",")
 		verify_list := tcast(int_list)
 		record_list[temp_idx] = d12Record{strings.Split(pair_list[0], ""), verify_list}
-		expand_string := strings.Split(strings.TrimRight(strings.Repeat(pair_list[0] + "?", 5), "?"), "")
+		expand_string := strings.Repeat(pair_list[0] + "?", 5)
+		expand_string = expand_string[:len(expand_string)-1]
+		list_string := strings.Split(expand_string, "")
 		double_list := verify_list
-		for temp_itr := 0; temp_itr <= 3; temp_itr++ {
-			//double_list = append(double_list, verify_list...)
+		for temp_itr := 0; temp_itr < 4; temp_itr++ {
+			double_list = append(double_list, verify_list...)
 		}
-		expand_list[temp_idx] = d12Record{expand_string, double_list}
+		expand_list[temp_idx] = d12Record{list_string, double_list}
 	}
 	return record_list, expand_list
 }
@@ -55,7 +56,10 @@ func d12check(in_list []string, in_start int, in_end int) bool {
 
 func d12loop(in_cache *d12Map, in_list []string, in_verify []int, in_index int) int {
 	in_verify = tcopy(in_verify)
-	
+	hash_new := d12Index{in_index, len(in_verify)}
+	if temp_val, temp_ok := (*in_cache)[hash_new]; temp_ok {
+		return temp_val
+	}
 	if in_index >= len(in_list) {
 		if len(in_verify) == 0 {
 			return 1
@@ -88,6 +92,7 @@ func d12loop(in_cache *d12Map, in_list []string, in_verify []int, in_index int) 
 			final_sum += d12loop(in_cache, in_list, in_verify, valid_offset)
 		}
 	}
+	(*in_cache)[hash_new] = final_sum
 	return final_sum
 }
 
@@ -100,15 +105,12 @@ func d12valid(in_record d12Record, in_group *sync.WaitGroup, in_chan chan int) {
 func d12part1(in_clean []d12Record) int {
 	var chan_group sync.WaitGroup
 	chan_sum := make(chan int, len(in_clean))
-	time_start := time.Now()
 	for _, temp_record := range in_clean {
 		chan_group.Add(1)
 		d12valid(temp_record, &chan_group, chan_sum)
 	}
 	chan_group.Wait()
 	close(chan_sum)
-	time_since := time.Since(time_start)
-	tline(time_since.Seconds())
 	var valid_sum int
 	for temp_int := range chan_sum {
 		valid_sum += temp_int
@@ -119,6 +121,6 @@ func d12part1(in_clean []d12Record) int {
 func day12() (any, any) {
 	file_string := tload("input/day12.txt")
 	file_clean, file_second := d12clean(file_string)
-	tuse(file_second)
-	return d12part1(file_clean), 5 //, d12part1(file_second)
+	tuse(file_clean)
+	return d12part1(file_clean), d12part1(file_second)
 }
