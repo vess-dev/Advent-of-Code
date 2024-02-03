@@ -37,6 +37,7 @@ func tcheck(in_error error) {
 	if in_error != nil {
 		panic(in_error)
 	}
+	return
 }
 
 func tconcatdigits(in_ints []int) int {
@@ -173,6 +174,7 @@ func tline(in_list ...any) {
 		final_string += fmt.Sprintf("%#v", in_list[final_index])
 		fmt.Println(final_string)
 	}
+	return
 }
 
 func tload(in_path string) string {
@@ -247,6 +249,7 @@ func tprint(in_list ...any) {
 		}
 		fmt.Print(final_string)
 	}
+	return
 }
 
 func trand(in_min int, in_max int) int {
