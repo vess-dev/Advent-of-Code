@@ -27,11 +27,11 @@ func d12clean(in_raw string) ([]d12Record, []d12Record) {
 		expand_string := strings.Repeat(pair_list[0] + "?", 5)
 		expand_string = expand_string[:len(expand_string)-1]
 		list_string := strings.Split(expand_string, "")
-		double_list := verify_list
+		big_list := verify_list
 		for temp_itr := 0; temp_itr < 4; temp_itr++ {
-			double_list = append(double_list, verify_list...)
+			big_list = append(big_list, verify_list...)
 		}
-		expand_list[temp_idx] = d12Record{list_string, double_list}
+		expand_list[temp_idx] = d12Record{list_string, big_list}
 	}
 	return record_list, expand_list
 }
