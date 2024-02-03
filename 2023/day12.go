@@ -121,6 +121,5 @@ func d12part1(in_clean []d12Record) int {
 func day12() (any, any) {
 	file_string := tload("input/day12.txt")
 	file_clean, file_second := d12clean(file_string)
-	tuse(file_clean)
 	return d12part1(file_clean), d12part1(file_second)
 }
