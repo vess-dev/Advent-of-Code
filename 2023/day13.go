@@ -30,13 +30,6 @@ func (self *d13Island) col(in_idx int) []string {
 	return out_col
 }
 
-func d13debug(in_island *d13Island) {
-	tline(in_island.sizew, in_island.sizeh)
-	for temp_idy := 0; temp_idy < in_island.sizeh; temp_idy++ {
-		tline(strings.Join(in_island.row(temp_idy)[:], ""))
-	}
-}
-
 func d13clean(in_raw string) []d13Island {
 	string_list := strings.Split(in_raw, "\n\n")
 	island_list := make([]d13Island, len(string_list))
@@ -56,25 +49,42 @@ func d13clean(in_raw string) []d13Island {
 	return island_list
 }
 
-func d13ripple(in_island *d13Island, in_vertical bool, in_start int, in_cap int) bool {
+func d13ripple(in_island *d13Island, in_vertical bool, in_start int, in_cap int, in_mode bool) bool {
+	var total_diff int
 	for int_left, int_right := in_start, in_start + 1; ((int_left >= 0) && (int_right < in_cap)); int_left, int_right = int_left-1, int_right+1 {
-		tline(int_left + 1, int_right + 1, in_vertical)
-		switch in_vertical {
-			case false: if !tequal(in_island.row(int_left), in_island.row(int_right)) {return false}
-			case true: if !tequal(in_island.col(int_left), in_island.col(int_right)) {return false}
+		switch in_mode {
+			case false: {
+				switch in_vertical {
+					case false: if !tequal(in_island.row(int_left), in_island.row(int_right)) {return false}
+					case true: if !tequal(in_island.col(int_left), in_island.col(int_right)) {return false}
+				}
+			}
+			case true: {
+				switch in_vertical {
+					case false: total_diff += tequals(in_island.row(int_left), in_island.row(int_right))
+					case true: total_diff += tequals(in_island.col(int_left), in_island.col(int_right))
+				}
+			}
 		}
+		
+	}
+	if in_mode {
+		if total_diff == 1 {
+			return true
+		}
+		return false
 	}
 	return true
 }
 
-func d13reflect(in_island *d13Island, in_vertical bool) int {
+func d13reflect(in_island *d13Island, in_vertical bool, in_mode bool) int {
 	var itr_cap int
 	switch in_vertical {
 		case false: itr_cap = in_island.sizeh
 		case true: itr_cap = in_island.sizew
 	}
 	for ret_int := 0; ret_int < (itr_cap - 1); ret_int++ {
-		if d13ripple(in_island, in_vertical, ret_int, itr_cap) {
+		if d13ripple(in_island, in_vertical, ret_int, itr_cap, in_mode) {
 			switch in_vertical {
 				case false: return (ret_int + 1) * 100
 				case true: return ret_int + 1
@@ -87,16 +97,19 @@ func d13reflect(in_island *d13Island, in_vertical bool) int {
 func d13part1(in_clean []d13Island) int {
 	var int_total int
 	for _, temp_island := range in_clean {
-		d13debug(&temp_island)
-		temp_one := d13reflect(&temp_island, false)
-		temp_two := d13reflect(&temp_island, true)
-		int_total += temp_one + temp_two
+		int_total += d13reflect(&temp_island, false, false)
+		int_total += d13reflect(&temp_island, true, false)
 	}
 	return int_total
 }
 
 func d13part2(in_clean []d13Island) int {
-	return 5
+	var int_total int
+	for _, temp_island := range in_clean {
+		int_total += d13reflect(&temp_island, false, true)
+		int_total += d13reflect(&temp_island, true, true)
+	}
+	return int_total
 }
 
 func day13() (any, any) {
