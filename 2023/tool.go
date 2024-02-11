@@ -124,7 +124,7 @@ func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
 
-func tequal(in_base []int, in_comp []int) bool {
+func tequal[T comparable](in_base []T, in_comp []T) bool {
 	if len(in_base) != len(in_comp) {
 		return false
 	}
