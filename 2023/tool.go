@@ -136,6 +136,16 @@ func tequal[T comparable](in_base []T, in_comp []T) bool {
 	return true
 }
 
+func tequals[T comparable](in_base []T, in_comp []T) int {
+	var total_diff int
+	for temp_idx, temp_value := range in_base {
+		if temp_value != in_comp[temp_idx] {
+			total_diff += 1
+		}
+	}
+	return total_diff
+}
+
 func tgcd(in_x int, in_y int) int {
 	for in_y != 0 {
 			var_t := in_y
@@ -196,6 +206,13 @@ func tmake(in_fill any, in_len ...int) any {
 		}
 	}
 	return slice_final
+}
+
+func tmax(in_x int, in_y int) int {
+	if in_x > in_y {
+		return in_x
+	}
+	return in_y
 }
 
 func tminidx(in_list []int) int {
