@@ -94,20 +94,11 @@ func d13reflect(in_island *d13Island, in_vertical bool, in_mode bool) int {
 	return 0
 }
 
-func d13part1(in_clean []d13Island) int {
+func d13part1(in_clean []d13Island, in_mode bool) int {
 	var int_total int
 	for _, temp_island := range in_clean {
-		int_total += d13reflect(&temp_island, false, false)
-		int_total += d13reflect(&temp_island, true, false)
-	}
-	return int_total
-}
-
-func d13part2(in_clean []d13Island) int {
-	var int_total int
-	for _, temp_island := range in_clean {
-		int_total += d13reflect(&temp_island, false, true)
-		int_total += d13reflect(&temp_island, true, true)
+		int_total += d13reflect(&temp_island, false, in_mode)
+		int_total += d13reflect(&temp_island, true, in_mode)
 	}
 	return int_total
 }
@@ -115,5 +106,5 @@ func d13part2(in_clean []d13Island) int {
 func day13() (any, any) {
 	file_string := tload("input/day13.txt")
 	file_clean := d13clean(file_string)
-	return d13part1(file_clean), d13part2(file_clean)
+	return d13part1(file_clean, false), d13part1(file_clean, true)
 }
