@@ -124,7 +124,7 @@ func d14hash(in_data []string) string {
 	data_concat := strings.Join(in_data, "")
 	data_hash := md5.Sum([]byte(data_concat))
 	return hex.EncodeToString(data_hash[:])
- }
+}
 
 func d14part2(in_clean d14Dish) int {
 	dish_new := d14copy(&in_clean)
