@@ -2,7 +2,7 @@ package main
 
 import (
 	"crypto/md5"
-    "encoding/hex"
+	"encoding/hex"
 	"strings"
 )
 
@@ -138,18 +138,22 @@ func d14part2(in_clean d14Dish) int {
 		dish_new.tilt("right")
 		new_hash := d14hash(dish_new.data)
 		if _, temp_ok := map_hash[new_hash]; temp_ok {
-			int_loop := temp_itr - map_hash[new_hash]
+			loop_offset := map_hash[new_hash]
+			loop_start := temp_itr - map_hash[new_hash]
 			tline(new_hash)
-			tline(int_loop)
+			tline(temp_itr + 1, loop_start)
+			tline(1000000000 % loop_start)
 			break
 		} else {
 			map_hash[new_hash] = temp_itr
 			list_scores = append(list_scores, d14load(&dish_new))
 		}
 	}
+	tline()
 	tline(map_hash)
 	tline()
 	tline(list_scores)
+	tline()
 	return 0
 }
 

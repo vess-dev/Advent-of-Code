@@ -69,10 +69,7 @@ func d13ripple(in_island *d13Island, in_vertical bool, in_start int, in_cap int,
 		
 	}
 	if in_mode {
-		if total_diff == 1 {
-			return true
-		}
-		return false
+		return total_diff == 1
 	}
 	return true
 }
