@@ -111,12 +111,7 @@ func d14load(in_dish *d14Dish) int {
 
 func d14part1(in_clean d14Dish) int {
 	dish_new := d14copy(&in_clean)
-	dish_old := d14copy(&in_clean)
 	dish_new.tilt("up")
-	for !tequal(dish_old.data, dish_new.data) {
-		dish_old = d14copy(&dish_new)
-		dish_new.tilt("up")
-	}
 	return d14load(&dish_new)
 }
 
