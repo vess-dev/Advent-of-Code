@@ -130,7 +130,7 @@ func d14part2(in_clean d14Dish) int {
 	dish_new := d14copy(&in_clean)
 	map_hash := make(map[string]int)
 	var list_scores []int
-	//                            1000000000
+	var loop_target int
 	for temp_itr := 0; temp_itr < 1000000000; temp_itr++ {
 		dish_new.tilt("up")
 		dish_new.tilt("left")
@@ -138,23 +138,16 @@ func d14part2(in_clean d14Dish) int {
 		dish_new.tilt("right")
 		new_hash := d14hash(dish_new.data)
 		if _, temp_ok := map_hash[new_hash]; temp_ok {
-			loop_offset := map_hash[new_hash]
-			loop_start := temp_itr - map_hash[new_hash]
-			tline(new_hash)
-			tline(temp_itr + 1, loop_start)
-			tline(1000000000 % loop_start)
+			loop_start := map_hash[new_hash]
+			loop_size := temp_itr - map_hash[new_hash]
+			loop_target = ((1000000000 - temp_itr) % loop_size) + loop_start
 			break
 		} else {
 			map_hash[new_hash] = temp_itr
 			list_scores = append(list_scores, d14load(&dish_new))
 		}
 	}
-	tline()
-	tline(map_hash)
-	tline()
-	tline(list_scores)
-	tline()
-	return 0
+	return list_scores[loop_target - 1]
 }
 
 func day14() (any, any) {
