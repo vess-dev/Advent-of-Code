@@ -67,10 +67,7 @@ func d10clean(in_raw string) (d10Map, d10Point, int, int) {
 func d10flow(in_map d10Map, in_current d10Point, in_next d10Point, in_diff d10Point) bool {
 	current_type := in_map[in_current]
 	next_type := in_map[in_next]
-	if d10PIPE_REL[current_type][in_diff][next_type] {
-		return true
-	}
-	return false
+	return d10PIPE_REL[current_type][in_diff][next_type]
 }
 
 func d10walk(in_map d10Map, in_start d10Point) (int, d10Map) {
