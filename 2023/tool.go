@@ -227,6 +227,12 @@ func tminidx(in_list []int) int {
 	return int_idx
 }
 
+func tnum(in_string string) int {
+	int_data, int_error := strconv.Atoi(in_string)
+	tcheck(int_error)
+	return int_data
+}
+
 func tones(in_int int) int {
 	var bit_sum int
 	for in_int > 0 {
@@ -272,6 +278,14 @@ func tprint(in_list ...any) {
 func trand(in_min int, in_max int) int {
 	rand_int := rand.Intn(in_max - in_min) + in_min
 	return rand_int
+}
+
+func trune(in_rune string) rune {
+	return []rune(in_rune)[0]
+}
+
+func trunes(in_runes string) []rune {
+	return []rune(in_runes)
 }
 
 func tsame[T comparable](in_slice []T) bool {
