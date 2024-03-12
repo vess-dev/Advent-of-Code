@@ -16,17 +16,6 @@ type d15lens struct {
 	focus int
 }
 
-func (self *d15step) hash(in_data string) int {
-	rune_list := trunes(in_data)
-	var total_hash int
-	for _, temp_rune := range rune_list {
-		total_hash += int(temp_rune)
-		total_hash *= 17
-		total_hash %= 256
-	}
-	return total_hash
-}
-
 func d15clean(in_raw string) []d15step {
 	step_list := strings.Split(in_raw, ",")
 	step_out := make([]d15step, len(step_list))
@@ -52,10 +41,21 @@ func d15clean(in_raw string) []d15step {
 	return step_out
 }
 
+func d15hash(in_data string) int {
+	rune_list := trunes(in_data)
+	var total_hash int
+	for _, temp_rune := range rune_list {
+		total_hash += int(temp_rune)
+		total_hash *= 17
+		total_hash %= 256
+	}
+	return total_hash
+}
+
 func d15part1(in_clean []d15step) int {
 	var total_hash int
 	for _, temp_step := range in_clean {
-		total_hash += temp_step.hash(temp_step.data)
+		total_hash += d15hash(temp_step.data)
 	}
 	return total_hash
 }
@@ -92,7 +92,7 @@ func d15power(in_boxes [][]d15lens) int {
 func d15part2(in_clean []d15step) int {
 	box_list := make([][]d15lens, 256)
 	for _, temp_step := range in_clean {
-		box_idx := temp_step.hash(temp_step.label)
+		box_idx := d15hash(temp_step.label)
 		if temp_step.toggle {
 			box_list[box_idx] = d15droplens(box_list[box_idx], temp_step.label) 
 		} else {
