@@ -99,7 +99,8 @@ func d15part2(in_clean []d15step) int {
 			if temp_idx, temp_ok := d15haslens(box_list[box_idx], temp_step.label); temp_ok {
 				box_list[box_idx][temp_idx].focus = temp_step.focus
 			} else {
-				box_list[box_idx] = append(box_list[box_idx], d15lens{label: temp_step.label, focus: temp_step.focus})
+				lens_new := d15lens{label: temp_step.label, focus: temp_step.focus}
+				box_list[box_idx] = append(box_list[box_idx], lens_new)
 			}
 		}
 	}
