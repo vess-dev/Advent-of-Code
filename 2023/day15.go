@@ -11,6 +11,11 @@ type d15step struct {
 	focus int
 }
 
+type d15lens struct {
+	label string
+	focus int
+}
+
 func (self *d15step) hash(in_data string) int {
 	rune_list := trunes(in_data)
 	var total_hash int
@@ -55,7 +60,47 @@ func d15part1(in_clean []d15step) int {
 	return total_hash
 }
 
+func d15droplens(in_box []d15lens, in_label string) []d15lens {
+	var new_box []d15lens
+	for temp_idx, temp_lens := range in_box {
+		if temp_lens.label == in_label {
+			new_box = tdrop(in_box, temp_idx)
+		}
+	}
+	return new_box
+}
+
+func d15haslens(in_box []d15lens, in_label string) (int, bool) {
+	for temp_idx, temp_lens := range in_box {
+		if temp_lens.label == in_label {
+			return temp_idx, true
+		}
+	}
+	return 0, false
+}
+
 func d15part2(in_clean []d15step) int {
+	box_list := make([][]d15lens, 255)
+	tline()
+	tline(in_clean)
+	tline()
+	for _, temp_step := range in_clean {
+		tline(temp_step)
+		tline(box_list)
+		tline()
+		box_idx := temp_step.hash(temp_step.label)
+		if temp_step.toggle {
+			box_list[box_idx] = d15droplens(box_list[box_idx], temp_step.label) 
+		} else {
+			if temp_idx, temp_ok := d15haslens(box_list[box_idx], temp_step.label); temp_ok {
+				box_list[box_idx][temp_idx].focus = temp_step.focus
+			} else {
+				box_list[box_idx] = append(box_list[box_idx], d15lens{label: temp_step.label, focus: temp_step.focus})
+			}
+		}
+	}
+	tline(box_list)
+	tline()
 	return 5
 }
 
