@@ -61,7 +61,7 @@ func d15part1(in_clean []d15step) int {
 }
 
 func d15droplens(in_box []d15lens, in_label string) []d15lens {
-	var new_box []d15lens
+	new_box := tcopy(in_box)
 	for temp_idx, temp_lens := range in_box {
 		if temp_lens.label == in_label {
 			new_box = tdrop(in_box, temp_idx)
@@ -79,15 +79,19 @@ func d15haslens(in_box []d15lens, in_label string) (int, bool) {
 	return 0, false
 }
 
+func d15power(in_boxes [][]d15lens) int {
+	var total_power int
+	for temp_idxb, temp_box := range in_boxes {
+		for temp_idxl, temp_lens := range temp_box {
+			total_power += (temp_idxb + 1) * (temp_idxl + 1) * temp_lens.focus
+		}
+	}
+	return total_power
+}
+
 func d15part2(in_clean []d15step) int {
-	box_list := make([][]d15lens, 255)
-	tline()
-	tline(in_clean)
-	tline()
+	box_list := make([][]d15lens, 256)
 	for _, temp_step := range in_clean {
-		tline(temp_step)
-		tline(box_list)
-		tline()
 		box_idx := temp_step.hash(temp_step.label)
 		if temp_step.toggle {
 			box_list[box_idx] = d15droplens(box_list[box_idx], temp_step.label) 
@@ -99,9 +103,7 @@ func d15part2(in_clean []d15step) int {
 			}
 		}
 	}
-	tline(box_list)
-	tline()
-	return 5
+	return d15power(box_list)
 }
 
 func day15() (any, any) {
