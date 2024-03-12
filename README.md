@@ -26,7 +26,7 @@
 - Rust 2021 installed.
   - "cargo" as a recognized terminal command.
 
-- Golang 1.21 installed.
+- Golang 1.22 installed.
   - "go" as a recognized terminal command.
 
 ## Directory
