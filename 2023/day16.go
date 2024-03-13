@@ -8,7 +8,7 @@ type d16grid struct {
 	sizew int
 	sizeh int
 	grid []string
-	stats map[d16energy]int
+	energy map[d16energy]bool
 	beams []d16beam
 }
 
@@ -61,11 +61,15 @@ func (self *d16grid) update() {
 			case "S": *bind_y += 1
 			case "W": *bind_x -= 1
 		}
+		if (*bind_x < 0) || (*bind_x >= self.sizew) || (*bind_y < 0) || (*bind_y >= self.sizeh) {
+			*bind_dir = ""
+			continue
+		}
 		energy_new := d16energy{
 			posx: *bind_x,
 			posy: *bind_y,
 		}
-		self.stats[energy_new] += 1
+		self.energy[energy_new] = true
 		beam_target := self.get(*bind_x, *bind_y)
 		if beam_target != "." {
 			beam_key := d16pair{*bind_dir, beam_target}
@@ -77,6 +81,15 @@ func (self *d16grid) update() {
 			}
 		}
 	}
+	beams_new := tcopy(self.beams)
+	var beams_offset int
+	for temp_idx := range self.beams {
+		if self.beams[temp_idx].dir == "" {
+			beams_new = tdrop(beams_new, temp_idx + beams_offset)
+			beams_offset -= 1
+		}
+	}
+	self.beams = beams_new
 	return
 }
 
@@ -105,16 +118,22 @@ func d16copy(in_grid d16grid) d16grid {
 	grid_copy.sizew = in_grid.sizew
 	grid_copy.sizeh = in_grid.sizeh
 	grid_copy.grid = tcopy(in_grid.grid)
-	grid_copy.stats = tcopymap(in_grid.stats)
+	grid_copy.energy = tcopymap(in_grid.energy)
 	grid_copy.beams = tcopy(in_grid.beams)
 	return grid_copy
 }
 
 func d16part1(in_clean d16grid) int {
 	grid_copy := d16copy(in_clean)
-	tline(grid_copy)
-	grid_copy.update()
-	tline(grid_copy)
+	grid_energy := -1
+	for grid_energy != len(grid_copy.energy) {
+		tline()
+		tline(grid_copy.beams)
+		grid_energy = len(grid_copy.energy)
+		grid_copy.update()
+	}
+	tline(grid_copy.energy)
+	tline(len(grid_copy.energy))
 	return -1
 }
 

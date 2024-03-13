@@ -341,6 +341,10 @@ func tuse(in_list ...any) {
 	}
 }
 
+func twait() {
+	fmt.Scanln()
+}
+
 func tzip(in_x []any, in_y []any) [][]any {
 	var int_zip [][]any
 	for temp_idx := range in_x {
