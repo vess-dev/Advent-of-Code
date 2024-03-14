@@ -57,11 +57,6 @@ func (self *d16grid) get(in_x int, in_y int) string {
 	return self.grid[in_x + (in_y * self.sizew)]
 }
 
-func (self *d16grid) set(in_x int, in_y int) {
-	self.grid[in_x + (in_y * self.sizew)] = "#"
-	return 
-}
-
 func (self *d16grid) update() {
 	for temp_idx := range self.beams {
 		bind_x, bind_y := &self.beams[temp_idx].posx, &self.beams[temp_idx].posy
