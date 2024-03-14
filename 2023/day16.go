@@ -110,6 +110,15 @@ func (self *d16grid) update() {
 	return
 }
 
+func d16start(in_x int, in_y int, in_dir string) []d16beam {
+	beam_start := d16beam{
+		posx: in_x,
+		posy: in_y,
+		dir: in_dir,
+	}
+	return []d16beam{beam_start}
+}
+
 func d16clean(in_raw string) d16grid {
 	grid_out := d16grid{}
 	line_split := strings.Split(in_raw, "\n")
@@ -121,12 +130,6 @@ func d16clean(in_raw string) d16grid {
 			grid_out.grid = append(grid_out.grid, temp_char)
 		}
 	}
-	beam_start := d16beam{
-		posx: -1,
-		posy: 0,
-		dir: "E",
-	}
-	grid_out.beams = []d16beam{beam_start}
 	grid_out.history = make(map[d16history]bool)
 	return grid_out
 }
@@ -142,30 +145,38 @@ func d16copy(in_grid d16grid) d16grid {
 	return grid_copy
 }
 
-func d16debug(in_grid d16grid) {
-	for temp_key, _ := range in_grid.energy {
-		in_grid.set(temp_key.posx, temp_key.posy)
-	}
-	for temp_idy := 0; temp_idy < in_grid.sizeh; temp_idy++ {
-		out_string := ""
-		for temp_idx := 0; temp_idx < in_grid.sizew; temp_idx++ {
-			out_string += in_grid.get(temp_idx, temp_idy)
-		}
-		tprint(out_string)
-	}
-	return
-}
-
-func d16part1(in_clean d16grid) int {
+func d16sim(in_clean d16grid, in_start []d16beam) int {
 	grid_copy := d16copy(in_clean)
+	grid_copy.beams = in_start
 	for len(grid_copy.beams) > 0 {
 		grid_copy.update()
 	}
 	return len(grid_copy.energy)
 }
 
+func d16part1(in_clean d16grid) int {
+	return d16sim(in_clean, d16start(-1, 0, "E"))
+}
+
 func d16part2(in_clean d16grid) int {
-	return -1
+	var grid_max int
+	for temp_idx := 0; temp_idx <= in_clean.sizew; temp_idx++ {
+		test_s1 := d16sim(in_clean, d16start(temp_idx, -1, "S"))
+		test_s2 := d16sim(in_clean, d16start(temp_idx, in_clean.sizeh, "N"))
+		test_max := tmax(test_s1, test_s2)
+		if test_max > grid_max {
+			grid_max = test_max
+		}
+	}
+	for temp_idy := 0; temp_idy <= in_clean.sizeh; temp_idy++ {
+		test_s1 := d16sim(in_clean, d16start(-1, temp_idy, "E"))
+		test_s2 := d16sim(in_clean, d16start(in_clean.sizew, temp_idy, "W"))
+		test_max := tmax(test_s1, test_s2)
+		if test_max > grid_max {
+			grid_max = test_max
+		}
+	}
+	return grid_max
 }
 
 func day16() (any, any) {
