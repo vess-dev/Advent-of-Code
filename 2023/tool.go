@@ -106,6 +106,17 @@ func tcountdigit(in_int int) int {
 	return ret_count
 }
 
+func tdebug(in_list ...any) {
+	final_index := len(in_list)-1
+	var final_string string
+	for _, temp_var := range in_list[:final_index] {
+		final_string += fmt.Sprintf("%#v, ", temp_var)
+	}
+	final_string += fmt.Sprintf("%#v", in_list[final_index])
+	fmt.Println(final_string)
+	return
+}
+
 func tdigit(in_string string) bool {
 	switch in_string {
 		case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9": return true 
@@ -179,9 +190,9 @@ func tline(in_list ...any) {
 		final_index := len(in_list)-1
 		var final_string string
 		for _, temp_var := range in_list[:final_index] {
-			final_string += fmt.Sprintf("%#v, ", temp_var)
+			final_string += fmt.Sprintf("%v, ", temp_var)
 		}
-		final_string += fmt.Sprintf("%#v", in_list[final_index])
+		final_string += fmt.Sprintf("%v", in_list[final_index])
 		fmt.Println(final_string)
 	}
 	return
@@ -268,7 +279,7 @@ func tprint(in_list ...any) {
 	} else {
 		var final_string string
 		for _, temp_var := range in_list {
-			final_string += fmt.Sprintf("%#v\n", temp_var)
+			final_string += fmt.Sprintf("%v\n", temp_var)
 		}
 		fmt.Print(final_string)
 	}
