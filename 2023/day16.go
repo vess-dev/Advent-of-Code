@@ -10,6 +10,7 @@ type d16grid struct {
 	grid []string
 	energy map[d16energy]bool
 	beams []d16beam
+	history map[d16history]bool
 }
 
 type d16energy struct {
@@ -26,6 +27,11 @@ type d16beam struct {
 type d16pair struct {
 	v1 string
 	v2 string
+}
+
+type d16history struct {
+	energy d16energy
+	pair d16pair
 }
 
 var d16BEAM_REF = map[d16pair]d16pair{
@@ -66,18 +72,24 @@ func (self *d16grid) update() {
 			case "S": *bind_y += 1
 			case "W": *bind_x -= 1
 		}
-		if (*bind_x < 0) || (*bind_x >= self.sizew) || (*bind_y < 0) || (*bind_y >= self.sizeh) {
-			*bind_dir = ""
-			continue
-		}
 		energy_new := d16energy{
 			posx: *bind_x,
 			posy: *bind_y,
 		}
-		self.energy[energy_new] = true
+		if (*bind_x < 0) || (*bind_x >= self.sizew) || (*bind_y < 0) || (*bind_y >= self.sizeh) {
+			*bind_dir = ""
+			continue
+		}
 		beam_target := self.get(*bind_x, *bind_y)
+		beam_key := d16pair{*bind_dir, beam_target}
+		beam_history := d16history{energy_new, beam_key}
+		if _, temp_ok := self.history[beam_history]; temp_ok {
+			*bind_dir = ""
+			continue
+		}
+		self.history[beam_history] = true
+		self.energy[energy_new] = true
 		if beam_target != "." {
-			beam_key := d16pair{*bind_dir, beam_target}
 			beam_value := d16BEAM_REF[beam_key]
 			*bind_dir = beam_value.v1
 			if beam_value.v2 != "" {
@@ -115,6 +127,7 @@ func d16clean(in_raw string) d16grid {
 		dir: "E",
 	}
 	grid_out.beams = []d16beam{beam_start}
+	grid_out.history = make(map[d16history]bool)
 	return grid_out
 }
 
@@ -125,6 +138,7 @@ func d16copy(in_grid d16grid) d16grid {
 	grid_copy.grid = tcopy(in_grid.grid)
 	grid_copy.energy = tcopymap(in_grid.energy)
 	grid_copy.beams = tcopy(in_grid.beams)
+	grid_copy.history = tcopymap(in_grid.history)
 	return grid_copy
 }
 
@@ -144,19 +158,10 @@ func d16debug(in_grid d16grid) {
 
 func d16part1(in_clean d16grid) int {
 	grid_copy := d16copy(in_clean)
-	grid_energy := -1
-	for grid_energy != len(grid_copy.energy) {
-		tline()
-		tline(grid_copy.beams)
-		grid_energy = len(grid_copy.energy)
+	for len(grid_copy.beams) > 0 {
 		grid_copy.update()
 	}
-	tline()
-	tline(grid_copy.energy)
-	tline(len(grid_copy.energy))
-	tline()
-	d16debug(grid_copy)
-	return -1
+	return len(grid_copy.energy)
 }
 
 func d16part2(in_clean d16grid) int {
