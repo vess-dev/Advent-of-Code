@@ -41,14 +41,19 @@ var d16BEAM_REF = map[d16pair]d16pair{
 	d16pair{"E", "|"}: d16pair{"N", "S"},
 	d16pair{"S", "|"}: d16pair{"S", ""},
 	d16pair{"W", "|"}: d16pair{"N", "S"},
-	d16pair{"N", "-"}: d16pair{"W", "E"},
+	d16pair{"N", "-"}: d16pair{"E", "W"},
 	d16pair{"E", "-"}: d16pair{"E", ""},
-	d16pair{"S", "-"}: d16pair{"W", "E"},
+	d16pair{"S", "-"}: d16pair{"E", "W"},
 	d16pair{"W", "-"}: d16pair{"W", ""},
 }
 
 func (self *d16grid) get(in_x int, in_y int) string {
 	return self.grid[in_x + (in_y * self.sizew)]
+}
+
+func (self *d16grid) set(in_x int, in_y int) {
+	self.grid[in_x + (in_y * self.sizew)] = "#"
+	return 
 }
 
 func (self *d16grid) update() {
@@ -74,7 +79,7 @@ func (self *d16grid) update() {
 		if beam_target != "." {
 			beam_key := d16pair{*bind_dir, beam_target}
 			beam_value := d16BEAM_REF[beam_key]
-			self.beams[temp_idx].dir = beam_value.v1
+			*bind_dir = beam_value.v1
 			if beam_value.v2 != "" {
 				beam_new := d16beam{*bind_x, *bind_y, beam_value.v2}
 				self.beams = append(self.beams, beam_new)
@@ -123,6 +128,20 @@ func d16copy(in_grid d16grid) d16grid {
 	return grid_copy
 }
 
+func d16debug(in_grid d16grid) {
+	for temp_key, _ := range in_grid.energy {
+		in_grid.set(temp_key.posx, temp_key.posy)
+	}
+	for temp_idy := 0; temp_idy < in_grid.sizeh; temp_idy++ {
+		out_string := ""
+		for temp_idx := 0; temp_idx < in_grid.sizew; temp_idx++ {
+			out_string += in_grid.get(temp_idx, temp_idy)
+		}
+		tprint(out_string)
+	}
+	return
+}
+
 func d16part1(in_clean d16grid) int {
 	grid_copy := d16copy(in_clean)
 	grid_energy := -1
@@ -132,8 +151,11 @@ func d16part1(in_clean d16grid) int {
 		grid_energy = len(grid_copy.energy)
 		grid_copy.update()
 	}
+	tline()
 	tline(grid_copy.energy)
 	tline(len(grid_copy.energy))
+	tline()
+	d16debug(grid_copy)
 	return -1
 }
 
