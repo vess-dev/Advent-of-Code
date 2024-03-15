@@ -15,6 +15,7 @@ type d17Grid struct {
 type d17Point struct {
 	posx int
 	posy int
+	dist int
 }
 
 func (self *d17Grid) get(in_x int, in_y int) int {
@@ -52,13 +53,13 @@ func d17local(in_maxx int, in_maxy int, in_x int, in_y int, in_range int) []d17P
 	local_list := []d17Point{}
 	for temp_idx := in_x - in_range; temp_idx <= in_x + in_range; temp_idx++ {
 		if (temp_idx != in_x) && (temp_idx >= 0) && (temp_idx < in_maxx) {
-			point_new := d17Point{temp_idx, in_y}
+			point_new := d17Point{temp_idx, in_y, tabs(temp_idx - in_x)}
 			local_list = append(local_list, point_new)
 		}
 	}
 	for temp_idy := in_y - in_range; temp_idy <= in_y + in_range; temp_idy++ {
 		if temp_idy != in_y && (temp_idy >= 0) && (temp_idy < in_maxy) {
-			point_new := d17Point{in_x, temp_idy}
+			point_new := d17Point{in_x, temp_idy, tabs(temp_idy - in_y)}
 			local_list = append(local_list, point_new)
 		}
 	}
@@ -79,7 +80,7 @@ func d17build(in_clean d17Grid, in_range int) goraph.Graph {
 			local_nodes := d17local(in_clean.sizew, in_clean.sizeh, temp_idx, temp_idy, in_range)
 			for _, temp_node := range local_nodes {
 				node_jumpname := d17name(temp_node.posx, temp_node.posy)
-				node_jumpfull := tstring(node_name, "=", node_jumpname)
+				node_jumpfull := tstring(node_name, ".", temp_node.dist,"=", node_jumpname, ".", temp_node.dist)
 				node_jumpnode := goraph.NewNode(node_jumpfull)
 				graph_out.AddNode(node_jumpnode)
 			}
