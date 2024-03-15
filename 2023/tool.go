@@ -341,12 +341,12 @@ func tsteps(in_x1 int, in_y1 int, in_x2 int, in_y2 int) int {
 	return x_diff + y_diff
 }
 
-func tstringints(in_ints []int) string {
-	var int_string string
-	for _, temp_int := range in_ints {
-		int_string += fmt.Sprint(temp_int)
+func tstring(in_list ...any) string {
+	var string_out string
+	for _, temp_type := range in_list {
+		string_out += fmt.Sprint(temp_type)
 	}
-	return int_string
+	return string_out
 }
 
 func tsum(in_ints []int) int {

@@ -65,20 +65,34 @@ func d17local(in_maxx int, in_maxy int, in_x int, in_y int, in_range int) []d17P
 	return local_list
 }
 
-func d17builder(in_clean d17Grid) goraph.Graph {
+func d17name(in_x int, in_y int) string {
+	return tstring("(", in_x, ",", in_y, ")")
+}
+
+func d17build(in_clean d17Grid, in_range int) goraph.Graph {
 	graph_out := goraph.NewGraph()
 	for temp_idy := 0; temp_idy < in_clean.sizew; temp_idy++ {
 		for temp_idx := 0; temp_idx < in_clean.sizew; temp_idx++ {
-			node_new := 5
-			tuse(node_new)
+			node_name := d17name(temp_idx, temp_idy)
+			node_new := goraph.NewNode(node_name)
+			graph_out.AddNode(node_new)
+			local_nodes := d17local(in_clean.sizew, in_clean.sizeh, temp_idx, temp_idy, in_range)
+			for _, temp_node := range local_nodes {
+				node_jumpname := d17name(temp_node.posx, temp_node.posy)
+				node_jumpfull := tstring(node_name, "=", node_jumpname)
+				node_jumpnode := goraph.NewNode(node_jumpfull)
+				graph_out.AddNode(node_jumpnode)
+			}
+			
 		}
 	}
 	return graph_out
 }
 
 func d17part1(in_clean d17Grid) int {
-	d17builder(in_clean)
+	graph_build := d17build(in_clean, 3)
 	//tline(d17local(in_clean.sizew, in_clean.sizeh, 0, 0, 3))
+	tline(graph_build.GetNodes())
 	return -1
 }
 
