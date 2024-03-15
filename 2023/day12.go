@@ -100,6 +100,7 @@ func d12valid(in_record d12Record, in_group *sync.WaitGroup, in_chan chan int) {
 	cache_map := make(d12Map)
 	in_chan <- d12loop(&cache_map, in_record.list, in_record.verify, 0)
 	in_group.Done()
+	return
 }
 
 func d12part1(in_clean []d12Record) int {
@@ -107,7 +108,7 @@ func d12part1(in_clean []d12Record) int {
 	chan_sum := make(chan int, len(in_clean))
 	for _, temp_record := range in_clean {
 		chan_group.Add(1)
-		d12valid(temp_record, &chan_group, chan_sum)
+		go d12valid(temp_record, &chan_group, chan_sum)
 	}
 	chan_group.Wait()
 	close(chan_sum)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"strings"
+	"sync"
 )
 
 type d16grid struct {
@@ -149,29 +150,45 @@ func d16sim(in_clean d16grid, in_start []d16beam) int {
 	return len(grid_copy.energy)
 }
 
+func d16nyoom(in_group *sync.WaitGroup, in_chan chan int, in_clean d16grid, in_start []d16beam) {
+	grid_copy := d16copy(in_clean)
+	grid_copy.beams = in_start
+	for len(grid_copy.beams) > 0 {
+		grid_copy.update()
+	}
+	in_chan <- len(grid_copy.energy)
+	in_group.Done()
+	return
+}
+
 func d16part1(in_clean d16grid) int {
 	return d16sim(in_clean, d16start(-1, 0, "E"))
 }
 
 func d16part2(in_clean d16grid) int {
-	var grid_max int
-	for temp_idx := 0; temp_idx <= in_clean.sizew; temp_idx++ {
-		test_s1 := d16sim(in_clean, d16start(temp_idx, -1, "S"))
-		test_s2 := d16sim(in_clean, d16start(temp_idx, in_clean.sizeh, "N"))
-		test_max := tmax(test_s1, test_s2)
-		if test_max > grid_max {
-			grid_max = test_max
+	var chan_group sync.WaitGroup
+	chan_size := (in_clean.sizew * 2) + (in_clean.sizeh * 2)
+	chan_energy := make(chan int, chan_size)
+	for temp_idx := 0; temp_idx < in_clean.sizew; temp_idx++ {
+		chan_group.Add(2)
+		go d16nyoom(&chan_group, chan_energy, in_clean, d16start(temp_idx, -1, "S"))
+		go d16nyoom(&chan_group, chan_energy, in_clean, d16start(temp_idx, in_clean.sizeh, "N"))
+
+	}
+	for temp_idy := 0; temp_idy < in_clean.sizeh; temp_idy++ {
+		chan_group.Add(2)
+		go d16nyoom(&chan_group, chan_energy, in_clean, d16start(-1, temp_idy, "E"))
+		go d16nyoom(&chan_group, chan_energy, in_clean, d16start(in_clean.sizew, temp_idy, "W"))
+	}
+	chan_group.Wait()
+	close(chan_energy)
+	var max_sum int
+	for temp_int := range chan_energy {
+		if temp_int > max_sum {
+			max_sum = temp_int
 		}
 	}
-	for temp_idy := 0; temp_idy <= in_clean.sizeh; temp_idy++ {
-		test_s1 := d16sim(in_clean, d16start(-1, temp_idy, "E"))
-		test_s2 := d16sim(in_clean, d16start(in_clean.sizew, temp_idy, "W"))
-		test_max := tmax(test_s1, test_s2)
-		if test_max > grid_max {
-			grid_max = test_max
-		}
-	}
-	return grid_max
+	return max_sum
 }
 
 func day16() (any, any) {
