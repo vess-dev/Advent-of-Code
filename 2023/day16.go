@@ -5,60 +5,60 @@ import (
 	"sync"
 )
 
-type d16grid struct {
+type d16Grid struct {
 	sizew int
 	sizeh int
 	grid []string
-	energy map[d16energy]bool
-	beams []d16beam
-	history map[d16history]bool
+	energy map[d16Energy]bool
+	beams []d16Beam
+	history map[d16History]bool
 }
 
-type d16energy struct {
+type d16Energy struct {
 	posx int
 	posy int
 }
 
-type d16beam struct {
+type d16Beam struct {
 	posx int
 	posy int
 	dir string
 }
 
-type d16pair struct {
+type d16Pair struct {
 	v1 string
 	v2 string
 }
 
-type d16history struct {
-	energy d16energy
-	pair d16pair
+type d16History struct {
+	energy d16Energy
+	pair d16Pair
 }
 
-var d16BEAM_REF = map[d16pair]d16pair{
-	d16pair{"N", "/"}: d16pair{"E", ""},
-	d16pair{"E", "/"}: d16pair{"N", ""},
-	d16pair{"S", "/"}: d16pair{"W", ""},
-	d16pair{"W", "/"}: d16pair{"S", ""},
-	d16pair{"N", "\\"}: d16pair{"W", ""},
-	d16pair{"E", "\\"}: d16pair{"S", ""},
-	d16pair{"S", "\\"}: d16pair{"E", ""},
-	d16pair{"W", "\\"}: d16pair{"N", ""},
-	d16pair{"N", "|"}: d16pair{"N", ""},
-	d16pair{"E", "|"}: d16pair{"N", "S"},
-	d16pair{"S", "|"}: d16pair{"S", ""},
-	d16pair{"W", "|"}: d16pair{"N", "S"},
-	d16pair{"N", "-"}: d16pair{"E", "W"},
-	d16pair{"E", "-"}: d16pair{"E", ""},
-	d16pair{"S", "-"}: d16pair{"E", "W"},
-	d16pair{"W", "-"}: d16pair{"W", ""},
+var d16Beam_REF = map[d16Pair]d16Pair{
+	d16Pair{"N", "/"}: d16Pair{"E", ""},
+	d16Pair{"E", "/"}: d16Pair{"N", ""},
+	d16Pair{"S", "/"}: d16Pair{"W", ""},
+	d16Pair{"W", "/"}: d16Pair{"S", ""},
+	d16Pair{"N", "\\"}: d16Pair{"W", ""},
+	d16Pair{"E", "\\"}: d16Pair{"S", ""},
+	d16Pair{"S", "\\"}: d16Pair{"E", ""},
+	d16Pair{"W", "\\"}: d16Pair{"N", ""},
+	d16Pair{"N", "|"}: d16Pair{"N", ""},
+	d16Pair{"E", "|"}: d16Pair{"N", "S"},
+	d16Pair{"S", "|"}: d16Pair{"S", ""},
+	d16Pair{"W", "|"}: d16Pair{"N", "S"},
+	d16Pair{"N", "-"}: d16Pair{"E", "W"},
+	d16Pair{"E", "-"}: d16Pair{"E", ""},
+	d16Pair{"S", "-"}: d16Pair{"E", "W"},
+	d16Pair{"W", "-"}: d16Pair{"W", ""},
 }
 
-func (self *d16grid) get(in_x int, in_y int) string {
+func (self *d16Grid) get(in_x int, in_y int) string {
 	return self.grid[in_x + (in_y * self.sizew)]
 }
 
-func (self *d16grid) update() {
+func (self *d16Grid) update() {
 	for temp_idx := range self.beams {
 		bind_x, bind_y := &self.beams[temp_idx].posx, &self.beams[temp_idx].posy
 		bind_dir := &self.beams[temp_idx].dir
@@ -68,7 +68,7 @@ func (self *d16grid) update() {
 			case "S": *bind_y += 1
 			case "W": *bind_x -= 1
 		}
-		energy_new := d16energy{
+		energy_new := d16Energy{
 			posx: *bind_x,
 			posy: *bind_y,
 		}
@@ -77,8 +77,8 @@ func (self *d16grid) update() {
 			continue
 		}
 		beam_target := self.get(*bind_x, *bind_y)
-		beam_key := d16pair{*bind_dir, beam_target}
-		beam_history := d16history{energy_new, beam_key}
+		beam_key := d16Pair{*bind_dir, beam_target}
+		beam_history := d16History{energy_new, beam_key}
 		if _, temp_ok := self.history[beam_history]; temp_ok {
 			*bind_dir = ""
 			continue
@@ -86,10 +86,10 @@ func (self *d16grid) update() {
 		self.history[beam_history] = true
 		self.energy[energy_new] = true
 		if beam_target != "." {
-			beam_value := d16BEAM_REF[beam_key]
+			beam_value := d16Beam_REF[beam_key]
 			*bind_dir = beam_value.v1
 			if beam_value.v2 != "" {
-				beam_new := d16beam{*bind_x, *bind_y, beam_value.v2}
+				beam_new := d16Beam{*bind_x, *bind_y, beam_value.v2}
 				self.beams = append(self.beams, beam_new)
 			}
 		}
@@ -106,17 +106,17 @@ func (self *d16grid) update() {
 	return
 }
 
-func d16start(in_x int, in_y int, in_dir string) []d16beam {
-	beam_start := d16beam{
+func d16start(in_x int, in_y int, in_dir string) []d16Beam {
+	beam_start := d16Beam{
 		posx: in_x,
 		posy: in_y,
 		dir: in_dir,
 	}
-	return []d16beam{beam_start}
+	return []d16Beam{beam_start}
 }
 
-func d16clean(in_raw string) d16grid {
-	grid_out := d16grid{}
+func d16clean(in_raw string) d16Grid {
+	grid_out := d16Grid{}
 	line_split := strings.Split(in_raw, "\n")
 	grid_out.sizeh = len(line_split)
 	for _, temp_line := range line_split {
@@ -126,12 +126,12 @@ func d16clean(in_raw string) d16grid {
 			grid_out.grid = append(grid_out.grid, temp_char)
 		}
 	}
-	grid_out.history = make(map[d16history]bool)
+	grid_out.history = make(map[d16History]bool)
 	return grid_out
 }
 
-func d16copy(in_grid d16grid) d16grid {
-	grid_copy := d16grid{}
+func d16copy(in_grid d16Grid) d16Grid {
+	grid_copy := d16Grid{}
 	grid_copy.sizew = in_grid.sizew
 	grid_copy.sizeh = in_grid.sizeh
 	grid_copy.grid = tcopy(in_grid.grid)
@@ -141,7 +141,7 @@ func d16copy(in_grid d16grid) d16grid {
 	return grid_copy
 }
 
-func d16sim(in_clean d16grid, in_start []d16beam) int {
+func d16sim(in_clean d16Grid, in_start []d16Beam) int {
 	grid_copy := d16copy(in_clean)
 	grid_copy.beams = in_start
 	for len(grid_copy.beams) > 0 {
@@ -150,7 +150,7 @@ func d16sim(in_clean d16grid, in_start []d16beam) int {
 	return len(grid_copy.energy)
 }
 
-func d16nyoom(in_group *sync.WaitGroup, in_chan chan int, in_clean d16grid, in_start []d16beam) {
+func d16nyoom(in_group *sync.WaitGroup, in_chan chan int, in_clean d16Grid, in_start []d16Beam) {
 	grid_copy := d16copy(in_clean)
 	grid_copy.beams = in_start
 	for len(grid_copy.beams) > 0 {
@@ -161,11 +161,11 @@ func d16nyoom(in_group *sync.WaitGroup, in_chan chan int, in_clean d16grid, in_s
 	return
 }
 
-func d16part1(in_clean d16grid) int {
+func d16part1(in_clean d16Grid) int {
 	return d16sim(in_clean, d16start(-1, 0, "E"))
 }
 
-func d16part2(in_clean d16grid) int {
+func d16part2(in_clean d16Grid) int {
 	var chan_group sync.WaitGroup
 	chan_size := (in_clean.sizew * 2) + (in_clean.sizeh * 2)
 	chan_energy := make(chan int, chan_size)

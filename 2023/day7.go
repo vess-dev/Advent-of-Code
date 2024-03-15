@@ -3,7 +3,6 @@ package main
 import (
 	"slices"
 	"sort"
-	"strconv"
 	"strings"
 )
 
@@ -22,8 +21,7 @@ func d7clean(in_raw string) []d7Card {
 	for temp_idx, temp_pair := range string_list {
 		card_data := strings.Split(temp_pair, " ")
 		card_sort := strings.Split(card_data[0], "")
-		int_data, int_error := strconv.Atoi(card_data[1])
-		tcheck(int_error)
+		int_data := tnumf(card_data[1])
 		card_list[temp_idx] = d7Card{card_sort, int_data}
 	}
 	return card_list

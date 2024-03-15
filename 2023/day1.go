@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -56,8 +55,7 @@ func d1getnum(in_string string, in_toggle bool) int {
 	var string_num string
 	string_num = string_num + d1checkline(in_string, in_toggle)
 	string_num = string_num + d1checkline(d1reverse(in_string), in_toggle)
-	int_data, int_error := strconv.Atoi(string_num)
-	tcheck(int_error)
+	int_data := tnumf(string_num)
 	return int_data
 }
 

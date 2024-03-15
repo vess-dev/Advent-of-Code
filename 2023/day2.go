@@ -1,7 +1,6 @@
 package main
 
 import (
-	"strconv"
 	"strings"
 )
 
@@ -23,8 +22,7 @@ func d2clean(in_raw string) [][]d2Game {
 			game_new := d2Game{}
 			for _, temp_hand := range hand_list {
 				grab_list := strings.Split(temp_hand, " ")
-				int_data, int_error := strconv.Atoi(grab_list[0])
-				tcheck(int_error)
+				int_data := tnumf(grab_list[0])
 				switch grab_list[1] {
 					case "red": game_new.red = int_data
 					case "green": game_new.green = int_data

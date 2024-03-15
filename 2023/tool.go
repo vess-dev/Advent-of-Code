@@ -26,8 +26,7 @@ func tbin(in_num int, in_length int) []string {
 func tcast(in_slice []string) []int {
 	slice_ints := make([]int, len(in_slice))
 	for temp_idx, temp_string := range in_slice {
-		int_data, int_error := strconv.Atoi(temp_string)
-		tcheck(int_error)
+		int_data := tnumf(temp_string)
 		slice_ints[temp_idx] = int_data
 	}
 	return slice_ints
@@ -244,6 +243,11 @@ func tnum(in_string string) int {
 	return int_data
 }
 
+func tnumf(in_string string) int {
+	int_data, _ := strconv.Atoi(in_string)
+	return int_data
+}
+
 func tones(in_int int) int {
 	var bit_sum int
 	for in_int > 0 {
@@ -317,6 +321,13 @@ func tshas(in_slice []any, in_check []any) bool {
 		}
 	}
 	return false
+}
+
+func tsign(in_int int) int {
+	if in_int == 0 {
+		return 0
+	}
+	return in_int / tabs(in_int)
 }
 
 func tsleep(in_seconds int) {
