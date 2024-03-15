@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -35,13 +34,11 @@ func ttime(in_list TLIST_SIG) {
 func main() {
 	arg_len := len(os.Args)
 	if arg_len == 2 {
-		int_data, int_error := strconv.Atoi(os.Args[1])
-		tcheck(int_error)
-		fmt.Println(TDAY_LIST[int_data-1]())
+		day_arg := tnum(os.Args[1])
+		fmt.Println(TDAY_LIST[day_arg-1]())
 	} else if (arg_len == 3) && (os.Args[1] == "t") {
-		int_data, int_error := strconv.Atoi(os.Args[2])
-		tcheck(int_error)
-		one_list := TLIST_SIG{TDAY_LIST[int_data-1]}
+		day_arg := tnum(os.Args[2])
+		one_list := TLIST_SIG{TDAY_LIST[day_arg-1]}
 		ttime(one_list)
 	} else {
 		ttime(TDAY_LIST)

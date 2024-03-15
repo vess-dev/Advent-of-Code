@@ -1,7 +1,6 @@
 package main
 
 import (
-	"strconv"
 	"strings"
 	
 	mapset "github.com/deckarep/golang-set/v2"
@@ -37,8 +36,7 @@ func d3check(in_slice []string, in_posx int, in_posy int) ([]d3Point, *d3Part) {
 			}
 		}
 	}
-	int_data, int_error := strconv.Atoi(ret_string)
-	tcheck(int_error)
+	int_data := tnumf(ret_string)
 	anchor_point := d3Point{in_posx, in_posy}
 	int_final := d3Part{anchor_point, int_data}
 	return ret_point, &int_final
