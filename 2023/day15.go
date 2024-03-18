@@ -10,7 +10,6 @@ type d15Step struct {
 	toggle bool
 	focus int
 }
-
 type d15Lens struct {
 	label string
 	focus int

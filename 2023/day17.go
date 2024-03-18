@@ -15,10 +15,6 @@ type d17Point struct {
 	posx int
 	posy int
 }
-type d17Cost struct {
-	costx int
-	costy int
-}
 
 func (self *d17Grid) get(in_x int, in_y int) int {
 	return self.grid[in_x + (in_y * self.sizew)]
@@ -39,16 +35,33 @@ func d17clean(in_raw string) d17Grid {
 	return grid_out
 }
 
-func d17name(in_x int, in_y int) string {
-	return tstring("(", in_x, ",", in_y, ")")
+func d17node(in_x int, in_y int) goraph.Node {
+	node_name := tstring("(", in_x, ",", in_y, ")")
+	return goraph.NewNode(node_name)
 }
 
 func d17cost(in_grid d17Grid, in_x1 int, in_y1 int, in_x2 int, in_y2 int) int {
 	diff_x := tsign(in_x2 - in_x1)
 	diff_y := tsign(in_y2 - in_y1)
-	tuse(diff_x, diff_y)
-	total_cost := in_grid.get(in_x1, in_y1)
-	return total_cost
+	cost_start := in_grid.get(in_x2, in_y2)
+	cost_x, cost_y := cost_start, cost_start
+	if (tabs(in_y2 - in_y1) == 1) {
+		for temp_idx := in_x1 + diff_x; temp_idx != in_x2 + diff_x; temp_idx += diff_x {
+			cost_x += in_grid.get(temp_idx, in_x1)
+		}
+	}
+	if (tabs(in_x2 - in_x1) == 1) {
+		for temp_idy := in_y1 + diff_y; temp_idy != in_y2 + diff_y; temp_idy += diff_y {
+			cost_y += in_grid.get(in_y1, temp_idy)
+		}
+	}
+	if (cost_x == cost_start) {
+		return cost_y
+	}
+	if (cost_y == cost_start) {
+		return cost_x
+	}
+	return tmin(cost_x, cost_y)
 }
 
 func d17local(in_x int, in_y int, in_range int, in_maxx int, in_maxy int) []d17Point {
@@ -72,23 +85,37 @@ func d17local(in_x int, in_y int, in_range int, in_maxx int, in_maxy int) []d17P
 
 func d17build(in_clean d17Grid, in_range int) goraph.Graph {
 	graph_out := goraph.NewGraph()
-	for temp_idy := 0; temp_idy < in_clean.sizew; temp_idy++ {
+	for temp_idy := 0; temp_idy < in_clean.sizeh; temp_idy++ {
 		for temp_idx := 0; temp_idx < in_clean.sizew; temp_idx++ {
-			node_name := d17name(temp_idx, temp_idy)
-			node_new := goraph.NewNode(node_name)
+			node_new := d17node(temp_idx, temp_idy)
 			graph_out.AddNode(node_new)
+			local_list := d17local(temp_idx, temp_idy, in_range, in_clean.sizew, in_clean.sizeh)
+			for _, temp_node := range local_list {
+				edge_node := d17node(temp_node.posx, temp_node.posy)
+				graph_out.AddNode(edge_node)
+				edge_cost := d17cost(in_clean, temp_idx, temp_idy, temp_node.posx, temp_node.posy)
+				graph_out.AddEdge(node_new.ID(), edge_node.ID(), float64(edge_cost))
+			}
 		}
 	}
 	return graph_out
 }
 
 func d17part1(in_clean d17Grid) int {
-	//graph_build := d17build(in_clean, 3)
-	//tline(d17local(in_clean.sizew, in_clean.sizeh, 0, 0, 3))
-	//tline(graph_build.GetNodes())
-	tline(d17local(3, 3, 3, in_clean.sizew, in_clean.sizeh))
-	tline(d17cost(in_clean, 1, 1, 0, 0))
-	tuse(in_clean)
+	graph_build := d17build(in_clean, 3)
+	tline(graph_build)
+	tline()
+	graph_start := d17node(0, 0)
+	graph_end := d17node(in_clean.sizew - 1, in_clean.sizeh - 1)
+	node_list, node_cost, _ := goraph.Dijkstra(graph_build, graph_start.ID(), graph_end.ID())
+	tuse(node_list, node_cost)
+	tline(node_list, node_cost)
+	total_cost := 0
+	for _, temp_node := range node_list {
+		tline(node_cost[temp_node])
+		total_cost += int(node_cost[temp_node])
+	}
+	tline(total_cost)
 	return -1
 }
 
