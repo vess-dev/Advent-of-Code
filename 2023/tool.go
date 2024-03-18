@@ -225,6 +225,13 @@ func tmax(in_x int, in_y int) int {
 	return in_y
 }
 
+func tmin(in_x int, in_y int) int {
+	if in_x < in_y {
+		return in_x
+	}
+	return in_y
+}
+
 func tminidx(in_list []int) int {
 	int_min := math.MaxInt
 	int_idx := -1

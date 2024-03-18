@@ -13,23 +13,19 @@ type d16Grid struct {
 	beams []d16Beam
 	history map[d16History]bool
 }
-
 type d16Energy struct {
 	posx int
 	posy int
 }
-
 type d16Beam struct {
 	posx int
 	posy int
 	dir string
 }
-
 type d16Pair struct {
 	v1 string
 	v2 string
 }
-
 type d16History struct {
 	energy d16Energy
 	pair d16Pair
