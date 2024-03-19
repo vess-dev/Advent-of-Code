@@ -1,3 +1,5 @@
+github.com/RyanCarrier/dijkstra v1.3.0 h1:lqrLMwKy8PtyDpWqZpcbzr9KkqnLJrDdQ9u3iNyNxm8=
+github.com/RyanCarrier/dijkstra v1.3.0/go.mod h1:9egjhC7eVsfREX6NrYS+1wHzk9C/9v2Cz26/bqpjjTc=
 github.com/deckarep/golang-set/v2 v2.5.0 h1:hn6cEZtQ0h3J8kFrHR/NrzyOoTnjgW1+FmNJzQ7y/sA=
 github.com/deckarep/golang-set/v2 v2.5.0/go.mod h1:VAky9rY/yGXJOLEDv3OMci+7wtDpOF4IN+y82NBOac4=
 gonum.org/v1/gonum v0.14.0 h1:2NiG67LD1tEH0D7kM+ps2V+fXmsAnpUeec7n8tcr4S0=
