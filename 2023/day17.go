@@ -88,6 +88,8 @@ func d17part1(in_clean d17Grid) int {
 
 	graph_build := goraph.NewGraph()
 	d17local(graph_build, in_clean, 0, 0, "E", 0, 3, in_clean.sizew, in_clean.sizeh)
+	tline("Built!!")
+	tline(graph_build.GetNodeCount())
 	graph_start := d17node(0, 0, "E", 0)
 	graph_end := d17node(in_clean.sizew - 1, in_clean.sizeh - 1, "E", 1)
 	_, node_cost, _ := goraph.Dijkstra(graph_build, graph_start.ID(), graph_end.ID())
