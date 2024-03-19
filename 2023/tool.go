@@ -342,6 +342,10 @@ func tsleep(in_seconds int) {
 	time.Sleep(sleep_duration)
 }
 
+func tsnum(in_int int) string {
+	return strconv.Itoa(in_int)
+}
+
 func tsteps(in_x1 int, in_y1 int, in_x2 int, in_y2 int) int {
 	x_diff := tabs(in_x2 - in_x1)
 	y_diff := tabs(in_y2 - in_y1)
