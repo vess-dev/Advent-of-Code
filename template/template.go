@@ -10,11 +10,13 @@ func dXclean(in_raw string) any {
 }
 
 func dXpart1(in_clean any) any {
-	return in_clean
+	tuse(in_clean)
+	return -1
 }
 
 func dXpart2(in_clean any) any {
-	return in_clean
+	tuse(in_clean)
+	return -1
 }
 
 func dayX() (any, any) {
