@@ -1,9 +1,10 @@
 package main
 
 import (
+	"errors"
 	"strings"
 
-	goraph "gopkg.in/gyuho/goraph.v2"
+	dijkstra "github.com/RyanCarrier/dijkstra"
 )
 
 type d17Grid struct {
@@ -44,29 +45,32 @@ func d17clean(in_raw string) d17Grid {
 	return grid_out
 }
 
-func d17node(in_x int, in_y int, in_dir string) goraph.Node {
+func d17node(in_graph *dijkstra.Graph, in_x int, in_y int, in_dir string) (int, error) {
 	node_list := []string{tsnum(in_x), tsnum(in_y), in_dir}
 	node_name := strings.Join(node_list, ",")
-	return goraph.NewNode(node_name)
+	_, node_check := in_graph.GetMapping(node_name)
+	if node_check != nil {
+		return in_graph.AddMappedVertex(node_name), errors.New("New")
+	}
+	return in_graph.AddMappedVertex(node_name), nil
 }
 
-func d17build(in_graph goraph.Graph, in_grid d17Grid, in_x int, in_y int, in_dir string, in_start int, in_range int) {
-	node_new := d17node(in_x, in_y, in_dir)
+func d17build(in_graph *dijkstra.Graph, in_grid d17Grid, in_x int, in_y int, in_dir string, in_start int, in_range int) {
+	node_new, _ := d17node(in_graph, in_x, in_y, in_dir)
 	for _, temp_ref := range d17VALID[in_dir] {
 		mod_ref := d17MODIF[temp_ref]
-		var node_cost float64
+		var node_cost int64
 		for temp_mod := 1; temp_mod <= in_range; temp_mod++ {
 			new_x := in_x + (mod_ref[0] * temp_mod) 
 			new_y := in_y + (mod_ref[1] * temp_mod)
 			if (new_x >= 0) && (new_y >= 0) && (new_x < in_grid.sizew) && (new_y < in_grid.sizeh) {
-				node_cost += float64(in_grid.get(new_x, new_y))
+				node_cost += int64(in_grid.get(new_x, new_y))
 				if (temp_mod >= in_start) {
-					node_to := d17node(new_x, new_y, temp_ref)
-					node_check := in_graph.AddNode(node_to)
-					if node_check {
+					node_to, node_check := d17node(in_graph, new_x, new_y, temp_ref)
+					if node_check != nil {
 						d17build(in_graph, in_grid, new_x, new_y, temp_ref, in_start, in_range)
 					}
-					in_graph.AddEdge(node_new.ID(), node_to.ID(), node_cost)
+					in_graph.AddArc(node_new, node_to, node_cost)
 				}
 			}
 		}
@@ -75,20 +79,20 @@ func d17build(in_graph goraph.Graph, in_grid d17Grid, in_x int, in_y int, in_dir
 }
 
 func d17solve(in_clean d17Grid, in_start int, in_range int) int {
-	graph_build := goraph.NewGraph()
-	graph_start := d17node(0, 0, "A")
-	graph_end := d17node(0, 0, "F")
-	graph_endeast := d17node(in_clean.sizew-1, in_clean.sizeh-1, "E")
-	graph_endsouth := d17node(in_clean.sizew-1, in_clean.sizeh-1, "S")
-	graph_build.AddNode(graph_start)
-	graph_build.AddNode(graph_end)
-	graph_build.AddNode(graph_endeast)
-	graph_build.AddNode(graph_endsouth)
-	graph_build.AddEdge(graph_endeast.ID(), graph_end.ID(), 0)
-	graph_build.AddEdge(graph_endsouth.ID(), graph_end.ID(), 0)
+	graph_build := dijkstra.NewGraph()
+	graph_start, _ := d17node(graph_build, 0, 0, "A")
+	graph_end, _ := d17node(graph_build, 0, 0, "F")
+	graph_endeast, _ := d17node(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "E")
+	graph_endsouth, _ := d17node(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "S")
+	graph_build.AddVertex(graph_start)
+	graph_build.AddVertex(graph_end)
+	graph_build.AddVertex(graph_endeast)
+	graph_build.AddVertex(graph_endsouth)
+	graph_build.AddArc(graph_endeast, graph_end, 0)
+	graph_build.AddArc(graph_endsouth, graph_end, 0)
 	d17build(graph_build, in_clean, 0, 0, "A", in_start, in_range)
-	_, node_cost, _ := goraph.Dijkstra(graph_build, graph_start.ID(), graph_end.ID())
-	return int(node_cost[graph_end.ID()])
+	path_best, _ := graph_build.Shortest(graph_start, graph_end)
+	return int(path_best.Distance)
 }
 
 func d17part1(in_clean d17Grid) int {
