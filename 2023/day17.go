@@ -45,7 +45,7 @@ func d17clean(in_raw string) d17Grid {
 	return grid_out
 }
 
-func d17node(in_graph *dijkstra.Graph, in_x int, in_y int, in_dir string) (int, error) {
+func d17addnode(in_graph *dijkstra.Graph, in_x int, in_y int, in_dir string) (int, error) {
 	node_list := []string{tsnum(in_x), tsnum(in_y), in_dir}
 	node_name := strings.Join(node_list, ",")
 	_, node_check := in_graph.GetMapping(node_name)
@@ -56,7 +56,7 @@ func d17node(in_graph *dijkstra.Graph, in_x int, in_y int, in_dir string) (int, 
 }
 
 func d17build(in_graph *dijkstra.Graph, in_grid d17Grid, in_x int, in_y int, in_dir string, in_start int, in_range int) {
-	node_new, _ := d17node(in_graph, in_x, in_y, in_dir)
+	node_new, _ := d17addnode(in_graph, in_x, in_y, in_dir)
 	for _, temp_ref := range d17VALID[in_dir] {
 		mod_ref := d17MODIF[temp_ref]
 		var node_cost int64
@@ -66,7 +66,7 @@ func d17build(in_graph *dijkstra.Graph, in_grid d17Grid, in_x int, in_y int, in_
 			if (new_x >= 0) && (new_y >= 0) && (new_x < in_grid.sizew) && (new_y < in_grid.sizeh) {
 				node_cost += int64(in_grid.get(new_x, new_y))
 				if (temp_mod >= in_start) {
-					node_to, node_check := d17node(in_graph, new_x, new_y, temp_ref)
+					node_to, node_check := d17addnode(in_graph, new_x, new_y, temp_ref)
 					if node_check != nil {
 						d17build(in_graph, in_grid, new_x, new_y, temp_ref, in_start, in_range)
 					}
@@ -80,14 +80,10 @@ func d17build(in_graph *dijkstra.Graph, in_grid d17Grid, in_x int, in_y int, in_
 
 func d17solve(in_clean d17Grid, in_start int, in_range int) int {
 	graph_build := dijkstra.NewGraph()
-	graph_start, _ := d17node(graph_build, 0, 0, "A")
-	graph_end, _ := d17node(graph_build, 0, 0, "F")
-	graph_endeast, _ := d17node(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "E")
-	graph_endsouth, _ := d17node(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "S")
-	graph_build.AddVertex(graph_start)
-	graph_build.AddVertex(graph_end)
-	graph_build.AddVertex(graph_endeast)
-	graph_build.AddVertex(graph_endsouth)
+	graph_start, _ := d17addnode(graph_build, 0, 0, "A")
+	graph_end, _ := d17addnode(graph_build, 0, 0, "F")
+	graph_endeast, _ := d17addnode(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "E")
+	graph_endsouth, _ := d17addnode(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "S")
 	graph_build.AddArc(graph_endeast, graph_end, 0)
 	graph_build.AddArc(graph_endsouth, graph_end, 0)
 	d17build(graph_build, in_clean, 0, 0, "A", in_start, in_range)
