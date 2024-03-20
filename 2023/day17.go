@@ -48,11 +48,11 @@ func d17clean(in_raw string) d17Grid {
 func d17addnode(in_graph *dijkstra.Graph, in_x int, in_y int, in_dir string) (int, error) {
 	node_list := []string{tsnum(in_x), tsnum(in_y), in_dir}
 	node_name := strings.Join(node_list, ",")
-	_, node_check := in_graph.GetMapping(node_name)
+	node_int, node_check := in_graph.GetMapping(node_name)
 	if node_check != nil {
 		return in_graph.AddMappedVertex(node_name), errors.New("New")
 	}
-	return in_graph.AddMappedVertex(node_name), nil
+	return node_int, nil
 }
 
 func d17build(in_graph *dijkstra.Graph, in_grid d17Grid, in_x int, in_y int, in_dir string, in_start int, in_range int) {
