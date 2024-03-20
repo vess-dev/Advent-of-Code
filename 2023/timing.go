@@ -41,7 +41,6 @@ func main() {
 		one_list := TLIST_SIG{TDAY_LIST[day_arg-1]}
 		ttime(one_list)
 	} else {
-		fast_list := tdrop(TDAY_LIST, 17-1)
-		ttime(fast_list)
+		ttime(TDAY_LIST)
 	}
 }
