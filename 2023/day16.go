@@ -32,22 +32,22 @@ type d16History struct {
 }
 
 var d16Beam_REF = map[d16Pair]d16Pair{
-	d16Pair{"N", "/"}: d16Pair{"E", ""},
-	d16Pair{"E", "/"}: d16Pair{"N", ""},
-	d16Pair{"S", "/"}: d16Pair{"W", ""},
-	d16Pair{"W", "/"}: d16Pair{"S", ""},
-	d16Pair{"N", "\\"}: d16Pair{"W", ""},
-	d16Pair{"E", "\\"}: d16Pair{"S", ""},
-	d16Pair{"S", "\\"}: d16Pair{"E", ""},
-	d16Pair{"W", "\\"}: d16Pair{"N", ""},
-	d16Pair{"N", "|"}: d16Pair{"N", ""},
-	d16Pair{"E", "|"}: d16Pair{"N", "S"},
-	d16Pair{"S", "|"}: d16Pair{"S", ""},
-	d16Pair{"W", "|"}: d16Pair{"N", "S"},
-	d16Pair{"N", "-"}: d16Pair{"E", "W"},
-	d16Pair{"E", "-"}: d16Pair{"E", ""},
-	d16Pair{"S", "-"}: d16Pair{"E", "W"},
-	d16Pair{"W", "-"}: d16Pair{"W", ""},
+	{"N", "/"}: {"E", ""},
+	{"E", "/"}: {"N", ""},
+	{"S", "/"}: {"W", ""},
+	{"W", "/"}: {"S", ""},
+	{"N", "\\"}: {"W", ""},
+	{"E", "\\"}: {"S", ""},
+	{"S", "\\"}: {"E", ""},
+	{"W", "\\"}: {"N", ""},
+	{"N", "|"}: {"N", ""},
+	{"E", "|"}: {"N", "S"},
+	{"S", "|"}: {"S", ""},
+	{"W", "|"}: {"N", "S"},
+	{"N", "-"}: {"E", "W"},
+	{"E", "-"}: {"E", ""},
+	{"S", "-"}: {"E", "W"},
+	{"W", "-"}: {"W", ""},
 }
 
 func (self *d16Grid) get(in_x int, in_y int) string {
