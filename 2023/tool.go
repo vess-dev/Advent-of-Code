@@ -156,6 +156,10 @@ func tequals[T comparable](in_base []T, in_comp []T) int {
 	return total_diff
 }
 
+func texit() {
+	os.Exit(0)
+}
+
 func tgcd(in_x int, in_y int) int {
 	for in_y != 0 {
 			var_t := in_y
