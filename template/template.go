@@ -10,12 +10,12 @@ func dXclean(in_raw string) any {
 }
 
 func dXpart1(in_clean any) any {
-	tuse(in_clean)
+	tdebug(in_clean)
 	return -1
 }
 
 func dXpart2(in_clean any) any {
-	tuse(in_clean)
+	tdebug(in_clean)
 	return -1
 }
 
