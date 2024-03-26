@@ -156,6 +156,10 @@ func tequals[T comparable](in_base []T, in_comp []T) int {
 	return total_diff
 }
 
+func teven(in_int int) bool {
+	return (in_int & 1) == 0
+}
+
 func texit() {
 	os.Exit(0)
 }
@@ -257,6 +261,10 @@ func tnum(in_string string) int {
 func tnumf(in_string string) int {
 	int_data, _ := strconv.Atoi(in_string)
 	return int_data
+}
+
+func todd(in_int int) bool {
+	return (in_int & 1) == 1
 }
 
 func tones(in_int int) int {

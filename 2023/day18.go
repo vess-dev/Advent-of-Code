@@ -35,34 +35,57 @@ func (self *d18Digsite) size() int {
 	return len(self.digmap)
 }
 
-func (self *d18Digsite) check(in_x int, in_y int) bool {
+func (self *d18Digsite) wall(in_x int, in_y int) bool {
 	point_check := d18Point{in_x, in_y}
 	return self.digmap[point_check]
+}
+
+func (self *d18Digsite) ray(in_x int, in_y int, in_min int, in_max int, in_vert bool) (int, int) {
+	var wall_before int
+	var wall_after int
+	var wall_edge bool
+	var wall_split int
+	if !in_vert {
+		wall_split = in_x
+	} else {
+		wall_split = in_y
+	}
+	for temp_itr := in_min; temp_itr <= in_max; temp_itr++ {
+		var wall_check bool
+		if !in_vert {
+			wall_check = self.wall(temp_itr, in_y)	
+		} else {
+			wall_check = self.wall(in_x, temp_itr)
+		}
+		if wall_check && !wall_edge {
+			wall_edge = true
+			if temp_itr < wall_split {
+				wall_before += 1
+			} else {
+				wall_after += 1
+			}
+		} else if !wall_check && wall_edge {
+			wall_edge = false
+		}
+	}
+	return wall_before, wall_after
+}
+
+func (self *d18Digsite) check(in_x int, in_y int) bool {
+	count_left, count_right := self.ray(in_x, in_y, self.minx, self.maxx, false)
+	count_up, count_down := self.ray(in_x, in_y, self.miny, self.maxy, true)
+	//tline(in_x, in_y, count_left, count_right, count_down, count_up)
+	
+	return true
 }
 
 func (self *d18Digsite) space() int {
 	var total_space int
 	for temp_y := self.miny; temp_y <= self.maxy; temp_y++ {
-		var toggle_wall bool
-		var toggle_inside bool
-		var count_inside int
-		test_mod := 5
-		for temp_x := self.minx - test_mod; temp_x <= self.maxx + test_mod; temp_x++ {
-			if self.check(temp_x, temp_y) {
-				toggle_wall = true
-			} else {
-				if !toggle_inside {
-					if toggle_wall {
-						toggle_wall = false
-						toggle_inside = true
-						count_inside += 1
-					}
-				} else if toggle_wall && toggle_inside {
-					toggle_wall = false
-					toggle_inside = false
-					total_space += count_inside
-				} else {
-					count_inside += 1
+		for temp_x := self.minx; temp_x <= self.maxx; temp_x++ {
+			if !self.wall(temp_x, temp_y) {
+				if self.check(temp_x, temp_y) {
+					total_space += 1
 				}
 			}
 		}
@@ -124,6 +147,8 @@ func d18part1(in_clean d18Digsite) int {
 	tline()
 	tline(in_clean.size())
 	tline()
+	tline(in_clean.minx, in_clean.maxx, in_clean.miny, in_clean.maxy)
+	//tline(in_clean.check(2, 2))
 	tline(in_clean.space())
 	tline()
 	return -1
