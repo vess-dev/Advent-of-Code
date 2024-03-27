@@ -16,6 +16,7 @@ type d18Point struct {
 type d18Digsite struct {
 	orders []d18Order
 	pointer int
+	diglist []d18Point
 	digmap map[d18Point]bool
 	digx int
 	digy int
@@ -31,66 +32,14 @@ var d18REF = map[string][]int {
 	"L": {-1, 0},
 }
 
-func (self *d18Digsite) size() int {
-	return len(self.digmap)
-}
-
-func (self *d18Digsite) wall(in_x int, in_y int) bool {
-	point_check := d18Point{in_x, in_y}
-	return self.digmap[point_check]
-}
-
-func (self *d18Digsite) ray(in_x int, in_y int, in_min int, in_max int, in_vert bool) (int, int) {
-	var wall_before int
-	var wall_after int
-	var wall_edge bool
-	var wall_split int
-	if !in_vert {
-		wall_split = in_x
-	} else {
-		wall_split = in_y
-	}
-	for temp_itr := in_min; temp_itr <= in_max; temp_itr++ {
-		var wall_check bool
-		if !in_vert {
-			wall_check = self.wall(temp_itr, in_y)	
-		} else {
-			wall_check = self.wall(in_x, temp_itr)
-		}
-		if wall_check && !wall_edge {
-			wall_edge = true
-			if temp_itr < wall_split {
-				wall_before += 1
-			} else {
-				wall_after += 1
-			}
-		} else if !wall_check && wall_edge {
-			wall_edge = false
-		}
-	}
-	return wall_before, wall_after
-}
-
-func (self *d18Digsite) check(in_x int, in_y int) bool {
-	count_left, count_right := self.ray(in_x, in_y, self.minx, self.maxx, false)
-	count_up, count_down := self.ray(in_x, in_y, self.miny, self.maxy, true)
-	//tline(in_x, in_y, count_left, count_right, count_down, count_up)
-	
-	return true
-}
-
-func (self *d18Digsite) space() int {
+func (self *d18Digsite) shoe() int {
 	var total_space int
-	for temp_y := self.miny; temp_y <= self.maxy; temp_y++ {
-		for temp_x := self.minx; temp_x <= self.maxx; temp_x++ {
-			if !self.wall(temp_x, temp_y) {
-				if self.check(temp_x, temp_y) {
-					total_space += 1
-				}
-			}
-		}
+	point_a := self.diglist[len(self.diglist)-1]
+	for _, point_b := range self.diglist {
+		total_space += ((point_a.posy * point_b.posx) - (point_a.posx * point_b.posy))
+		point_a = point_b
 	}
-	return self.size() + total_space
+	return len(self.digmap) + tabs(total_space / 2)
 }
 
 func (self *d18Digsite) set(in_x int, in_y int) {
@@ -111,6 +60,12 @@ func (self *d18Digsite) set(in_x int, in_y int) {
 	return
 }
 
+func (self *d18Digsite) vertex(in_x int, in_y int) {
+	point_new := d18Point{in_x, in_y}
+	self.diglist = append(self.diglist, point_new)
+	return
+}
+
 func (self *d18Digsite) dig() {
 	for self.pointer < len(self.orders) {
 		order_current := self.orders[self.pointer]
@@ -119,6 +74,7 @@ func (self *d18Digsite) dig() {
 			self.digy += d18REF[order_current.dir][1]
 			self.set(self.digx, self.digy)
 		}
+		self.vertex(self.digx, self.digy)
 		self.pointer += 1
 	}
 	return
@@ -136,6 +92,20 @@ func d18clean(in_raw string) d18Digsite {
 	return out_digsite
 }
 
+func d18debug(in_digsite d18Digsite) {
+	for temp_y := in_digsite.miny; temp_y <= in_digsite.maxy; temp_y++ {
+		for temp_x := in_digsite.minx; temp_x <= in_digsite.maxx; temp_x ++ {
+			point_check := d18Point{temp_x, temp_y}
+			if in_digsite.digmap[point_check] {
+				tout("#")
+			} else {
+				tout(".")
+			}
+		}
+		tnln()
+	}
+}
+
 func d18part1(in_clean d18Digsite) int {
 	tline()
 	tdebug(in_clean)
@@ -145,11 +115,10 @@ func d18part1(in_clean d18Digsite) int {
 	tline()
 	tdebug(in_clean)
 	tline()
-	tline(in_clean.size())
+	d18debug(in_clean)
 	tline()
-	tline(in_clean.minx, in_clean.maxx, in_clean.miny, in_clean.maxy)
-	//tline(in_clean.check(2, 2))
-	tline(in_clean.space())
+	tline(len(in_clean.diglist))
+	tline(in_clean.shoe())
 	tline()
 	return -1
 }

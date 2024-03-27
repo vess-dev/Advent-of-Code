@@ -252,6 +252,10 @@ func tminidx(in_list []int) int {
 	return int_idx
 }
 
+func tnln() {
+	fmt.Println()
+}
+
 func tnum(in_string string) int {
 	int_data, int_error := strconv.Atoi(in_string)
 	tcheck(int_error)
@@ -274,6 +278,10 @@ func tones(in_int int) int {
 		bit_sum += 1
 	}
 	return bit_sum
+}
+
+func tout(in_type any) {
+	fmt.Print(in_type)
 }
 
 func tpop(in_slice []any) (any, []any) {
