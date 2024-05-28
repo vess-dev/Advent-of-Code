@@ -23,7 +23,7 @@
 - Python >=3.10 installed.
   - "python3" as a recognized terminal command.
 
-- Rust >=P2021 installed.
+- Rust >=2021 installed.
   - "cargo" as a recognized terminal command.
 
 - Golang >=1.21 installed.
