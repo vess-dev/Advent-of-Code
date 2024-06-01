@@ -11,7 +11,7 @@ file_in = {}
 for temp_itr, temp_int in enumerate(file_prep):
 	file_in[temp_itr] = temp_int
 
-def run():
+def run(input_picture=True):
 
 	def painter(input_in, input_grid):
 		tape_mem = input_in.copy()
@@ -67,7 +67,8 @@ def run():
 			line_string = list(map(str, temp_line))
 			paint_picture += "".join(line_string) + "\n"
 		paint_picture = paint_picture.replace("0", " ")
-		print(paint_picture)
+		if input_picture:
+			print(paint_picture)
 		return
 
 	return paint(file_in), picture(file_in)

@@ -1,3 +1,4 @@
 target
 *.exe
 .DS_Store
+__pycache__
