@@ -34,7 +34,7 @@ def run():
 		rob_tried = {}
 		rob_alive = {}
 		rob_tried[rob_pos] = True
-		rob_alive[rob_pos] = [copy.deepcopy(comp_main), rob_pos, 0]
+		rob_alive[rob_pos] = [comp_main, rob_pos, 0]
 		while True:
 			for (temp_robkey, temp_robdata) in list(rob_alive.items()):
 				for (temp_key, temp_value) in ROB_MOVES.items():
@@ -55,7 +55,7 @@ def run():
 		rob_tried = {}
 		rob_alive = {}
 		rob_tried[rob_pos] = True
-		rob_alive[rob_pos] = [copy.deepcopy(rob_oxy), rob_pos, 0]
+		rob_alive[rob_pos] = [rob_oxy, rob_pos]
 		rob_clock = 0
 		while rob_alive:
 			for (temp_robkey, temp_robdata) in list(rob_alive.items()):
@@ -64,8 +64,8 @@ def run():
 					if rob_new not in rob_tried:
 						rob_double, rob_status = test(temp_robdata[0], temp_key)
 						if rob_status == 1:
-							rob_alive[rob_new] = [rob_double, rob_new, temp_robdata[2] + 1]
-						rob_tried[rob_new] = True		
+							rob_alive[rob_new] = [rob_double, rob_new]
+						rob_tried[rob_new] = True
 				rob_alive.pop(temp_robkey, None)
 			rob_clock += 1
 		return rob_dist, rob_clock - 1
