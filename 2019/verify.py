@@ -28,7 +28,7 @@ def test():
 			test_run = temp_test.run(False)
 		else:
 			test_run = temp_test.run()
-		test_string = f"{test_tuple[0]} : {test_tuple[1] == test_run} : {test_tuple[1]} , {test_run}"
+		test_string = f"{test_tuple[0]}: {test_tuple[1] == test_run} | {test_tuple[1]} | {test_run}"
 		print(test_string)
 	return
 
