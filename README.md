@@ -51,7 +51,7 @@ The years written in Golang contain the following structure:
 
 Additionally, year 2019 includes the following file:
 
-- /2019/verify.py : Check that every Intcode day is consistent.
+- /2019/verify.py : Verify that every Intcode day remains unchanged.
 
 In the top level directory:
 
