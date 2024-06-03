@@ -1,4 +1,4 @@
-from collections import deque
+import copy
 import intcode
 
 day_num = 15
@@ -13,53 +13,64 @@ for temp_itr, temp_int in enumerate(file_prep):
 	file_in[temp_itr] = temp_int
 
 def run():
+		
+	ROB_MOVES = {
+		1: (0, -1),
+		2: (0,  1),
+		3: (-1, 0),
+		4: (1,  0),
+	}
+
+	def test(input_in, input_move):
+		rob_copy = copy.deepcopy(input_in)
+		rob_copy.run([input_move])
+		return rob_copy, rob_copy.status()
 
 	def crawl(input_in):
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
-		map_grid = {}
-		map_x, map_y = 0, 0
-		map_grid[(map_x, map_y)] = 1
-		wall_hand = [
-			(1, 4, [1, 0]),
-			(4, 2, [0, 1]),
-			(2, 3, [-1, 0]),
-			(3, 1, [0, -1])
-		]
-		wall_cycle = deque(wall_hand)
-		map_oxy = False
+		rob_pos = (0, 0)
+		rob_tried = {}
+		rob_alive = {}
+		rob_tried[rob_pos] = True
+		rob_alive[rob_pos] = [copy.deepcopy(comp_main), rob_pos, 0]
 		while True:
-			comp_main.run([1])
-			comp_status = comp_main.mem_output.pop(0)
-			if comp_status == 0:
-				break
-		while not map_oxy:
-			wall_dir = wall_cycle[0]
-			while True:
-				comp_main.run([wall_dir[0]])
-				comp_status = comp_main.mem_output.pop(0)
-				if comp_status == 1:
-					wall_cycle.rotate(-1)
-					break
-				elif comp_status == 2:
-					map_oxy = True
-					break
-				comp_main.run([wall_dir[1]])
-				comp_status = comp_main.mem_output.pop(0)
-				if comp_status == 0:
-					wall_cycle.rotate(1)
-					break
-				elif comp_status == 2:
-					map_oxy = True
-					break
-				map_x += wall_dir[2][0]
-				map_y += wall_dir[2][1]
-				map_grid[(map_x, map_y)] = "1"
-		print(len(map_grid))
-		return
+			for (temp_robkey, temp_robdata) in list(rob_alive.items()):
+				for (temp_key, temp_value) in ROB_MOVES.items():
+					rob_new = (temp_robdata[1][0] + temp_value[0], temp_robdata[1][1] + temp_value[1])
+					if rob_new not in rob_tried:
+						rob_double, rob_status = test(temp_robdata[0], temp_key)
+						if rob_status == 1:
+							rob_alive[rob_new] = [rob_double, rob_new, temp_robdata[2] + 1]
+						elif rob_status == 2:
+							return rob_double, temp_robdata[2] + 1
+						rob_tried[rob_new] = True		
+				rob_alive.pop(temp_robkey, None)
+		return None, None
+	
+	def control(input_in):
+		rob_oxy, rob_dist = crawl(input_in)
+		rob_pos = (0, 0)
+		rob_tried = {}
+		rob_alive = {}
+		rob_tried[rob_pos] = True
+		rob_alive[rob_pos] = [copy.deepcopy(rob_oxy), rob_pos, 0]
+		rob_clock = 0
+		while rob_alive:
+			for (temp_robkey, temp_robdata) in list(rob_alive.items()):
+				for (temp_key, temp_value) in ROB_MOVES.items():
+					rob_new = (temp_robdata[1][0] + temp_value[0], temp_robdata[1][1] + temp_value[1])
+					if rob_new not in rob_tried:
+						rob_double, rob_status = test(temp_robdata[0], temp_key)
+						if rob_status == 1:
+							rob_alive[rob_new] = [rob_double, rob_new, temp_robdata[2] + 1]
+						rob_tried[rob_new] = True		
+				rob_alive.pop(temp_robkey, None)
+			rob_clock += 1
+		return rob_dist, rob_clock - 1
 
-	return crawl(file_in)
+	return control(file_in)
 
 if __name__ == "__main__":
 	print(run())

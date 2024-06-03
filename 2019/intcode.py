@@ -1,3 +1,4 @@
+import copy
 import pprint
 
 class Comp:
@@ -20,6 +21,7 @@ class Comp:
 		self.mem_pos = 0
 		self.mem_output = []
 		self.mem_base = 0
+		self.mem_watch = None
 		self.flag_halt = False
 		self.flag_input = False
 		self.flag_payload = None
@@ -117,7 +119,10 @@ class Comp:
 			return self.mem_output[-1]
 		return
 
-	def run(self, input_sim=[], input_debug=False):
+	def run(self, input_sim=[], input_debug=False, input_watch=False):
+		if input_watch:
+			
+			self.mem_watch = copy.deepcopy(self.mem_tape)
 		while not self.flag_halt:
 			if self.flag_input:
 				if input_sim:
@@ -125,4 +130,15 @@ class Comp:
 				else:
 					break
 			self.step(input_debug)
+		if input_watch:
+			mem_zip = enumerate(zip(self.mem_watch.values(), self.mem_tape.values()))
+			mem_changes = 0
+			for (mem_pos, (mem_before, mem_after)) in mem_zip:
+				if mem_before != mem_after:
+					msg_watch = f"{mem_pos}: {mem_before} -> {mem_after}"
+					print(msg_watch)
+					mem_changes += 1
+			msg_change = f"{mem_changes} memory positions changed this cycle."
+			print(msg_change)
+			print("#" * 100)
 		return self.status()
