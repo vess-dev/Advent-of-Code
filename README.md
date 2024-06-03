@@ -16,7 +16,7 @@
 
 83 total days finished.
 
-7500+ SLOC in total.
+6700+ SLOC in total.
 
 ## Requirements
 
@@ -48,6 +48,10 @@ The years written in Golang contain the following structure:
 - /input/day\*.txt : Holds the inputs in text files.
 - /day\*.go : The code that solves both parts of the day from the input held in "/input".
 - /timing.go : Code that times every solution for both parts and prints the average.
+
+Additionally, year 2019 includes the following file:
+
+- /2019/verify.py : Check that every Intcode day is consistent.
 
 In the top level directory:
 
