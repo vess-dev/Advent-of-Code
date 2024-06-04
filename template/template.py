@@ -1,7 +1,7 @@
 day_num = *
 
 file_load = open("input/day*.txt", "r")
-file_in = file_load.read()
+file_prep = file_load.read()
 file_load.close()
 
 def run():
