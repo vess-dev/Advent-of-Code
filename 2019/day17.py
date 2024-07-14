@@ -37,8 +37,10 @@ def run():
 		("S", "E"): "L",
 		("W", "N"): "R",
 		("W", "S"): "L",
-
 	}
+	MAP_TURNS = ["L", "R"]
+	MAIN_LEN = 20
+	SUB_LEN = 3
 
 	def render(input_in):
 		for temp_int in input_in:
@@ -108,15 +110,34 @@ def run():
 					if temp_check[0] in input_in:
 						path_pos = temp_check[0]
 						if path_count:
-							path_full += str(path_count) + ","
+							path_full.append(str(path_count))
 							path_count = 0
-						path_full += MAP_TURN[(path_dir, temp_check[1])] + ","
+						path_full.append(MAP_TURN[(path_dir, temp_check[1])])
 						path_dir = temp_check[1]
 				if path_old == path_dir:
-					path_full += str(path_count) + ","
+					path_full.append(str(path_count))
 					break
 			path_count += 1
 		return path_full
+	
+	def subcount(input_in, input_sub):
+		list_count = 0
+		list_len = len(input_sub)
+		for temp_itr in range(len(input_in) - list_len + 1):
+			if input_in[temp_itr:temp_itr + list_len] == input_sub:
+				list_count += 1
+		return list_count
+	
+	def subdel(input_in, input_sub):
+		itr_pos = 0
+		out_list = []
+		while itr_pos < len(input_in):
+			if input_in[itr_pos:itr_pos+len(input_sub)] == input_sub:
+				itr_pos += len(input_sub)
+			else:
+				out_list.append(input_in[itr_pos])
+				itr_pos += 1
+		return out_list
 	
 	def window(input_in, input_len):
 		itr_pos = 0
@@ -127,12 +148,16 @@ def run():
 				yield None
 			itr_pos += 1
 	
-	def slide(input_in):
-		slide_size = len(input_in) - 11
-		while True:
+	def slide(input_in, input_max):
+		slide_size = input_max
+		while slide_size >= SUB_LEN:
 			gen_window = window(input_in, slide_size)
-			print(next(gen_window))
-			break
+			while gen_next := next(gen_window):
+				if gen_next[0] in MAP_TURNS:
+					if gen_next[-1] not in MAP_TURNS:
+						if subcount(input_in, gen_next) > 1:
+							return subdel(input_in, gen_next), gen_next
+			slide_size -= 1
 	
 	def dust(input_in):
 		tape_mem = input_in.copy()
@@ -147,9 +172,16 @@ def run():
 		space_path = walk(space_map, pos_start)
 		print(space_path)
 		print()
-		slide_one = slide(space_path)
-		print(slide_one)
-		print()
+		slide_test = "R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2".split(",")
+		slide_max = (MAIN_LEN - (SUB_LEN * 3) - SUB_LEN)
+		slide_list = []
+		while slide_test:
+			print(slide_test, end="")
+			slide_test, slide_next = slide(slide_test, slide_max)
+			slide_max -= len(slide_next)
+			print(" : ", slide_next)
+			slide_list.append(slide_next)
+		print(slide_list)
 		return
 
 		func_main = "A"
