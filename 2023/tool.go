@@ -417,10 +417,30 @@ func tstring(in_list ...any) string {
 	return string_out
 }
 
+func tsubstring(in_string string, in_start string, in_end string) string {
+    index_start := strings.Index(in_string, in_start)
+    if index_start == -1 {
+        return ""
+    }
+    index_end := strings.Index(in_string[index_start:], in_end)
+    if index_end == -1 {
+        return ""
+    }
+    return in_string[index_start+len(in_start):index_end+index_start]
+}
+
 func tsum(in_ints []int) int {
 	var final_sum int
 	for _, temp_int := range in_ints {
 		final_sum += temp_int
+	}
+	return final_sum
+}
+
+func tsummap[T comparable](in_map map[T]int) int {
+	var final_sum int
+	for _, temp_value := range in_map {
+		final_sum += temp_value
 	}
 	return final_sum
 }
