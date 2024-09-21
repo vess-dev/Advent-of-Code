@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	dijkstra "github.com/RyanCarrier/dijkstra"
+	"github.com/RyanCarrier/dijkstra"
 )
 
 type d17Grid struct {

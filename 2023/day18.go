@@ -1,7 +1,7 @@
 package main
 
 import (
-	"strings"	
+	"strings"
 )
 
 type d18Order struct {
@@ -16,65 +16,66 @@ type d18Point struct {
 type d18Digsite struct {
 	orders []d18Order
 	pointer int
-	diglist []d18Point
+	edge int
 	digmap map[d18Point]bool
-	digx int
-	digy int
-	maxx int
+	diglist []d18Point
 	minx int
-	maxy int
+	maxx int
 	miny int
+	maxy int
 }
-var d18REF = map[string][]int {
-	"U": {0, -1},
+var d18REF = map[string]d18Point {
 	"R": {1, 0},
-	"D": {0, 1},
+	"D": {0, -1},
 	"L": {-1, 0},
+	"U": {0, 1},
+}
+var d18MAP = map[string]string {
+	"0": "R",
+	"1": "D",
+	"2": "L",
+	"3": "U",
 }
 
-func (self *d18Digsite) shoe() int {
-	var total_space int
-	point_a := self.diglist[len(self.diglist)-1]
-	for _, point_b := range self.diglist {
-		total_space += ((point_a.posy * point_b.posx) - (point_a.posx * point_b.posy))
-		point_a = point_b
+func (self *d18Digsite) has(in_point d18Point) bool {
+	if self.digmap[in_point] {
+		return true
 	}
-	return len(self.digmap) + tabs(total_space / 2)
+	return false
 }
 
-func (self *d18Digsite) set(in_x int, in_y int) {
-	point_new := d18Point{in_x, in_y}
-	self.digmap[point_new] = true
-	if in_x > self.maxx {
-		self.maxx = in_x
+func (self *d18Digsite) set(in_point d18Point) {
+	self.digmap[in_point] = true
+	if in_point.posx > self.maxx {
+		self.maxx = in_point.posx
 	}
-	if in_x < self.minx {
-		self.minx = in_x
+	if in_point.posx < self.minx {
+		self.minx = in_point.posx
 	}
-	if in_y > self.maxy {
-		self.maxy = in_y
+	if in_point.posy > self.maxy {
+		self.maxy = in_point.posy
 	}
-	if in_y < self.miny {
-		self.miny = in_y
+	if in_point.posy < self.miny {
+		self.miny = in_point.posy
 	}
 	return
 }
 
-func (self *d18Digsite) vertex(in_x int, in_y int) {
-	point_new := d18Point{in_x, in_y}
-	self.diglist = append(self.diglist, point_new)
-	return
-}
-
-func (self *d18Digsite) dig() {
+func (self *d18Digsite) dig(in_color bool) {
+	var pos_x int
+	var pos_y int
 	for self.pointer < len(self.orders) {
 		order_current := self.orders[self.pointer]
-		for temp_rep := 0; temp_rep < order_current.len; temp_rep++ {
-			self.digx += d18REF[order_current.dir][0]
-			self.digy += d18REF[order_current.dir][1]
-			self.set(self.digx, self.digy)
+		if in_color {
+			order_current.len = thextoint(order_current.color[2:7])
+			order_current.dir = d18MAP[tcharat(order_current.color, 7)]
 		}
-		self.vertex(self.digx, self.digy)
+		pos_x += d18REF[order_current.dir].posx * order_current.len
+		pos_y += d18REF[order_current.dir].posy * order_current.len
+		self.edge += order_current.len
+		point_new := d18Point{pos_x, pos_y}
+		self.set(point_new)
+		self.diglist = append(self.diglist, point_new)
 		self.pointer += 1
 	}
 	return
@@ -94,9 +95,9 @@ func d18clean(in_raw string) d18Digsite {
 
 func d18debug(in_digsite d18Digsite) {
 	for temp_y := in_digsite.miny; temp_y <= in_digsite.maxy; temp_y++ {
-		for temp_x := in_digsite.minx; temp_x <= in_digsite.maxx; temp_x ++ {
+		for temp_x := in_digsite.minx; temp_x <= in_digsite.maxx; temp_x++ {
 			point_check := d18Point{temp_x, temp_y}
-			if in_digsite.digmap[point_check] {
+			if in_digsite.has(point_check) {
 				tout("#")
 			} else {
 				tout(".")
@@ -106,27 +107,32 @@ func d18debug(in_digsite d18Digsite) {
 	}
 }
 
+func d18cross(in_pone d18Point, in_ptwo d18Point) int {
+	return (in_pone.posx * in_ptwo.posy) - (in_ptwo.posx * in_pone.posy)
+}
+
+func d18area(in_points []d18Point) int {
+	var dig_area int
+	for temp_idx := 0; temp_idx < len(in_points)-1; temp_idx++ {
+		dig_area += d18cross(in_points[temp_idx], in_points[temp_idx+1])
+	}
+	dig_area = tabs(dig_area / 2)
+	return dig_area
+}
+
+func d18size(in_clean d18Digsite, in_color bool) int {
+	in_clean.dig(in_color)
+	dig_area := d18area(in_clean.diglist)
+	dig_edge := (in_clean.edge / 2) + 1
+	return dig_area + dig_edge
+}
+
 func d18part1(in_clean d18Digsite) int {
-	tline()
-	tdebug(in_clean)
-	tline()
-	in_clean.dig()
-	tline(in_clean.digmap)
-	tline()
-	tdebug(in_clean)
-	tline()
-	d18debug(in_clean)
-	tline()
-	tline(len(in_clean.diglist))
-	tline(in_clean.shoe())
-	tline()
-	return -1
+	return d18size(in_clean, false)
 }
 
 func d18part2(in_clean d18Digsite) int {
-	//tdebug(in_clean)
-	tuse(in_clean)
-	return -1
+	return d18size(in_clean, true)
 }
 
 func day18() (any, any) {

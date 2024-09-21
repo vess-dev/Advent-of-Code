@@ -17,6 +17,33 @@ func tabs(in_int int) int {
 	return in_int
 }
 
+func taddall[T comparable](in_map map[T]bool, in_new []T) map[T]bool {
+	for _, temp_check := range in_new {
+		if !in_map[temp_check] {
+			in_map[temp_check] = true
+		}
+	}
+	return in_map
+}
+
+func tappappnot[T comparable](in_slice []T, in_append []T, in_ref map[T]bool) []T {
+	return tappslice(in_slice, tappnot(in_append, in_ref))
+}
+
+func tappslice[T any](in_slice []T, in_append []T) []T {
+	return append(in_slice, in_append...)
+}
+
+func tappnot[T comparable](in_append []T, in_ref map[T]bool) []T {
+	var slice_not []T
+	for _, temp_check := range in_append {
+		if !in_ref[temp_check] {
+			slice_not = append(slice_not, temp_check)
+		}
+	}
+	return slice_not
+}
+
 func tbin(in_num int, in_length int) []string {
 	bin_format := strings.Replace("%0?b", "?", fmt.Sprint(in_length), 1)
 	bin_string := fmt.Sprintf(bin_format, in_num)
@@ -30,6 +57,10 @@ func tcast(in_slice []string) []int {
 		slice_ints[temp_idx] = int_data
 	}
 	return slice_ints
+}
+
+func tcharat(in_string string, in_pos int) string {
+	return string([]rune(in_string)[in_pos])
 }
 
 func tcheck(in_error error) {
@@ -182,6 +213,12 @@ func thas(in_item any, in_slice []any) bool {
 	return false
 }
 
+func thextoint(in_hex string) int {
+	parse_data, parse_error := strconv.ParseInt(in_hex, 16, 64)
+	tcheck(parse_error)
+	return int(parse_data)
+}
+
 func tlcm(in_x int, in_y int, in_ints ...int) int {
 	ret_lcm := in_x * in_y / tgcd(in_x, in_y)
 	for temp_itr := 0; temp_itr < len(in_ints); temp_itr++ {
@@ -284,7 +321,7 @@ func tout(in_type any) {
 	fmt.Print(in_type)
 }
 
-func tpop(in_slice []any) (any, []any) {
+func tpop[T any](in_slice []T) (T, []T) {
 	ret_pop, ret_slice := in_slice[0], in_slice[1:]
 	return ret_pop, ret_slice
 }
