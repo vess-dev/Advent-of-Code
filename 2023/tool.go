@@ -444,6 +444,12 @@ func tsummap[T comparable](in_map map[T]int) int {
 	}
 	return final_sum
 }
+func ttern[T any](in_cond bool, in_true T, in_false T) T {
+    if in_cond {
+        return in_true
+    }
+    return in_false
+}
 
 func tuse(in_list ...any) {
 	for _, temp_var := range in_list {
