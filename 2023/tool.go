@@ -263,6 +263,31 @@ func tmake(in_fill any, in_len ...int) any {
 	return slice_final
 }
 
+func tmakemap[K comparable, V any](in_keys []K, in_value V) map[K]V {
+	map_full := make(map[K]V)
+	for _, temp_key := range in_keys {
+		map_full[temp_key] = in_value
+	}
+	return map_full
+}
+
+func tmaphasall[K comparable, V any](in_map map[K]V, in_list []K) bool {
+	for _, temp_key := range in_list {
+		if _, temp_ok := in_map[temp_key]; !temp_ok {
+			return false
+		}
+	}
+	return true
+}
+
+func tmaptolist[K comparable, V any](in_map map[K]V) []V {
+	var out_list []V
+	for _, temp_value := range in_map {
+		out_list = append(out_list, temp_value)
+	}
+	return out_list
+}
+
 func tmax(in_x int, in_y int) int {
 	if in_x > in_y {
 		return in_x
@@ -287,6 +312,14 @@ func tminidx(in_list []int) int {
 		}
 	}
 	return int_idx
+}
+
+func tmultlist(in_ints []int) int {
+	final_mult := 1
+	for _, temp_int := range in_ints {
+		final_mult *= temp_int
+	}
+	return final_mult
 }
 
 func tnln() {
@@ -429,7 +462,7 @@ func tsubstring(in_string string, in_start string, in_end string) string {
     return in_string[index_start+len(in_start):index_end+index_start]
 }
 
-func tsum(in_ints []int) int {
+func tsumlist(in_ints []int) int {
 	var final_sum int
 	for _, temp_int := range in_ints {
 		final_sum += temp_int

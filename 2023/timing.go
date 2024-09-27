@@ -27,6 +27,7 @@ var TDAY_LIST = TLIST_SIG{
 	day17,
 	day18,
 	day19,
+	day20,
 }
 
 func ttime(in_list TLIST_SIG) {
