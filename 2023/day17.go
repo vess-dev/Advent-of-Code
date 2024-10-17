@@ -34,9 +34,9 @@ func d17clean(in_raw string) d17Grid {
 	grid_out := d17Grid{}
 	line_split := strings.Split(in_raw, "\n")
 	grid_out.sizeh = len(line_split)
+	grid_out.sizew = len(strings.Split(line_split[0], ""))
 	for _, temp_line := range line_split {
 		char_split := strings.Split(temp_line, "")
-		grid_out.sizew = len(char_split)
 		for _, temp_char := range char_split {
 			char_cast := tnum(temp_char)
 			grid_out.grid = append(grid_out.grid, char_cast)
@@ -50,7 +50,7 @@ func d17addnode(in_graph *dijkstra.Graph, in_x int, in_y int, in_dir string) (in
 	node_name := strings.Join(node_list, ",")
 	node_int, node_check := in_graph.GetMapping(node_name)
 	if node_check != nil {
-		return in_graph.AddMappedVertex(node_name), errors.New("New")
+		return in_graph.AddMappedVertex(node_name), errors.New("Error")
 	}
 	return node_int, nil
 }
@@ -70,7 +70,7 @@ func d17build(in_graph *dijkstra.Graph, in_grid d17Grid, in_x int, in_y int, in_
 					if node_check != nil {
 						d17build(in_graph, in_grid, new_x, new_y, temp_ref, in_start, in_range)
 					}
-					in_graph.AddArc(node_new, node_to, node_cost)
+					_ = in_graph.AddArc(node_new, node_to, node_cost)
 				}
 			}
 		}
@@ -84,8 +84,8 @@ func d17solve(in_clean d17Grid, in_start int, in_range int) int {
 	graph_end, _ := d17addnode(graph_build, 0, 0, "F")
 	graph_endeast, _ := d17addnode(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "E")
 	graph_endsouth, _ := d17addnode(graph_build, in_clean.sizew-1, in_clean.sizeh-1, "S")
-	graph_build.AddArc(graph_endeast, graph_end, 0)
-	graph_build.AddArc(graph_endsouth, graph_end, 0)
+	_ = graph_build.AddArc(graph_endeast, graph_end, 0)
+	_ = graph_build.AddArc(graph_endsouth, graph_end, 0)
 	d17build(graph_build, in_clean, 0, 0, "A", in_start, in_range)
 	path_best, _ := graph_build.Shortest(graph_start, graph_end)
 	return int(path_best.Distance)

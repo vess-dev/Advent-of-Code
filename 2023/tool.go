@@ -161,6 +161,15 @@ func tdist(in_x1 int, in_y1 int, in_x2 int, in_y2 int) float64 {
 	return math.Sqrt(float_sum)
 }
 
+func tdistnum(in_x1 int, in_y1 int, in_x2 int, in_y2 int) int {
+	out_float := tdist(in_x1, in_y1, in_x2, in_y2)
+	return int(out_float)
+}
+
+func tdistman(in_x1 int, in_y1 int, in_x2 int, in_y2 int) int {
+	return tabs(in_x1 - in_x2) + tabs(in_y1 - in_y2)
+}
+
 func tdrop[T any](in_list []T, in_index int) []T {
 	return append(in_list[:in_index], in_list[in_index+1:]...)
 }
@@ -193,6 +202,11 @@ func teven(in_int int) bool {
 
 func texit() {
 	os.Exit(0)
+}
+
+func tfloor(in_flow float64) int {
+	out_floor := math.Floor(in_flow)
+	return int(out_floor)
 }
 
 func tgcd(in_x int, in_y int) int {
@@ -341,6 +355,10 @@ func todd(in_int int) bool {
 	return (in_int & 1) == 1
 }
 
+func toddnum(in_int int) int {
+	return (in_int & 1)
+}
+
 func tones(in_int int) int {
 	var bit_sum int
 	for in_int > 0 {
@@ -434,6 +452,12 @@ func tsleep(in_seconds int) {
 
 func tsnum(in_int int) string {
 	return strconv.Itoa(in_int)
+}
+
+func tsqrt(in_int int) int {
+	out_float := float64(in_int)
+	out_root := math.Sqrt(out_float)
+	return int(out_root)
 }
 
 func tsteps(in_x1 int, in_y1 int, in_x2 int, in_y2 int) int {
