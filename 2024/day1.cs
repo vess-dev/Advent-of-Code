@@ -1,13 +1,13 @@
 namespace aoc2024;
 
-using ListPair = (List<int>, List<int>);
-using DayAlias = Day<(List<int>, List<int>), (List<int>, List<int>), int, int>;
+using ListPair = (List<int> L, List<int> R);
+using DayAlias = Day<(List<int> L, List<int> R), (List<int> L, List<int> R), int, int>;
 
 public class Day1 : DayAlias {
 
-    public (ListPair, ListPair) Prepare(string in_string) {
-        List<int> int_list1 = new List<int>();
-        List<int> int_list2 = new List<int>();
+    public (ListPair P1, ListPair P2) Prepare(string in_string) {
+        var int_list1 = new List<int>();
+        var int_list2 = new List<int>();
         var string_pairs = in_string.Split("\n");
         foreach (var temp_line in string_pairs) {
             var string_ints = temp_line.Split("   ");
@@ -18,29 +18,29 @@ public class Day1 : DayAlias {
     }
 
     public int Part1(ListPair in_data) {
-        in_data.Item1.Sort();
-        in_data.Item2.Sort();
+        in_data.L.Sort();
+        in_data.R.Sort();
         int distance_total = 0;
-        for (int temp_index = 0; temp_index < in_data.Item1.Count; temp_index++) {
-            distance_total += Math.Abs(in_data.Item2[temp_index] - in_data.Item1[temp_index]);
+        for (int temp_index = 0; temp_index < in_data.L.Count; temp_index++) {
+            distance_total += Math.Abs(in_data.L[temp_index] - in_data.R[temp_index]);
         }
         return distance_total;
     }
 
     public int Part2(ListPair in_data) {
         int similar_score = 0;
-        var list_group = in_data.Item2.GroupBy(temp_int => temp_int)
+        var list_group = in_data.R.GroupBy(temp_int => temp_int)
             .ToDictionary(temp_group => temp_group.Key, temp_group => temp_group.Count());
-        foreach (int temp_int in in_data.Item1) {
+        foreach (int temp_int in in_data.L) {
             list_group.TryGetValue(temp_int, out int compare_int);
             similar_score += temp_int * compare_int;
         }
         return similar_score;
     }
 
-    public (object, object) Run() {
+    public (object P1, object P2) Run() {
         var input_raw = Tool.LoadFile("input/day1.txt");
         var input_clean = Prepare(input_raw);
-        return (Part1(input_clean.Item1), Part2(input_clean.Item2));
+        return (Part1(input_clean.P1), Part2(input_clean.P2));
     }
 }
