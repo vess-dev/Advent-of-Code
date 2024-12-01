@@ -32,9 +32,8 @@ public class Day1 : DayAlias {
         var list_group = in_data.Item2.GroupBy(temp_int => temp_int)
             .ToDictionary(temp_group => temp_group.Key, temp_group => temp_group.Count());
         foreach (int temp_int in in_data.Item1) {
-            int temp_val;
-            list_group.TryGetValue(temp_int, out temp_val);
-            similar_score += temp_int * temp_val;
+            list_group.TryGetValue(temp_int, out int compare_int);
+            similar_score += temp_int * compare_int;
         }
         return similar_score;
     }
