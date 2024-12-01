@@ -13,7 +13,8 @@
 - 2021 : 14/25 days complete in Rust 2021.
 - 2022 : 12/25 days complete in Rust 2021.
 - 2023 : 20/25 days complete in Golang 1.21.
-- 2024 : [TODO] C# or Kotlin.
+- 2024 : 0/25 days complete in CSharp 9.0.
+- 2025 : [TODO] Kotlin.
 
 87 total days finished.
 
@@ -30,28 +31,42 @@
 - Golang >=1.21 installed.
   - "go" as a recognized terminal command.
 
+- CSharp >=9.0 installed.
+  - "dotnet" as a recognized terminal command.
+
 ## Directory
 
 The years written in Python contain the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
-- /day\*.py : The code that solves both parts of the day from the input held in "/input".
+- /day\*.py : Code that solves both parts of the day from the input held in "/input".
 - /timing.py : Code that times every solution for both parts and prints the average.
 
 The years written in Rust contain the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
-- /src/day\*.rs : The code that solves both parts of the day from the input held in "/input".
+- /src/day\*.rs : Code that solves both parts of the day from the input held in "/input".
 - /src/timing.rs : Code that times every solution for both parts and prints the average.
+- /src/read.rs : Code that provides for various utility and misc functions.
 
 The years written in Golang contain the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
-- /day\*.go : The code that solves both parts of the day from the input held in "/input".
+- /day\*.go : Code that solves both parts of the day from the input held in "/input".
 - /timing.go : Code that times every solution for both parts and prints the average.
+- /tool.go : Code that provides for various utility and misc functions.
+
+The years written in CSharp contain the following structure:
+
+- /input/day\*.txt : Holds the inputs in text files.
+- /day\*.cs : Code that solves both parts of the day from the input held in "/input".
+- /timing.cs : Code that times every solution for both parts and prints the average.
+- /tool.cs : Code that provides for various utility and misc functions.
 
 Additionally, year 2019 includes the following file:
 
+- /2019/intcode.py : The newer implementation of an Intcode computer.
+- /2019/intcodeold.py : The older implementation of an Intcode computer.
 - /2019/verify.py : Verify that every Intcode day remains unchanged.
 
 In the top level directory:

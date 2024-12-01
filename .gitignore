@@ -1,5 +1,12 @@
+# Builds.
+Bin
 target
 *.exe
+
+# Mac files.
 .DS_Store
-__pycache__
+
+# Auto generated folders.
+obj
 .idea
+__pycache__
