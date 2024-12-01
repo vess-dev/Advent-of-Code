@@ -29,8 +29,13 @@ public class Day1 : DayAlias {
 
     public int Part2(ListPair in_data) {
         int similar_score = 0;
+        var list_group = in_data.Item2.GroupBy(temp_int => temp_int)
+            .ToDictionary(temp_group => temp_group.Key, temp_group => temp_group.Count());
+        Tool.InspectCollection(list_group);
         foreach (int temp_int in in_data.Item1) {
-            similar_score += temp_int * in_data.Item2.Count(temp_item => temp_item == temp_int);
+            int temp_val;
+            list_group.TryGetValue(temp_int, out temp_val);
+            similar_score += temp_int * temp_val;
         }
         return similar_score;
     }
