@@ -16,9 +16,9 @@
 - 2024 : 2/25 days complete in CSharp 9.0.
 - 2025 : [TODO] Kotlin.
 
-88 total days finished.
+89 total days finished.
 
-7700+ SLOC in total.
+7800+ SLOC in total.
 
 ## Requirements
 
