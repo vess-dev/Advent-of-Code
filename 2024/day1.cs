@@ -39,7 +39,7 @@ public class Day1 : DayAlias {
     }
 
     public (object P1, object P2) Run() {
-        var input_raw = Tool.LoadFile("input/day1.txt");
+        var input_raw = File.ReadAllText("input/day1.txt");
         var input_clean = Prepare(input_raw);
         return (Part1(input_clean.P1), Part2(input_clean.P2));
     }

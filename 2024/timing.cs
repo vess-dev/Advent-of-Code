@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace aoc2024;
 
@@ -8,6 +7,7 @@ class Timing {
     private static int test_count = 10;
     private static IDay[] DAY_LIST = [
         new Day1(),
+        new Day2(),
     ];
     
     static void Time(IDay[] in_days, int in_tests) {
