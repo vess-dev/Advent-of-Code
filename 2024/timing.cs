@@ -8,6 +8,7 @@ class Timing {
     private static IDay[] DAY_LIST = [
         new Day1(),
         new Day2(),
+        new Day3(),
     ];
     
     static void Time(IDay[] in_days, int in_tests) {
