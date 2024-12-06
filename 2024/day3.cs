@@ -21,7 +21,6 @@ public class Day3 : DayAlias {
         var regex_matches = Regex.Matches(in_data, regex_pattern);
         var match_toggle = true;
         return regex_matches.Sum(temp_match => {
-            Console.WriteLine(temp_match.Value);
             switch (temp_match.Value) {
                 case "do()":
                     match_toggle = true;
