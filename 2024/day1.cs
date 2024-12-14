@@ -1,9 +1,8 @@
 namespace aoc2024;
 
 using ListPair = (List<int> L, List<int> R);
-using DayAlias = Day<(List<int> L, List<int> R), (List<int> L, List<int> R), int, int>;
 
-public class Day1 : DayAlias {
+public class Day1 : Day<(List<int> L, List<int> R), (List<int> L, List<int> R), int, int> {
 
     public (ListPair P1, ListPair P2) Prepare(string in_string) {
         var int_list1 = new List<int>();

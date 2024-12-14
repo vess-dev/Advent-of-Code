@@ -2,9 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace aoc2024;
 
-using DayAlias = Day<string, string, int, int>;
-
-public class Day3 : DayAlias {
+public class Day3 : Day<string, string, int, int> {
 
     public (string P1, string P2) Prepare(string in_string) {
         return (in_string, in_string);

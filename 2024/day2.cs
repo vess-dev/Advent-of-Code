@@ -1,9 +1,8 @@
 namespace aoc2024;
 
 using LLInt = List<List<int>>;
-using DayAlias = Day<List<List<int>>, List<List<int>>, int, int>;
 
-public class Day2 : DayAlias {
+public class Day2 : Day<List<List<int>>, List<List<int>>, int, int> {
 
     public (LLInt P1, LLInt P2) Prepare(string in_string) {
         var out_list = new LLInt();
