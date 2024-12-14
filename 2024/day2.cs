@@ -17,7 +17,7 @@ public class Day2 : DayAlias {
     }
 
     private static bool Check(int in_one, int in_two, bool in_parabola) {
-        return in_one < in_two == in_parabola && Tool.Between(Math.Abs(in_one - in_two), 1, 3);
+        return in_one < in_two == in_parabola && Math.Abs(in_one - in_two).Between(1, 3);
     }
 
     private static bool CheckList(List<int> in_list) {
@@ -30,7 +30,7 @@ public class Day2 : DayAlias {
 
     public int Part1(LLInt in_data) {
         return in_data
-            .Count(temp_line => CheckList(temp_line));
+            .Count(CheckList);
     }
     
     public int Part2(LLInt in_data) {

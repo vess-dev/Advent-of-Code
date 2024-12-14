@@ -11,13 +11,13 @@ public class Day3 : DayAlias {
     }
 
     public int Part1(string in_data) {
-        string regex_pattern = @"mul\((\d+),(\d+)\)";
+        const string regex_pattern = @"mul\((\d+),(\d+)\)";
         var regex_matches = Regex.Matches(in_data, regex_pattern);
         return regex_matches.Sum(temp_match => int.Parse(temp_match.Groups[1].Value) * int.Parse(temp_match.Groups[2].Value));
     }
 
     public int Part2(string in_data) {
-        string regex_pattern = @"mul\((\d+),(\d+)\)|do\(\)|don't\(\)";
+        const string regex_pattern = @"mul\((\d+),(\d+)\)|do\(\)|don't\(\)";
         var regex_matches = Regex.Matches(in_data, regex_pattern);
         var match_toggle = true;
         return regex_matches.Sum(temp_match => {
