@@ -120,6 +120,6 @@ public class Day6 : Day<Day6.Grid, Day6.Grid, int, int> {
     public (object P1, object P2) Run() {
         var input_raw = File.ReadAllText("input/day6.txt");
         var input_clean = Prepare(input_raw);
-        return (0, Part2(input_clean.P2));
+        return (Part1(input_clean.P1), Part2(input_clean.P2));
     }
 }

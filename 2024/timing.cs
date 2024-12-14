@@ -3,7 +3,7 @@
 namespace aoc2024;
 
 internal static class Timing {
-    private const int test_count = 10;
+    private const int test_count = 1;
 
     private static readonly IDay[] DAY_LIST = [
         new Day1(),
