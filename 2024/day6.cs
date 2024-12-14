@@ -102,15 +102,14 @@ public class Day6 : Day<Day6.Grid, Day6.Grid, int, int> {
 
     public int Part2(Grid in_data) {
         var loop_count = 0;
-        for (int temp_y = 0; temp_y < in_data.pos_curr.pos_y; temp_y++) {
-            for (int temp_x = 0; temp_x < in_data.pos_curr.pos_x; temp_x++) {
-                var bind_pos = (temp_x, temp_y);
-                if (in_data.map_grid[bind_pos] != '#' && in_data.map_grid[(temp_x, temp_y)] != '^') {
-                    var grid_new = in_data.Clone();
-                    grid_new.map_grid[bind_pos] = '#';
-                    if (grid_new.Walk(true)) {
-                        loop_count++;
-                    }
+        var test_grid = in_data.Clone();
+        test_grid.Walk(false);
+        foreach (var temp_pos in test_grid.map_walked.Keys) {
+            if (in_data.map_grid[temp_pos] != '#' && in_data.map_grid[temp_pos] != '^') {
+                var grid_new = in_data.Clone();
+                grid_new.map_grid[temp_pos] = '#';
+                if (grid_new.Walk(true)) {
+                    loop_count++;
                 }
             }
         }

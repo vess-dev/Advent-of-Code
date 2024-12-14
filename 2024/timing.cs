@@ -19,7 +19,7 @@ internal static class Timing {
         var time_each = new Stopwatch();
         time_total.Start();
         for (int temp_day = 0; temp_day < in_days.Length; temp_day++) {
-            var day_actual = temp_day + 1;
+            var day_actual = temp_day + 10;
             time_each.Start();
             (object, object) day_return = ("none", "none");
             for (int temp_test = 0; temp_test < test_count; temp_test++) {
