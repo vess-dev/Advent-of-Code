@@ -28,7 +28,6 @@ public class Grid {
         if (map_grid.ContainsKey(in_pos)) {
             return map_grid[in_pos];
         }
-
         return null;
     }
 
