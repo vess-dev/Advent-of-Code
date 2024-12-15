@@ -1,7 +1,7 @@
 namespace aoc2024;
 
 public class Day5 : Day<Day5.Printer, Day5.Printer, int, int> {
-        
+    
     public class Order {
         public List<int> page_list = new();
         public int page_mid;
