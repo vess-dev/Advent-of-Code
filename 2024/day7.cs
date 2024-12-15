@@ -44,7 +44,6 @@ public class Day7 : Day<List<Day7.Oper>, List<Day7.Oper>, long, long> {
     public long Part1(ListOp in_data) {
         long valid_sum = 0;
         foreach (var temp_oper in in_data) {
-            Console.WriteLine(temp_oper);
             if (temp_oper.Valid(false)) {
                 valid_sum += temp_oper.number_checksum;
             }
