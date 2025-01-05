@@ -1,5 +1,3 @@
-using System.Security.Authentication;
-
 namespace aoc2024;
 
 using ListOp = List<Day7.Oper>;

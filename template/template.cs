@@ -1,19 +1,16 @@
 namespace aoc2024;
 
-using ReturnAlias = int;
-using DayAlias = Day<int, int, int, int>;
-
-public class DayX : DayAlias {
+public class DayX : Day<int, int, int, int> {
 
     public (int P1, int P2) Prepare(string in_string) {
         return (0, 0);
     }
 
-    public int Part1(ReturnAlias in_data) {
+    public int Part1(int in_data) {
         return 0;
     }
 
-    public int Part2(ReturnAlias in_data) {
+    public int Part2(int in_data) {
         return 0;
     }
 

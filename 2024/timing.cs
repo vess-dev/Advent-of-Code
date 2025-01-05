@@ -13,6 +13,7 @@ internal static class Timing {
         new Day5(),
         new Day6(),
         new Day7(),
+        new Day8(),
     ];
 
     private static void Time(IDay[] in_days, int in_tests) {
