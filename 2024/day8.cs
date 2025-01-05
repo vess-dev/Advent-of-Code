@@ -5,14 +5,14 @@ public class Day8 : Day<Day8.Board, Day8.Board, int, int> {
     public class Board {
         public (int pos_x, int pos_y) pos_curr = (0, 0);
         public (int pos_x, int pos_y) pos_size = (0, 0);
-        public Dictionary<char, List<(int, int)>> map_grid = new ();
+        public Dictionary<char, List<(int, int)>> map_grid = new();
 
         public void Eat(string in_line) {
             in_line.ToCharArray().ToList().ForEach(temp_char => {
                 if (temp_char != '.') {
                     if (map_grid.ContainsKey(temp_char)) {
                         map_grid.TryGetValue(temp_char, out var handle_list);
-                        handle_list.Add(pos_curr);
+                        handle_list!.Add(pos_curr);
                     } else {
                         map_grid.Add(temp_char, new List<(int, int)> {pos_curr});
                     }
