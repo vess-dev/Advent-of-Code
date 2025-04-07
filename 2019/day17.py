@@ -1,4 +1,5 @@
 import intcode
+import itertools
 
 day_num = 17
 
@@ -40,7 +41,7 @@ def run():
 	}
 	MAP_TURNS = ["L", "R"]
 	MAIN_LEN = 20
-	SUB_LEN = 3
+	MIN_LEN = 8
 
 	def render(input_in):
 		for temp_int in input_in:
@@ -84,13 +85,7 @@ def run():
 		return space_sect
 	
 	def conv(input_in):
-		return [ord(temp_char) for temp_char in list(input_in + "\n")] 
-	
-	def simulate(input_in, *args):
-		for temp_func in args:
-			func_conv = conv(temp_func)
-			input_in.run(func_conv)
-		return
+		return [ord(temp_char) for temp_char in list(input_in + "\n")]
 	
 	def step(input_in, input_mod):
 		return (input_in[0]+input_mod[0], input_in[1]+input_mod[1])
@@ -119,80 +114,54 @@ def run():
 					break
 			path_count += 1
 		return path_full
+
+	def shake(input_in):
+		input_len = len(input_in)
+		slide_len = MAIN_LEN + 1
+		slide_matches = {}
+		for temp_pos in range(0, input_len - MIN_LEN):
+			for temp_width in range(MIN_LEN, slide_len):
+				slide_check = input_in[temp_pos:temp_pos + temp_width]
+				if slide_check in slide_matches:
+					continue
+				if (slide_check.startswith(",") or not slide_check.endswith(",") or not (slide_check[0] in MAP_TURNS) or (slide_check[-2] in MAP_TURNS)):
+					continue
+				if input_in.count(slide_check) >= 2:
+					slide_matches[slide_check] = True
+		return list(slide_matches.keys())
+
+	def find(input_in, input_matches):
+		slide_combos = itertools.combinations(input_matches, 3)
+		for temp_tuple in slide_combos:
+			if input_in.replace(temp_tuple[0], "").replace(temp_tuple[1], "").replace(temp_tuple[2], "") == "":
+				return temp_tuple
+		return
 	
-	def subcount(input_in, input_sub):
-		list_count = 0
-		list_len = len(input_sub)
-		for temp_itr in range(len(input_in) - list_len + 1):
-			if input_in[temp_itr:temp_itr + list_len] == input_sub:
-				list_count += 1
-		return list_count
-	
-	def subdel(input_in, input_sub):
-		itr_pos = 0
-		out_list = []
-		while itr_pos < len(input_in):
-			if input_in[itr_pos:itr_pos+len(input_sub)] == input_sub:
-				itr_pos += len(input_sub)
-			else:
-				out_list.append(input_in[itr_pos])
-				itr_pos += 1
-		return out_list
-	
-	def window(input_in, input_len):
-		itr_pos = 0
-		while True:
-			if itr_pos + input_len <= len(input_in):
-				yield input_in[itr_pos:itr_pos+input_len]
-			else:
-				yield None
-			itr_pos += 1
-	
-	def slide(input_in, input_max):
-		slide_size = input_max
-		while slide_size >= SUB_LEN:
-			gen_window = window(input_in, slide_size)
-			while gen_next := next(gen_window):
-				if gen_next[0] in MAP_TURNS:
-					if gen_next[-1] not in MAP_TURNS:
-						if subcount(input_in, gen_next) > 1:
-							return subdel(input_in, gen_next), gen_next
-			slide_size -= 1
-	
+	def simulate(input_main, *input_funcs):
+		for temp_func in input_funcs:
+			func_conv = conv(temp_func)
+			input_main.run(func_conv)
+		return
+
 	def dust(input_in):
 		tape_mem = input_in.copy()
 		comp_main = intcode.Comp()
 		comp_main.load(tape_mem)
 		comp_main.run()
-		render(comp_main.mem_output)
 		space_map, pos_start = intake(comp_main.mem_output)
-		print(space_map)
-		print(pos_start)
-		print()
-		space_path = walk(space_map, pos_start)
-		print(space_path)
-		print()
-		slide_test = "R,8,R,8,R,4,R,4,R,8,L,6,L,2,R,4,R,4,R,8,R,8,R,8,L,6,L,2".split(",")
-		slide_max = (MAIN_LEN - (SUB_LEN * 3) - SUB_LEN)
-		slide_list = []
-		while slide_test:
-			print(slide_test, end="")
-			slide_test, slide_next = slide(slide_test, slide_max)
-			slide_max -= len(slide_next)
-			print(" : ", slide_next)
-			slide_list.append(slide_next)
-		print(slide_list)
-		return
-
-		func_main = "A"
-		func_a = "L1"
-		func_b = "2"
-		func_c = "3"
-		func_video = "y"
-
-		simulate(comp_main, func_main, func_a, func_b, func_c, func_video)
-
-		return
+		space_path = ",".join(walk(space_map, pos_start)) + ","
+		slide_matches = shake(space_path)
+		slide_find = find(space_path, slide_matches)
+		func_main = space_path.replace(slide_find[0], "A,").replace(slide_find[1], "B,").replace(slide_find[2], "C,")[:-1]
+		func_a = slide_find[0][:-1]
+		func_b = slide_find[1][:-1]
+		func_c = slide_find[2][:-1]
+		func_video = "n"
+		tape_mem[0] = 2
+		comp_next = intcode.Comp()
+		comp_next.load(tape_mem)
+		simulate(comp_next, func_main, func_a, func_b, func_c, func_video)
+		return comp_next.status()
 
 	return study(file_in), dust(file_in)
 

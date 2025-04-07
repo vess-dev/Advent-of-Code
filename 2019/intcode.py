@@ -17,7 +17,7 @@ class Comp:
 	}
 
 	def load(self, input_tape):
-		self.mem_tape = input_tape
+		self.mem_tape = copy.deepcopy(input_tape)
 		self.mem_pos = 0
 		self.mem_output = []
 		self.mem_base = 0
@@ -59,7 +59,10 @@ class Comp:
 			case "1": # Immediate mode.
 				return input_pair[1]
 			case "2": # Relative mode.
-				return self.mem_tape[self.mem_base + input_pair[1]]
+				mem_target = self.mem_base + input_pair[1]
+				if mem_target not in self.mem_tape:
+					self.mem_tape[mem_target] = 0
+				return self.mem_tape[mem_target]
 		return
 
 	def set(self, input_pair, input_data):
@@ -121,7 +124,6 @@ class Comp:
 
 	def run(self, input_sim=[], input_debug=False, input_watch=False):
 		if input_watch:
-			
 			self.mem_watch = copy.deepcopy(self.mem_tape)
 		while not self.flag_halt:
 			if self.flag_input:

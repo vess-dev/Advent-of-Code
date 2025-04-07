@@ -8,7 +8,7 @@
 - 2016 : [TODO] Julia.
 - 2017 : [TODO] Nim.
 - 2018 : [TODO] Zig.
-- 2019 : 16/25 days complete in Python 3.
+- 2019 : 17/25 days complete in Python 3.
 - 2020 : 25/25 days complete in Python 3. [DONE]
 - 2021 : 14/25 days complete in Rust 2021.
 - 2022 : 12/25 days complete in Rust 2021.
@@ -16,7 +16,7 @@
 - 2024 : 9/25 days complete in CSharp 9.0.
 - 2025 : [TODO] Kotlin.
 
-96 total days finished.
+97 total days finished.
 
 8400+ SLOC in total.
 
