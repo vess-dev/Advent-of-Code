@@ -5,7 +5,7 @@ import day9
 import day11
 import day13
 import day15
-#import day17
+import day17
 #import day19
 #import day21
 #import day23
@@ -19,6 +19,7 @@ TEST_MAP = {
 	day11: ("Day 11", (1885,       None    )),
 	day13: ("Day 13", (236,        11040   )),
 	day15: ("Day 15", (222,        394     )),
+	day17: ("Day 17", (6212,       1016741 )),
 }
 
 def test():
