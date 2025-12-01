@@ -30,9 +30,8 @@ class Day1: Day<Input, Input, Output, Output> {
 			while (left > 0) {
 				left--
 				current = (current + sign).mod(max)
-				if (current == 0) zeros++
+				if (current == 0 && left != 0) zeros++
 			}
-			if (current == 0) zeros--
 		}
 	}
 
