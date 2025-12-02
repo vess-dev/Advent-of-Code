@@ -15,8 +15,9 @@ fun clock(adventDay: IDay, testCount: Int): Pair<DayReturn, Double> {
 }
 
 fun main() {
-	val adventList = listOf(Day1())
-	val testCount: Int? = 1
+	val adventList = listOf(Day1(), Day2())
+	val testCount: Int? = null
+    val specific: Int? = 2
 	var timeTotal = 0.0
 	if (testCount != null) {
 		for ((tempIndex, tempDay) in adventList.withIndex()) {
@@ -28,8 +29,12 @@ fun main() {
 		}
 		println("$testCount trials of all, averages: ${timeTotal / testCount}")
 	} else {
-		for ((tempIndex, tempDay) in adventList.withIndex()) {
-			println("Day $tempIndex: ${tempDay.run()}")
-		}
+        if (specific == null) {
+            for ((tempIndex, tempDay) in adventList.withIndex()) {
+                println("Day $tempIndex: ${tempDay.run()}")
+            }
+        } else {
+            println("Day $specific: ${adventList[specific - 1].run()}}")
+        }
 	}
 }
