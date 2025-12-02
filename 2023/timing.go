@@ -44,11 +44,11 @@ func ttime(in_list TLIST_SIG) {
 		since_test += time.Since(time_now)
 		fmt.Printf("Day %v: (%v, %v)\n", itr_index+1, test_return[0], test_return[1])
 		since_testavg := since_test.Seconds() / float64(test_count)
-		fmt.Printf("%v trials of day %v: %.7fs\n\n", test_count, itr_index+1, since_testavg)
+		fmt.Printf("%v trials of day %v averages: %.7f seconds.\n\n", test_count, itr_index+1, since_testavg)
 	}
 	since_start := time.Since(time_total)
 	since_startavg := since_start.Seconds() / float64(test_count)
-	fmt.Printf("%v trials of all, averages: %.7f seconds.\n", test_count, since_startavg)
+	fmt.Printf("%v trials of all averages: %.7f seconds.\n\n", test_count, since_startavg)
 }
 
 func main() {

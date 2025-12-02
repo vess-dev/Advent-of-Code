@@ -16,7 +16,7 @@ import day13
 import day14
 import day15
 import day16
-#import day17
+import day17
 #import day18
 #import day19
 #import day20
@@ -36,16 +36,16 @@ def clock(advent_day, test_count):
 	return test_return, time_total
 
 def run():
-	advent_list = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14, day15, day16]
+	advent_list = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14, day15, day16, day17]
 	test_count = 1
 	time_total = 0
 	if test_count:
 		for temp_py in advent_list:
 			test_return, time_next = clock(temp_py, test_count)
 			print("Day", temp_py.day_num, ":", test_return)
-			print(test_count, "trials of day", temp_py.day_num, ":", time_next / test_count, "\n")
+			print(test_count, "trials of day", temp_py.day_num, "averages:", time_next / test_count, "seconds.\n")
 			time_total += time_next
-		print(test_count, "trials of all, averages:", time_total / test_count, "\n")
+		print(test_count, "trials of all averages:", time_total / test_count, "seconds.\n")
 	else:
 		for temp_py in advent_list:
 			print("Day", temp_py.day_num, ":", temp_py.run())

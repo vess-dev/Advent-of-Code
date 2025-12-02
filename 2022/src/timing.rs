@@ -58,10 +58,10 @@ fn time() {
 		let time_elapsed = time_now.elapsed().as_secs_f64();
 		let time_day = itr_day.0 + 1;
 		println!("Day {}: {}", time_day, test_ret);
-		println!("{} {} of day {}: {:.7}s\n", test_count, test_type, time_day, (time_elapsed/test_count as f64));
+		println!("{} {} of day {} averages: {:.7} seconds.\n", test_count, test_type, time_day, (time_elapsed/test_count as f64));
 	}
 	let time_elapsed = time_total.elapsed().as_secs_f64();
-	println!("{} {} of all, averages: {:.7} seconds.", test_count, test_type, (time_elapsed/test_count as f64)); 
+	println!("{} {} of all averages: {:.7} seconds.\n", test_count, test_type, (time_elapsed/test_count as f64)); 
 }
 
 fn main() {

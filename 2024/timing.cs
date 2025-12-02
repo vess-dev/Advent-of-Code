@@ -33,12 +33,12 @@ internal static class Timing {
             var item_two = day_return.Item2.ToString();
             Console.WriteLine($"Day {day_actual}: ({item_one}, {item_two})");
             var elapsed_between = Math.Round(time_each.Elapsed.TotalSeconds / test_count, 7);
-            Console.WriteLine($"{test_count} trials of day {day_actual}: {elapsed_between} seconds");
+            Console.WriteLine($"{test_count} trials of day {day_actual} averages: {elapsed_between} seconds.\n");
         }
         time_total.Stop();
         var since_startavg = Math.Round(time_total.Elapsed.TotalSeconds / test_count, 7);
         Console.WriteLine();
-        Console.WriteLine($"{test_count} trials of all, averages: {since_startavg} seconds.");
+        Console.WriteLine($"{test_count} trials of all averages: {since_startavg} seconds.\n");
     }
 
     private static void Main(string[] args) {

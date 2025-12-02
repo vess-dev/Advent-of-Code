@@ -16,18 +16,18 @@ fun clock(adventDay: IDay, testCount: Int): Pair<DayReturn, Double> {
 
 fun main() {
 	val adventList = listOf(Day1(), Day2())
-	val testCount: Int? = null
-    val specific: Int? = 2
+	val testCount: Int? = 10
+    val specific: Int? = null
 	var timeTotal = 0.0
 	if (testCount != null) {
 		for ((tempIndex, tempDay) in adventList.withIndex()) {
 			val returnPair = clock(tempDay, testCount)
 			val dayNum = tempIndex + 1
 			println("Day $dayNum: ${returnPair.first}")
-			println("$testCount trials of day $dayNum : ${returnPair.second / testCount}")
+			println("$testCount trials of day $dayNum averages: ${returnPair.second / testCount} seconds.")
 			timeTotal += returnPair.second
 		}
-		println("$testCount trials of all, averages: ${timeTotal / testCount}")
+		println("$testCount trials of all averages: ${timeTotal / testCount} seconds.")
 	} else {
         if (specific == null) {
             for ((tempIndex, tempDay) in adventList.withIndex()) {
