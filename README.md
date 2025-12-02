@@ -14,9 +14,9 @@
 - 2022 : 12/25 days complete in Rust 2021.
 - 2023 : 20/25 days complete in Golang 1.21.
 - 2024 : 9/25 days complete in CSharp 9.0.
-- 2025 : 1/12 days complete in Kotlin 2.2.
+- 2025 : 2/12 days complete in Kotlin 2.2.
 
-98 total days finished.
+99 total days finished.
 
 8600+ SLOC in total.
 
