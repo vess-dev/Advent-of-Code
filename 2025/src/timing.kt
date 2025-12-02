@@ -24,10 +24,10 @@ fun main() {
 			val returnPair = clock(tempDay, testCount)
 			val dayNum = tempIndex + 1
 			println("Day $dayNum: ${returnPair.first}")
-			println("$testCount trials of day $dayNum averages: ${returnPair.second / testCount} seconds.")
+			println("$testCount trials of day $dayNum averages: ${"%.7f".format(returnPair.second / testCount)} seconds.")
 			timeTotal += returnPair.second
 		}
-		println("$testCount trials of all averages: ${timeTotal / testCount} seconds.")
+		println("$testCount trials of all averages: ${"%.7f".format(timeTotal / testCount)} seconds.")
 	} else {
         if (specific == null) {
             for ((tempIndex, tempDay) in adventList.withIndex()) {
