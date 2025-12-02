@@ -1,21 +1,21 @@
-typealias Input = Any
-typealias Output = Any
+internal typealias InputX = Any
+internal typealias OutputX = Any
 
-class day1: Day<Input, Input, Output, Output> {
+class DayX: Day<InputX, InputX, OutputX, OutputX> {
 
-	override fun prepare(inString: String): Pair<Input, Input> {
+	override fun prepare(inString: String): Pair<InputX, InputX> {
 		return Pair(0, 0)
 	}
 
-	override fun part1(inData: Input): Output {
+	override fun part1(inData: InputX): OutputX {
 		return 0
 	}
 
-	override fun part2(inData: Input): Output {
+	override fun part2(inData: InputX): OutputX {
 		return 0
 	}
 
-	override fun run(): Pair<Output, Output> {
+	override fun run(): Pair<OutputX, OutputX> {
 		val inputRaw = tool.readInput("dayX")
 		val inputClean = prepare(inputRaw)
 		return Pair(part1(inputClean.first), part2(inputClean.second))

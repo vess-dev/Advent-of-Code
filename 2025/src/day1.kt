@@ -1,12 +1,12 @@
 import Day1.Dir
 import kotlin.math.absoluteValue
 
-typealias Input = List<Dir>
-typealias Output = Int
+private typealias Input1 = List<Dir>
+private typealias Output1 = Int
 
-class Day1: Day<Input, Input, Output, Output> {
+class Day1: Day<Input1, Input1, Output1, Output1> {
 
-	sealed class Dir {
+    sealed class Dir {
 		data class Left(val distance: Int) : Dir()
 		data class Right(val distance: Int) : Dir()
 	}
@@ -35,7 +35,7 @@ class Day1: Day<Input, Input, Output, Output> {
 		}
 	}
 
-	override fun prepare(inString: String): Pair<Input, Input> {
+	override fun prepare(inString: String): Pair<Input1, Input1> {
 		val inputSplit = inString.split("\n")
 		val inputDirList = inputSplit.map { string ->
 			val dialDir = string.first()
@@ -49,17 +49,17 @@ class Day1: Day<Input, Input, Output, Output> {
 		return Pair(inputDirList, inputDirList)
 	}
 
-	override fun part1(inData: Input): Output {
+	override fun part1(inData: Input1): Output1 {
 		val lock = Lock()
-		return inData.map { dir -> lock.step(dir) }.count { it == 0 }
+		return inData.map { dir -> lock.step(dir) }.count { pos -> pos == 0 }
 	}
 
-	override fun part2(inData: Input): Output {
+	override fun part2(inData: Input1): Output1 {
 		val lock = Lock()
-		return inData.map { dir -> lock.step(dir) }.count { it == 0 } + lock.zeros
+		return inData.map { dir -> lock.step(dir) }.count { pos -> pos == 0 } + lock.zeros
 	}
 
-	override fun run(): Pair<Output, Output> {
+	override fun run(): Pair<Output1, Output1> {
 		val inputRaw = tool.readInput("day1")
 		val inputClean = prepare(inputRaw)
 		return Pair(part1(inputClean.first), part2(inputClean.second))
