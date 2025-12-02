@@ -1,5 +1,5 @@
-internal typealias InputX = Any
-internal typealias OutputX = Any
+private typealias InputX = Any
+private typealias OutputX = Any
 
 class DayX: Day<InputX, InputX, OutputX, OutputX> {
 

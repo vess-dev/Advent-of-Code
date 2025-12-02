@@ -1,7 +1,6 @@
-import Day1.Dir
 import kotlin.math.absoluteValue
 
-private typealias Input1 = List<Dir>
+private typealias Input1 = List<Day1.Dir>
 private typealias Output1 = Int
 
 class Day1: Day<Input1, Input1, Output1, Output1> {
