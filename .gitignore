@@ -10,3 +10,4 @@ target
 obj
 .idea
 __pycache__
+out
