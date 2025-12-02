@@ -49,21 +49,27 @@ The years written in Rust contain the following structure:
 - /src/timing.rs : Code that times every solution for both parts and prints the average.
 - /src/read.rs : Code that provides for various utility and misc functions.
 
-The years written in Golang contain the following structure:
+The year written in Golang contains the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
 - /day\*.go : Code that solves both parts of the day from the input held in "/input".
 - /timing.go : Code that times every solution for both parts and prints the average.
 - /tool.go : Code that provides for various utility and misc functions.
 
-The years written in CSharp contain the following structure:
+The year written in CSharp contains the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
 - /day\*.cs : Code that solves both parts of the day from the input held in "/input".
 - /timing.cs : Code that times every solution for both parts and prints the average.
 - /tool.cs : Code that provides for various utility and misc functions.
 
-Additionally, year 2019 includes the following file:
+The year written in Kotlin contains the following structure:
+
+- /input/day\*.txt : Holds the inputs in text files.
+- /day\*.kt : Code that solves both parts of the day from the input held in "/input".
+- /timing.kt : Code that times every solution for both parts and prints the average.
+
+Additionally, year 2019 includes the following files:
 
 - /2019/intcode.py : The newer implementation of an Intcode computer.
 - /2019/intcodeold.py : The older implementation of an Intcode computer.
