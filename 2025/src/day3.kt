@@ -13,10 +13,10 @@ class Day3: Day<Input3, Input3, Output3, Output3> {
     }
 
     fun maxNumber(inList: List<Int>, size: Int): Long {
-        val max = inList.subList(0, inList.size - (size - 1)).max()
-        val index = inList.indexOf(max)
-        val subList = inList.subList(index + 1, inList.size)
-        return (max.toString() + (if (size != 1) maxNumber(subList, size - 1).toString() else "")).toLong()
+        val maxInt = inList.subList(0, inList.size - (size - 1)).max()
+        val indexOf = inList.indexOf(maxInt)
+        val subList = inList.subList(indexOf + 1, inList.size)
+        return (maxInt.toString() + (if (size != 1) maxNumber(subList, size - 1).toString() else "")).toLong()
     }
 
     override fun part1(inData: Input3): Output3 {
