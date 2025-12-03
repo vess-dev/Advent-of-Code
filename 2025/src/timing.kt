@@ -15,11 +15,11 @@ fun clock(adventDay: IDay, testCount: Int): Pair<DayReturn, Double> {
 }
 
 fun main() {
-	val adventList = listOf(Day1(), Day2())
-	val testCount: Int? = 10
+	val adventList = listOf(Day1(), Day2(), Day3())
+	val testCount: Int? = 1
     val specific: Int? = null
 	var timeTotal = 0.0
-	if (testCount != null) {
+	if (testCount != null && specific == null) {
 		for ((tempIndex, tempDay) in adventList.withIndex()) {
 			val returnPair = clock(tempDay, testCount)
 			val dayNum = tempIndex + 1
