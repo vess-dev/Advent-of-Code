@@ -6,7 +6,7 @@ import kotlin.time.ExperimentalTime
 fun clock(adventDay: IDay, testCount: Int): Pair<DayReturn, Double> {
 	var timeTotal = 0.0
 	var testReturn: DayReturn? = null
-	for (_ in 1..testCount) {
+	for (tempStep in 1..testCount) {
 		val timeBefore = Clock.System.now()
 		testReturn = adventDay.run()
 		timeTotal += Clock.System.now().minus(timeBefore).toDouble(DurationUnit.SECONDS)
@@ -15,7 +15,7 @@ fun clock(adventDay: IDay, testCount: Int): Pair<DayReturn, Double> {
 }
 
 fun main() {
-	val adventList = listOf(Day1(), Day2(), Day3(), Day4())
+	val adventList = listOf(Day1(), Day2(), Day3(), Day4(), Day5())
     @Suppress("RedundantNullableReturnType", "RedundantSuppression") val testCount: Int? = 1
     @Suppress("RedundantNullableReturnType", "RedundantSuppression") val specific: Int? = null
 	var timeTotal = 0.0
