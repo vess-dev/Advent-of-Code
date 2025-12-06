@@ -3,7 +3,7 @@ private typealias Output5 = Any
 
 class Day5: Day<Input5, Input5, Output5, Output5> {
 
-    data class Range(var min: Long, var max: Long) {
+    class Range(var min: Long, var max: Long) {
         fun inside(inNumber: Long): Boolean {
             return inNumber in min..max
         }
@@ -31,18 +31,16 @@ class Day5: Day<Input5, Input5, Output5, Output5> {
     override fun part2(inData: Input5): Output5 {
         val rangesRef = inData.first.ranges.sortedBy { range -> range.min }
         val rangesFinal = mutableListOf<Range>()
-        var rangeNew: Range? = null
+        var rangeNew: Range = rangesRef.first()
         for (tempRange in rangesRef) {
-            if (rangeNew == null) {
-                rangeNew = tempRange.copy()
-            } else if (tempRange.min > rangeNew.max) {
+            if (tempRange.min > rangeNew.max) {
                 rangesFinal.add(rangeNew)
-                rangeNew = tempRange.copy()
+                rangeNew = tempRange
             } else if (tempRange.max > rangeNew.max) {
                 rangeNew.max = tempRange.max
             }
         }
-        rangesFinal.add(rangeNew!!)
+        rangesFinal.add(rangeNew)
         return rangesFinal.sumOf { range -> (range.max - range.min) + 1 }
     }
 
