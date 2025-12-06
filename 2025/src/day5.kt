@@ -30,18 +30,17 @@ class Day5: Day<Input5, Input5, Output5, Output5> {
 
     override fun part2(inData: Input5): Output5 {
         val rangesRef = inData.first.ranges.sortedBy { range -> range.min }
-        val rangesFinal = mutableListOf<Range>()
+        var rangeTotal = 0L
         var rangeNew: Range = rangesRef.first()
         for (tempRange in rangesRef) {
             if (tempRange.min > rangeNew.max) {
-                rangesFinal.add(rangeNew)
+                rangeTotal += (rangeNew.max - rangeNew.min) + 1
                 rangeNew = tempRange
             } else if (tempRange.max > rangeNew.max) {
                 rangeNew.max = tempRange.max
             }
         }
-        rangesFinal.add(rangeNew)
-        return rangesFinal.sumOf { range -> (range.max - range.min) + 1 }
+        return rangeTotal + (rangeNew.max - rangeNew.min) + 1
     }
 
     override fun run(): Pair<Output5, Output5> {
