@@ -14,11 +14,11 @@
 - 2022 : 12/25 days complete in Rust 2021.
 - 2023 : 20/25 days complete in Golang 1.21.
 - 2024 : 9/25 days complete in CSharp 9.0.
-- 2025 : 4/12 days complete in Kotlin 2.2.
+- 2025 : 6/12 days complete in Kotlin 2.2.
 
-101 total days finished.
+103 total days finished.
 
-8700+ SLOC in total.
+8800+ SLOC in total.
 
 ## Requirements
 
@@ -63,6 +63,7 @@ The year written in CSharp contains the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
 - /day\*.cs : Code that solves both parts of the day from the input held in "/input".
+- /day.cs : Holds the type signature for days.
 - /timing.cs : Code that times every solution for both parts and prints the average.
 - /tool.cs : Code that provides for various utility and misc functions.
 
@@ -70,6 +71,7 @@ The year written in Kotlin contains the following structure:
 
 - /input/day\*.txt : Holds the inputs in text files.
 - /day\*.kt : Code that solves both parts of the day from the input held in "/input".
+- /day.kt : Holds the type signature for days.
 - /timing.kt : Code that times every solution for both parts and prints the average.
 - /tool.go : Code that provides for various utility and misc functions.
 

@@ -1,4 +1,6 @@
 import java.io.File
+import kotlin.math.abs
+import kotlin.math.log10
 
 object tool {
 	const val PREPEND = "input/"
@@ -41,4 +43,9 @@ class Grid(size: Int = 0) {
     fun keys(): Set<Point> {
         return grid.keys
     }
+}
+
+fun Int.length() = when(this) {
+    0 -> 1
+    else -> log10(abs(toDouble())).toInt() + 1
 }
