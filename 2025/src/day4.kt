@@ -19,13 +19,13 @@ class Day4: Day<Input4, Input4, Output4, Output4> {
         var paperRemoved = 0
         while (inData.keys().any { point -> inData.getNearby(point).size < 4 }) {
             inData.keys().mapNotNull { point -> if (inData.getNearby(point).size < 4) point else null }
-                .forEach { point -> inData.remove(point); paperRemoved++ }
+                .forEach { point -> inData.remove(point); paperRemoved += 1 }
         }
         return paperRemoved
     }
 
     override fun run(): Pair<Output4, Output4> {
-        val inputRaw = tool.readInput("day4")
+        val inputRaw = Tool.readInput("day4")
         val inputClean = prepare(inputRaw)
         return Pair(part1(inputClean.first), part2(inputClean.second))
     }

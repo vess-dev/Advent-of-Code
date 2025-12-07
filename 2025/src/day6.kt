@@ -1,5 +1,3 @@
-import kotlin.math.max
-
 private typealias Input6 = Day6.Blackboard
 private typealias Output6 = Long
 
@@ -31,10 +29,10 @@ class Day6: Day<Input6, Input6, Output6, Output6> {
         }
     }
 
-    fun foldBlackboard(numbersLists: List<List<Int>>, ops: List<Op>): Long {
-        return numbersLists.mapIndexed { index, column ->
+    fun foldBlackboard(inNumbersLists: List<List<Int>>, inOps: List<Op>): Long {
+        return inNumbersLists.mapIndexed { index, column ->
             column.fold(0L, { acc, number ->
-                if (ops[index] == Op.ADD) acc + number else (if (acc == 0L) 1 else acc) * number
+                if (inOps[index] == Op.ADD) acc + number else (if (acc == 0L) 1 else acc) * number
             }) }.sum()
     }
 
@@ -62,7 +60,7 @@ class Day6: Day<Input6, Input6, Output6, Output6> {
     }
 
     override fun run(): Pair<Output6, Output6> {
-        val inputRaw = tool.readInput("day6")
+        val inputRaw = Tool.readInput("day6")
         val inputClean = prepare(inputRaw)
         return Pair(part1(inputClean.first), part2(inputClean.second))
     }

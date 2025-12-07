@@ -1,5 +1,3 @@
-import com.github.shiguruikai.combinatoricskt.combinations
-
 private typealias Input3 = List<Day3.Bank>
 private typealias Output3 = Long
 
@@ -28,7 +26,7 @@ class Day3: Day<Input3, Input3, Output3, Output3> {
     }
 
     override fun run(): Pair<Output3, Output3> {
-        val inputRaw = tool.readInput("day3")
+        val inputRaw = Tool.readInput("day3")
         val inputClean = prepare(inputRaw)
         return Pair(part1(inputClean.first), part2(inputClean.second))
     }

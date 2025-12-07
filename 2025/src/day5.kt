@@ -44,7 +44,7 @@ class Day5: Day<Input5, Input5, Output5, Output5> {
     }
 
     override fun run(): Pair<Output5, Output5> {
-        val inputRaw = tool.readInput("day5")
+        val inputRaw = Tool.readInput("day5")
         val inputClean = prepare(inputRaw)
         return Pair(part1(inputClean.first), part2(inputClean.second))
     }

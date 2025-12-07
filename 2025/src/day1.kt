@@ -15,21 +15,21 @@ class Day1: Day<Input1, Input1, Output1, Output1> {
 		var zeros = 0
 		val max = 100
 
-		fun step(direction: Dir): Int {
-			when (direction) {
-				is Dir.Left -> modify(-direction.distance)
-				is Dir.Right -> modify(direction.distance)
+		fun step(inDirection: Dir): Int {
+			when (inDirection) {
+				is Dir.Left -> modify(-inDirection.distance)
+				is Dir.Right -> modify(inDirection.distance)
 			}
 			return current
 		}
 
-		fun modify(distance: Int) {
-			val sign = if (distance > 0) 1 else -1
-			var left = distance.absoluteValue
+		fun modify(inDistance: Int) {
+			val sign = if (inDistance > 0) 1 else -1
+			var left = inDistance.absoluteValue
 			while (left > 0) {
 				left--
 				current = (current + sign).mod(max)
-				if (current == 0 && left != 0) zeros++
+				if (current == 0 && left != 0) zeros += 1
 			}
 		}
 	}
@@ -59,7 +59,7 @@ class Day1: Day<Input1, Input1, Output1, Output1> {
 	}
 
 	override fun run(): Pair<Output1, Output1> {
-		val inputRaw = tool.readInput("day1")
+		val inputRaw = Tool.readInput("day1")
 		val inputClean = prepare(inputRaw)
 		return Pair(part1(inputClean.first), part2(inputClean.second))
 	}
