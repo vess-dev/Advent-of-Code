@@ -27,7 +27,7 @@ class Day7: Day<Input7, Input7, Output7, Output7> {
             if (beam == null) inList.add(inBeam)
             else beam.count += inBeam.count
         }
-        fun beamin(timelines: Boolean): Long {
+        fun beamin(inTimeline: Boolean): Long {
             var beams = listOf(start.testAdd(fall))
             var splits = 0L
             while (true) {
@@ -50,7 +50,7 @@ class Day7: Day<Input7, Input7, Output7, Output7> {
                 if (newBeams.isEmpty()) break
                 beams = newBeams
             }
-            return if (!timelines) splits else beams.sumOf { beam -> beam.count }
+            return if (!inTimeline) splits else beams.sumOf { beam -> beam.count }
         }
     }
     
