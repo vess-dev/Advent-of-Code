@@ -9,9 +9,6 @@ class Day7: Day<Input7, Input7, Output7, Output7> {
             if (other !is Beam) return false
             return this.pos == other.pos 
         }
-        override fun toString(): String {
-            return "($count)"
-        }
     }
     
     class Beamer(val grid: Grid) {
