@@ -21,16 +21,15 @@ class Day8: Day<Input8, Input8, Output8, Output8> {
         return Pair(junctionList, junctionList.map { junc -> Junction(junc.x, junc.y, junc.z) })
     }
     
-    private fun circuitDistance(inJunction1: Junction, inJunction2: Junction): Double {
+    private fun circuitDistance(inJunction1: Junction, inJunction2: Junction): Long {
         val x = inJunction2.x - inJunction1.x
         val y = inJunction2.y - inJunction1.y
         val z = inJunction2.z - inJunction1.z
-        val sum = (x*x) + (y*y) + (z*z)
-        return sqrt(sum.toDouble())
+        return (x*x) + (y*y) + (z*z)
     }
     
-    private fun precomputeDistances(inData: Input8): Pair<HashMap<Pair<Junction, Junction>, Double>, List<Pair<Junction, Junction>>> {
-        val precomputeMap = HashMap<Pair<Junction, Junction>, Double>()
+    private fun precomputeDistances(inData: Input8): Pair<HashMap<Pair<Junction, Junction>, Long>, List<Pair<Junction, Junction>>> {
+        val precomputeMap = HashMap<Pair<Junction, Junction>, Long>()
         for (tempIndex1 in 0..<inData.size - 1) {
             val junction1 = inData[tempIndex1]
             for (tempIndex2 in (tempIndex1 + 1)..<inData.size) {
