@@ -14,7 +14,7 @@ class Day2: Day<Input2, Input2, Output2, Output2> {
         return Pair(rangeList, rangeList)
     }
 
-    fun palindrome(inRange: Range): Long {
+    private fun palindrome(inRange: Range): Long {
         return (inRange.start..inRange.end)
             .sumOf { number ->
                 val string = number.toString()
@@ -28,7 +28,7 @@ class Day2: Day<Input2, Input2, Output2, Output2> {
         return inData.sumOf { range -> palindrome(range) }
     }
 
-    fun loopy(inRange: Range): Long {
+    private fun loopy(inRange: Range): Long {
         return (inRange.start..inRange.end)
             .sumOf { number ->
                 val string = number.toString()

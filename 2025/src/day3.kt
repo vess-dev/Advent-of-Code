@@ -10,7 +10,7 @@ class Day3: Day<Input3, Input3, Output3, Output3> {
         return Pair(bankList, bankList)
     }
 
-    fun maxNumber(inList: List<Int>, size: Int): Long {
+    private fun maxNumber(inList: List<Int>, size: Int): Long {
         val maxInt = inList.subList(0, inList.size - (size - 1)).max()
         val indexOf = inList.indexOf(maxInt)
         val subList = inList.subList(indexOf + 1, inList.size)

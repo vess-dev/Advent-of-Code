@@ -29,7 +29,7 @@ class Day6: Day<Input6, Input6, Output6, Output6> {
         }
     }
 
-    fun foldBlackboard(inNumbersLists: List<List<Int>>, inOps: List<Op>): Long {
+    private fun foldBlackboard(inNumbersLists: List<List<Int>>, inOps: List<Op>): Long {
         return inNumbersLists.mapIndexed { index, column ->
             column.fold(0L, { acc, number ->
                 if (inOps[index] == Op.ADD) acc + number else (if (acc == 0L) 1 else acc) * number
