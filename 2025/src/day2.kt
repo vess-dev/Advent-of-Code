@@ -10,7 +10,6 @@ class Day2: Day<Input2, Input2, Output2, Output2> {
             .map { range -> range.split("-")
                 .map { it.toLong() } }
             .map { array -> Range(array[0], array[1]) }
-            .toList()
         return Pair(rangeList, rangeList)
     }
 

@@ -1,5 +1,3 @@
-import kotlin.math.sqrt
-
 private typealias Input8 = List<Day8.Junction>
 private typealias Output8 = Long
 
@@ -17,7 +15,7 @@ class Day8: Day<Input8, Input8, Output8, Output8> {
         val junctionList = inString.split("\n").map { line ->
             val split = line.split(",").map { number -> number.toLong() }
             Junction(split[0], split[1], split[2])
-        }.toList()
+        }
         return Pair(junctionList, junctionList.map { junc -> Junction(junc.x, junc.y, junc.z) })
     }
     
@@ -82,7 +80,7 @@ class Day8: Day<Input8, Input8, Output8, Output8> {
                 return (junctionPair.first.x * junctionPair.second.x)
             }
         }
-        return circuitMap.values.map { junctions -> junctions.size }.sortedDescending().take(3).reduce { acc, i -> acc * i  }.toLong()
+        return circuitMap.values.map { junctions -> junctions.size }.sortedDescending().take(3).reduce { acc, number -> acc * number  }.toLong()
     }
 
     override fun part1(inData: Input8): Output8 {
