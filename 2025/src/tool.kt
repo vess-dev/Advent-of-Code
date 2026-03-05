@@ -1,3 +1,4 @@
+import com.tylerthrailkill.helpers.prettyprint.pp
 import java.io.File
 import java.util.Objects
 import kotlin.math.abs
@@ -82,4 +83,14 @@ class Grid(val inSize: Int = 0, val grid: HashMap<Point, Char> = HashMap(inSize)
 fun Int.length() = when(this) {
     0 -> 1
     else -> log10(abs(toDouble())).toInt() + 1
+}
+
+private const val PP_INDENT = 2
+private const val PP_WRAP = 140
+
+fun inspect(vararg inObjects: Any?) {
+    for (tempObject in inObjects) {
+        pp(tempObject, indent = PP_INDENT, wrappedLineWidth = PP_WRAP)
+        println()
+    }
 }
