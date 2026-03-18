@@ -14,7 +14,6 @@ private typealias Output9 = Long
 private typealias PointList = List<Point>
 private typealias Line = Pair<Point, Point>
 private typealias LineList = List<Line>
-private typealias LineSet = Set<Line>
 
 class Day9: Day<Input9, Input9, Output9, Output9> {
     override fun prepare(inString: String): Pair<Input9, Input9> {
