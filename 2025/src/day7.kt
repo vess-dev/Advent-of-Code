@@ -11,13 +11,13 @@ class Day7: Day<Input7, Input7, Output7, Output7> {
         }
     }
     
-    class Beamer(val grid: Grid) {
-        val start = Beam(grid.find('S').single(), 1)
+    class Beamer(val charGrid: CharGrid) {
+        val start = Beam(charGrid.find('S').single(), 1)
         val fall = Point(0, 1)
         val fallLeft = Point(-1, fall.yPos)
         val fallRight = Point(1, fall.yPos)
         fun within(inBeam: Beam): Boolean {
-            return grid.within(inBeam.pos)
+            return charGrid.within(inBeam.pos)
         }
         fun addBeam(inBeam: Beam, inList: MutableList<Beam>) {
             val beam = inList.find { beam -> beam == inBeam }
@@ -32,7 +32,7 @@ class Day7: Day<Input7, Input7, Output7, Output7> {
                 for (tempBeam in beams) {
                     val projectedBeam = tempBeam.testAdd(fall)
                     if (within(projectedBeam)) {
-                        val projectedChar = grid.get(projectedBeam.pos)
+                        val projectedChar = charGrid.get(projectedBeam.pos)
                         if (projectedChar == '^') {
                             splits += 1
                             val leftBeam = tempBeam.testAdd(fallLeft)
@@ -53,15 +53,15 @@ class Day7: Day<Input7, Input7, Output7, Output7> {
     
     override fun prepare(inString: String): Pair<Input7, Input7> {
         val gridWidth = inString.filter { char -> char == '\n' }.length
-        val handleGrid = Grid(gridWidth * gridWidth)
+        val handleCharGrid = CharGrid(gridWidth * gridWidth)
         val validMap = hashMapOf(('S' to true), ('^' to true))
         inString.split("\n").mapIndexed { yPos, line -> line.toList().mapIndexed { xPos, char ->
             if (validMap.containsKey(char)) {
                 val point = Point(xPos, yPos)
-                handleGrid.add(point, char)
+                handleCharGrid.add(point, char)
             }
         } }
-        val handleBeamer = Beamer(handleGrid)
+        val handleBeamer = Beamer(handleCharGrid)
         return Pair(handleBeamer, handleBeamer)
     }
 

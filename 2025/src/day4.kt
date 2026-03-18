@@ -1,14 +1,14 @@
-private typealias Input4 = Grid
+private typealias Input4 = CharGrid
 private typealias Output4 = Int
 
 class Day4: Day<Input4, Input4, Output4, Output4> {
 
     override fun prepare(inString: String): Pair<Input4, Input4> {
-        val gridHandle = Grid(inString.length)
+        val charGridHandle = CharGrid(inString.length)
         inString.split("\n").forEachIndexed { yPos, string -> string.toCharArray().forEachIndexed {
-            xPos, char -> if (char != '.') gridHandle.add(Point(xPos, yPos), char)
+            xPos, char -> if (char != '.') charGridHandle.add(Point(xPos, yPos), char)
         } }
-        return Pair(gridHandle, gridHandle)
+        return Pair(charGridHandle, charGridHandle)
     }
 
     override fun part1(inData: Input4): Output4 {

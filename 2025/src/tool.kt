@@ -6,7 +6,8 @@ import kotlin.math.log10
 import kotlin.math.sqrt
 
 typealias Point = Tool.Point
-typealias Grid = Tool.Grid
+typealias CharGrid = Tool.CharGrid
+typealias SimpleGrid = Tool.SimpleGrid
 
 object Tool {
     private const val PREPEND = "input/"
@@ -35,6 +36,9 @@ object Tool {
         fun decY(inYDec: Int = 1) {
             this.yPos -= inYDec
         }
+        fun clone(): Point {
+            return Point(this.xPos, this.yPos)
+        }
         override fun toString(): String {
             return "($xPos,$yPos)"
         }
@@ -47,7 +51,7 @@ object Tool {
         }
     }
 
-    class Grid(val inSize: Int = 0, val grid: HashMap<Point, Char> = HashMap(inSize)) {
+    class CharGrid(val inSize: Int = 0, val grid: HashMap<Point, Char> = HashMap(inSize)) {
         private val relative = listOf(
             Point(-1, -1),
             Point(0, -1),
@@ -79,6 +83,37 @@ object Tool {
         }
         fun within(inPoint: Point): Boolean {
             return 0 <= inPoint.xPos && 0 <= inPoint.yPos && inPoint.xPos < sqrt && inPoint.yPos < sqrt
+        }
+    }
+
+    class SimpleGrid(val grid: MutableSet<Point> = mutableSetOf()) {
+        private val relative = listOf(
+            Point(-1, -1),
+            Point(0, -1),
+            Point(1, -1),
+            Point(-1, 0),
+            Point(1, 0),
+            Point(-1, 1),
+            Point(0, 1),
+            Point(1, 1),
+        )
+        fun add(inPoint: Point) {
+            grid.add(inPoint)
+        }
+        fun contains(inPoint: Point): Boolean {
+            return grid.contains(inPoint)
+        }
+        fun remove(inPoint: Point) {
+            grid.remove(inPoint)
+        }
+        fun getNearby(inPoint: Point): List<Point> {
+            return relative.mapNotNull { offset ->
+                val testPoint = inPoint.testAdd(offset)
+                if (grid.contains(testPoint)) {
+                    testPoint 
+                }
+                null
+            }
         }
     }
 
