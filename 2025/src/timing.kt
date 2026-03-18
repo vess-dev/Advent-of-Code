@@ -17,7 +17,7 @@ fun clock(adventDay: IDay, testCount: Int): Pair<DayReturn, Double> {
 fun main() {
 	val adventList = listOf(Day1(), Day2(), Day3(), Day4(), Day5(), Day6(), Day7(), Day8(), Day9())
     @Suppress("RedundantNullableReturnType", "RedundantSuppression")
-    val testCount: Int? = 1
+    val testCount: Int? = 10
     @Suppress("RedundantNullableReturnType", "RedundantSuppression")
     val specific: Int? = null
 	var timeTotal = 0.0

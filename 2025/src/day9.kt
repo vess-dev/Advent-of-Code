@@ -73,7 +73,7 @@ class Day9: Day<Input9, Input9, Output9, Output9> {
             (0..inSamples).all { step ->
                 val checkX = line.first.xPos + (deltaX * step)
                 val checkY = line.first.yPos + (deltaY * step)
-                inShape.intersects(checkX.toDouble() - 0.1, checkY.toDouble() - 0.1, 0.2, 0.2)
+                inShape.intersects(checkX.toDouble() - 0.5, checkY.toDouble() - 0.5, 1.0, 1.0)
             }
         }
     }
