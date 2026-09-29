@@ -15,11 +15,22 @@ fun clock(adventDay: IDay, testCount: Int): Pair<DayReturn, Double> {
 }
 
 fun main() {
-	val adventList = listOf(Day1(), Day2(), Day3(), Day4(), Day5(), Day6(), Day7(), Day8(), Day9())
+	val adventList = listOf(
+		Day1(),
+		Day2(),
+		Day3(),
+		Day4(),
+		Day5(),
+		Day6(),
+		Day7(),
+		Day8(),
+		Day9(),
+		Day10(),
+	)
     @Suppress("RedundantNullableReturnType", "RedundantSuppression")
-    val testCount: Int? = 10
+    val testCount: Int? = 1
     @Suppress("RedundantNullableReturnType", "RedundantSuppression")
-    val specific: Int? = null
+    val specific: Int? = 10
 	var timeTotal = 0.0
 	if (testCount != null && specific == null) {
 		for ((tempIndex, tempDay) in adventList.withIndex()) {
